@@ -80,11 +80,11 @@
   --rj-status-info-text: #00248F;
   --rj-status-info-border: #C8D0FF;
 
-  /* Typography Families */
-  --wl-display-font: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --wl-body-font: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --wl-serif-font: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --rj-font-sans: var(--wl-body-font);
+  /* Typography Families — 100% Unified to Plus Jakarta Sans */
+  --wl-display-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wl-body-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wl-serif-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --rj-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --rj-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Border Radius Tokens */
@@ -255,34 +255,34 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0;
 }
 
-/* Signature Workleap Martina Plantijn Italic Serif Accent */
+/* Workleap Accent Highlight in Plus Jakarta Sans */
 .wl-serif-italic {
-  font-family: var(--wl-serif-font);
+  font-family: var(--wl-display-font);
   font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-  font-size: 1.08em;
-  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1.02em;
+  line-height: inherit;
+  color: var(--wl-brand-100);
 }
 
 /* Signature Workleap Highlight Span */
 .wl-highlight {
-  font-family: var(--wl-serif-font);
+  font-family: var(--wl-display-font);
   font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-  font-size: 1.08em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1.02em;
   color: var(--wl-brand-100);
   position: relative;
   display: inline-block;
 }
 
 .wl-highlight-inverted {
-  font-family: var(--wl-serif-font);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-  font-size: 1.08em;
+  font-family: var(--wl-display-font);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1.02em;
   color: var(--wl-brand-20);
   text-decoration: underline;
   text-decoration-color: rgba(219, 243, 255, 0.55);
@@ -437,7 +437,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
-   WORKLEAP NAVBAR (.navbar_component)
+   WORKLEAP NAVBAR (.navbar_component) - Exact Proportions from Reference
    ========================================================================== */
 .wl-navbar {
   position: sticky;
@@ -445,46 +445,77 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1040;
   width: 100%;
   min-height: 4.5rem;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  height: 4.5rem;
+  background-color: var(--wl-true-white);
   border-bottom: 1px solid var(--wl-grey-20);
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   display: flex;
   align-items: center;
 }
 
 .wl-navbar-container {
   width: 100%;
-  max-width: var(--wl-container-max);
+  max-width: 1360px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .wl-nav-links {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  white-space: nowrap;
 }
 
 .wl-nav-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.75rem 1rem;
+  gap: 5px;
+  padding: 0.5rem 0.85rem;
   color: var(--wl-grey-100);
+  font-family: var(--wl-body-font);
   font-size: 0.95rem;
-  font-weight: 400;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
   text-decoration: none;
+  border-radius: 6px;
   transition: color 0.2s ease;
 }
 
 .wl-nav-link:hover {
   color: var(--wl-brand-100);
+}
+
+.wl-nav-login-link {
+  color: var(--wl-grey-100);
+  font-family: var(--wl-body-font);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 0.5rem 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.wl-nav-login-link:hover {
+  color: var(--wl-brand-100);
+}
+
+.wl-button.is-nav-pill {
+  padding: 0.65rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
@@ -585,38 +616,351 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
+   WORKLEAP FLOATING SIGNAL & LAYERED PILL COMPOSITION (Team-health.avif Blueprint)
+   ========================================================================== */
+.wl-signal-canvas {
+  position: relative;
+  width: 100%;
+  padding: 1.5rem 0.5rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  isolation: isolate;
+}
+
+.wl-signal-glow {
+  position: absolute;
+  inset: 4% 2% 6% 6%;
+  background:
+    radial-gradient(circle at 68% 68%, rgba(37, 69, 255, 0.16) 0%, rgba(200, 208, 255, 0.22) 38%, rgba(219, 243, 255, 0.08) 65%, transparent 82%),
+    radial-gradient(circle at 32% 28%, rgba(200, 208, 255, 0.20) 0%, transparent 60%);
+  filter: blur(18px);
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.wl-signal-top-track {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  height: 108px;
+  margin-bottom: -14px;
+  z-index: 2;
+}
+
+.wl-signal-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.wl-curve-dot-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wlPulseHalo 3.2s ease-in-out infinite;
+}
+
+.wl-floating-pill {
+  background-color: var(--wl-true-white);
+  border-radius: 16px;
+  border: 1px solid rgba(23, 20, 23, 0.05);
+  box-shadow:
+    0 14px 34px -8px rgba(12, 23, 84, 0.10),
+    0 4px 12px rgba(23, 20, 23, 0.04);
+  padding: 0.68rem 0.9rem 0.68rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.15rem;
+  transition:
+    transform 0.35s var(--wl-ease),
+    box-shadow 0.35s var(--wl-ease),
+    border-color 0.25s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.wl-floating-pill:hover {
+  border-color: rgba(37, 69, 255, 0.28);
+  box-shadow:
+    0 18px 40px -8px rgba(37, 69, 255, 0.16),
+    0 6px 16px rgba(23, 20, 23, 0.06);
+}
+
+.wl-floating-pill.is-active {
+  border-color: rgba(37, 69, 255, 0.42);
+  box-shadow:
+    0 18px 42px -8px rgba(37, 69, 255, 0.20),
+    0 0 0 3px rgba(37, 69, 255, 0.08);
+}
+
+.wl-floating-pill-top {
+  position: absolute;
+  top: 4px;
+  right: 8%;
+  min-width: 248px;
+  z-index: 4;
+  animation: wlGentleFloat 5.6s ease-in-out infinite;
+}
+
+.wl-signal-main-card {
+  position: relative;
+  width: 100%;
+  max-width: 490px;
+  background-color: var(--wl-true-white);
+  background-image: radial-gradient(circle at 92% 90%, rgba(200, 208, 255, 0.28) 0%, rgba(255, 255, 255, 0) 58%);
+  border-radius: 24px;
+  border: 1px solid rgba(23, 20, 23, 0.06);
+  box-shadow:
+    0 24px 60px -12px rgba(37, 69, 255, 0.11),
+    0 8px 24px -6px rgba(12, 23, 84, 0.06);
+  padding: 2rem 2.25rem 2.15rem;
+  z-index: 3;
+  animation: wlGentleFloatMain 6.4s ease-in-out infinite;
+  transition: transform 0.35s var(--wl-ease), box-shadow 0.35s var(--wl-ease);
+}
+
+.wl-signal-main-card:hover {
+  box-shadow:
+    0 28px 68px -12px rgba(37, 69, 255, 0.16),
+    0 10px 28px -6px rgba(12, 23, 84, 0.08);
+}
+
+.wl-signal-sparkle-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--wl-brand-100);
+  color: var(--wl-true-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(37, 69, 255, 0.32);
+}
+
+.wl-signal-title {
+  font-family: var(--wl-display-font);
+  font-size: clamp(1.35rem, 1.15rem + 0.7vw, 1.68rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--wl-grey-100);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.wl-signal-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #ECECE9;
+  margin: 1.15rem 0;
+}
+
+.wl-signal-copy {
+  font-family: var(--wl-body-font);
+  font-size: clamp(0.96rem, 0.92rem + 0.2vw, 1.06rem);
+  line-height: 1.5;
+  color: var(--wl-grey-100);
+  margin-bottom: 1.25rem;
+}
+
+.wl-signal-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--wl-body-font);
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--wl-brand-100);
+  text-decoration: none;
+  transition: gap 0.25s var(--wl-ease), color 0.2s ease;
+}
+
+.wl-signal-action:hover {
+  color: var(--wl-brand-hover);
+  gap: 0.75rem;
+}
+
+.wl-signal-bottom-stack {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  margin-top: -22px;
+  z-index: 4;
+  gap: 0.65rem;
+}
+
+.wl-floating-pill-bottom-right {
+  align-self: flex-end;
+  min-width: 310px;
+  max-width: 92%;
+  animation: wlGentleFloat 5.8s ease-in-out 1.4s infinite;
+}
+
+.wl-floating-pill-bottom-left {
+  align-self: flex-start;
+  margin-left: 6%;
+  min-width: 340px;
+  max-width: 94%;
+  animation: wlGentleFloat 6.2s ease-in-out 2.6s infinite;
+}
+
+.wl-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.3rem 0.72rem;
+  border-radius: 100px;
+  font-family: var(--wl-body-font);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.wl-pill-badge-peach {
+  background-color: #FFEDE3;
+  color: #D9532F;
+}
+
+.wl-pill-badge-mint {
+  background-color: #E1F5EB;
+  color: #166638;
+}
+
+.wl-pill-badge-blue {
+  background-color: #EEF2FF;
+  color: #2545FF;
+}
+
+.wl-signal-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.15rem;
+  padding: 0.35rem 0.5rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--wl-grey-20);
+  border-radius: 100px;
+  box-shadow: 0 4px 14px rgba(12, 23, 84, 0.05);
+  z-index: 5;
+}
+
+.wl-signal-switch-btn {
+  border: none;
+  background: transparent;
+  padding: 0.32rem 0.78rem;
+  border-radius: 100px;
+  font-family: var(--wl-body-font);
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--wl-grey-80);
+  cursor: pointer;
+  transition: all 0.22s var(--wl-ease);
+}
+
+.wl-signal-switch-btn:hover {
+  color: var(--wl-brand-100);
+}
+
+.wl-signal-switch-btn.is-active {
+  background-color: var(--wl-brand-100);
+  color: var(--wl-true-white);
+  box-shadow: 0 4px 10px rgba(37, 69, 255, 0.25);
+}
+
+@keyframes wlGentleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes wlGentleFloatMain {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes wlPulseHalo {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.45);
+    opacity: 0.08;
+  }
+}
+
+@keyframes wlOrbitSlowSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
    WORKLEAP PRODUCT MOCKUP FRAMES (.border-radius-medium)
    ========================================================================== */
 .wl-mockup-stage {
-  border-radius: 24px;
-  overflow: hidden;
+  border-radius: 28px;
+  overflow: visible;
   padding: 2rem;
   position: relative;
-  border: 1px solid rgba(23, 20, 23, 0.07);
+  border: 1px solid rgba(37, 69, 255, 0.08);
 }
 
 .wl-mockup-stage.tone-blue {
-  background: linear-gradient(140deg, #E8EEFF 0%, #DBF3FF 60%, #F0F4FF 100%);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(219, 243, 255, 0.7) 0%, transparent 55%),
+    linear-gradient(145deg, #F4F7FF 0%, #E8EEFF 100%);
 }
 
 .wl-mockup-stage.tone-lilac {
-  background: linear-gradient(140deg, #EDE9FE 0%, #E0E7FF 55%, #DBF3FF 100%);
+  background:
+    radial-gradient(circle at 20% 80%, rgba(217, 212, 255, 0.6) 0%, transparent 55%),
+    linear-gradient(145deg, #F6F4FF 0%, #E9EEFF 100%);
 }
 
 .wl-mockup-stage.tone-sand {
-  background: linear-gradient(140deg, #F9F3E8 0%, #F0E9E1 50%, #E8EEFF 100%);
+  background:
+    radial-gradient(circle at 85% 80%, rgba(200, 208, 255, 0.45) 0%, transparent 55%),
+    linear-gradient(145deg, #FAF6EE 0%, #F2ECE1 100%);
 }
 
 .wl-mockup-stage.tone-mint {
-  background: linear-gradient(140deg, #E1F5EB 0%, #DBF3FF 65%, #EEF2FF 100%);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(225, 245, 235, 0.75) 0%, transparent 55%),
+    linear-gradient(145deg, #F2FBF6 0%, #EBF2FF 100%);
 }
 
 .wl-mockup-window {
   background-color: var(--wl-true-white);
-  border-radius: 18px;
-  border: 1px solid rgba(23, 20, 23, 0.08);
-  box-shadow: 0 20px 44px -14px rgba(12, 23, 84, 0.14);
+  border-radius: 22px;
+  border: 1px solid rgba(23, 20, 23, 0.06);
+  box-shadow:
+    0 22px 50px -12px rgba(37, 69, 255, 0.11),
+    0 6px 18px rgba(12, 23, 84, 0.05);
   overflow: hidden;
+  transition: transform 0.35s var(--wl-ease), box-shadow 0.35s var(--wl-ease);
+}
+
+.wl-mockup-window:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 26px 56px -12px rgba(37, 69, 255, 0.15),
+    0 8px 22px rgba(12, 23, 84, 0.07);
 }
 
 /* ==========================================================================
@@ -636,25 +980,27 @@ h1, h2, h3, h4, h5, h6 {
 .wl-orbit-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px dashed rgba(37, 69, 255, 0.24);
+  border: 1.5px dashed rgba(37, 69, 255, 0.26);
   pointer-events: none;
 }
 
 .wl-orbit-ring.ring-outer {
   width: 92%;
   height: 92%;
+  animation: wlOrbitSlowSpin 64s linear infinite;
 }
 
 .wl-orbit-ring.ring-inner {
   width: 58%;
   height: 58%;
-  border-style: solid;
-  border-color: rgba(37, 69, 255, 0.14);
+  border-style: dashed;
+  border-color: rgba(37, 69, 255, 0.18);
+  animation: wlOrbitSlowSpin 48s linear infinite reverse;
 }
 
 .wl-orbit-center {
-  width: 104px;
-  height: 104px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
   background-color: var(--wl-brand-100);
   color: var(--wl-true-white);
@@ -662,17 +1008,24 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 16px 36px rgba(37, 69, 255, 0.35);
+  box-shadow:
+    0 16px 36px rgba(37, 69, 255, 0.35),
+    0 0 0 10px rgba(37, 69, 255, 0.08);
   z-index: 3;
+  transition: transform 0.3s var(--wl-ease);
+}
+
+.wl-orbit-center:hover {
+  transform: scale(1.05);
 }
 
 .wl-orbit-node {
   position: absolute;
-  width: 82px;
-  height: 82px;
+  width: 86px;
+  height: 86px;
   border-radius: 50%;
   background-color: var(--wl-true-white);
-  border: 1px solid var(--wl-grey-20);
+  border: 1.5px solid var(--wl-grey-20);
   box-shadow: 0 10px 24px rgba(12, 23, 84, 0.08);
   display: flex;
   flex-direction: column;
@@ -681,12 +1034,19 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   padding: 6px;
   z-index: 2;
-  transition: transform 0.25s var(--wl-ease), border-color 0.25s ease;
+  cursor: pointer;
+  transition:
+    transform 0.28s var(--wl-ease),
+    border-color 0.25s ease,
+    box-shadow 0.28s var(--wl-ease);
 }
 
-.wl-orbit-node:hover {
-  transform: scale(1.08);
+.wl-orbit-node:hover,
+.wl-orbit-node.is-active {
   border-color: var(--wl-brand-100);
+  box-shadow:
+    0 14px 30px rgba(37, 69, 255, 0.18),
+    0 0 0 4px rgba(37, 69, 255, 0.10);
 }
 
 /* ==========================================================================
@@ -702,9 +1062,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .wl-trust-quote-mark {
-  font-family: var(--wl-serif-font);
-  font-size: 3.25rem;
-  line-height: 0.8;
+  font-family: var(--wl-display-font);
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
   color: var(--wl-brand-100);
   margin-bottom: 0.75rem;
 }
@@ -1383,6 +1745,23 @@ h1, h2, h3, h4, h5, h6 {
   .wl-navbar {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
+  }
+
+  .wl-floating-pill-top {
+    right: 2%;
+    min-width: 215px;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .wl-signal-main-card {
+    padding: 1.5rem 1.35rem 1.75rem;
+  }
+
+  .wl-floating-pill-bottom-right,
+  .wl-floating-pill-bottom-left {
+    min-width: 0;
+    width: 100%;
+    margin-left: 0;
   }
 
   .wl-cta-card {

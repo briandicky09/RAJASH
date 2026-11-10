@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Check,
+  ArrowRight,
   ArrowUpRight,
   ArrowDownLeft,
   Notebook,
@@ -15,9 +16,10 @@ import {
   Wrench,
   Truck,
   Receipt,
-  CalendarCheck,
   ShieldCheck,
-  Sparkle
+  Sparkle,
+  Trophy,
+  Target
 } from '@phosphor-icons/react';
 import LandingNavbar from '../components/layout/LandingNavbar';
 import LandingFooter from '../components/layout/LandingFooter';
@@ -35,15 +37,201 @@ const HERO_MARQUEE_ITEMS = [
   'PENGINGAT PIUTANG APLIKASI'
 ];
 
+const HERO_SIGNALS = [
+  {
+    id: 'piutang',
+    tabLabel: 'Sinyal Piutang',
+    dotX: 194,
+    dotY: 30,
+    topPill: {
+      icon: Trophy,
+      label: 'Piutang Pelanggan',
+      badge: '↓ 4 Tagihan',
+      badgeTone: 'peach'
+    },
+    title: 'Sinyal Keuangan & Piutang',
+    copy: 'Terdapat 4 tagihan kredit pelanggan yang belum lunas, memengaruhi arus kas bersih depot minggu ini.',
+    ctaLabel: 'Periksa piutang',
+    ctaLink: '/piutang',
+    bottomRightPill: {
+      label: 'Tagihan kredit berjalan',
+      badge: 'Rp 505.000',
+      badgeTone: 'peach'
+    },
+    bottomLeftPill: {
+      prefix: '2 tagihan > 5 hari ',
+      boldText: 'perlu ditindaklanjuti.',
+      badge: 'Belum Lunas',
+      badgeTone: 'peach'
+    }
+  },
+  {
+    id: 'kas',
+    tabLabel: 'Sinyal Kas Bersih',
+    dotX: 274,
+    dotY: 50,
+    topPill: {
+      icon: Wallet,
+      label: 'Keuntungan Bersih',
+      badge: '↑ Rp 1,08 Jt',
+      badgeTone: 'mint'
+    },
+    title: 'Sinyal Arus Kas Bersih',
+    copy: 'Pemasukan kas tunai dan pelunasan piutang minggu ini menjaga saldo keuntungan bersih depot tetap positif.',
+    ctaLabel: 'Lihat rekapitulasi',
+    ctaLink: '/rekapitulasi',
+    bottomRightPill: {
+      label: 'Pemasukan kas diterima',
+      badge: 'Rp 1.880.000',
+      badgeTone: 'mint'
+    },
+    bottomLeftPill: {
+      prefix: 'Keuntungan bersih depot ',
+      boldText: 'terhitung otomatis.',
+      badge: 'Kas Positif',
+      badgeTone: 'mint'
+    }
+  },
+  {
+    id: 'pengeluaran',
+    tabLabel: 'Sinyal Beban Depot',
+    dotX: 118,
+    dotY: 44,
+    topPill: {
+      icon: GasPump,
+      label: 'Beban Operasional',
+      badge: '6 Kategori',
+      badgeTone: 'blue'
+    },
+    title: 'Sinyal Pengeluaran & Duplikasi',
+    copy: 'Pengeluaran pembelian pasokan air dan BBM becak tercatat rapi dengan pemeriksaan transaksi ganda otomatis.',
+    ctaLabel: 'Catat pengeluaran',
+    ctaLink: '/pengeluaran',
+    bottomRightPill: {
+      label: 'Total pengeluaran berjalan',
+      badge: 'Rp 795.000',
+      badgeTone: 'blue'
+    },
+    bottomLeftPill: {
+      prefix: 'Pemeriksaan duplikasi ',
+      boldText: 'aktif melindungi buku.',
+      badge: 'Terlindungi',
+      badgeTone: 'blue'
+    }
+  }
+];
+
+const EXPENSE_CATEGORIES_PREVIEW = [
+  { name: 'BBM Becak', sample: 'Pengisian BBM Becak Pengantaran', nominal: 'Rp 45.000' },
+  { name: 'Servis Kendaraan', sample: 'Servis Rutin Mesin Becak Depot', nominal: 'Rp 120.000' },
+  { name: 'Penggantian Oli', sample: 'Ganti Oli Mesin Becak Operasional', nominal: 'Rp 65.000' },
+  { name: 'Perbaikan Ban', sample: 'Tambal & Ganti Ban Dalam Becak', nominal: 'Rp 50.000' },
+  { name: 'Pembelian Pasokan Air', sample: 'Pasokan Air Baku Tangki 8.000L', nominal: 'Rp 450.000' },
+  { name: 'Lainnya', sample: 'Pembelian Tutup & Tisu Galon', nominal: 'Rp 65.000' }
+];
+
+const DAILY_TREND_DATA = [
+  { label: '04 Nov', inVal: 'Rp 240.000', outVal: 'Rp 95.000', netVal: 'Rp 145.000', inH: '65%', outH: '30%' },
+  { label: '05 Nov', inVal: 'Rp 295.000', outVal: 'Rp 80.000', netVal: 'Rp 215.000', inH: '80%', outH: '25%' },
+  { label: '06 Nov', inVal: 'Rp 210.000', outVal: 'Rp 165.000', netVal: 'Rp 45.000', inH: '58%', outH: '50%' },
+  { label: '07 Nov', inVal: 'Rp 325.000', outVal: 'Rp 90.000', netVal: 'Rp 235.000', inH: '88%', outH: '28%' },
+  { label: '08 Nov', inVal: 'Rp 265.000', outVal: 'Rp 110.000', netVal: 'Rp 155.000', inH: '74%', outH: '34%' },
+  { label: '09 Nov', inVal: 'Rp 340.000', outVal: 'Rp 145.000', netVal: 'Rp 195.000', inH: '92%', outH: '38%' },
+  { label: '10 Nov', inVal: 'Rp 205.000', outVal: 'Rp 110.000', netVal: 'Rp 95.000', inH: '85%', outH: '22%' }
+];
+
+const INITIAL_DEMO_RECEIVABLES = [
+  {
+    id: 'r1',
+    name: 'Warkop Kupi Aceh (Ulee Kareng)',
+    meta: '05 Nov 2026 · 35 Galon (Kredit)',
+    amountNum: 175000,
+    amount: 'Rp 175.000',
+    paid: false
+  },
+  {
+    id: 'r2',
+    name: 'Kantin Kampus Darussalam',
+    meta: '06 Nov 2026 · 18 Galon (Kredit)',
+    amountNum: 90000,
+    amount: 'Rp 90.000',
+    paid: false
+  },
+  {
+    id: 'r3',
+    name: 'Warung Mie Aceh Seulawah',
+    meta: '08 Nov 2026 · 20 Galon (Kredit)',
+    amountNum: 100000,
+    amount: 'Rp 100.000',
+    paid: true
+  }
+];
+
 const ORBIT_NODES = [
-  { label: 'BBM Becak', icon: GasPump, top: '4%', left: '50%', transform: 'translate(-50%, 0)' },
-  { label: 'Pasokan Air', icon: Drop, top: '18%', left: '84%', transform: 'translate(-50%, -50%)' },
-  { label: 'Servis Becak', icon: Wrench, top: '50%', left: '96%', transform: 'translate(-100%, -50%)' },
-  { label: 'Ganti Oli', icon: Truck, top: '82%', left: '84%', transform: 'translate(-50%, -50%)' },
-  { label: 'Perbaikan Ban', icon: ShieldCheck, top: '96%', left: '50%', transform: 'translate(-50%, -100%)' },
-  { label: 'Biaya Lainnya', icon: Receipt, top: '82%', left: '16%', transform: 'translate(-50%, -50%)' },
-  { label: 'Kas Tunai', icon: Wallet, top: '50%', left: '4%', transform: 'translate(0, -50%)' },
-  { label: 'Piutang Kredit', icon: Notebook, top: '18%', left: '16%', transform: 'translate(-50%, -50%)' }
+  {
+    label: 'BBM Becak',
+    desc: 'Pencatatan biaya bahan bakar becak pengantaran galon harian.',
+    icon: GasPump,
+    top: '4%',
+    left: '50%',
+    transform: 'translate(-50%, 0)'
+  },
+  {
+    label: 'Pasokan Air',
+    desc: 'Pembelian pasokan air baku tangki untuk kebutuhan isi ulang depot.',
+    icon: Drop,
+    top: '18%',
+    left: '84%',
+    transform: 'translate(-50%, -50%)'
+  },
+  {
+    label: 'Servis Becak',
+    desc: 'Biaya perawatan rutin mesin kendaraan operasional pengantaran.',
+    icon: Wrench,
+    top: '50%',
+    left: '96%',
+    transform: 'translate(-100%, -50%)'
+  },
+  {
+    label: 'Ganti Oli',
+    desc: 'Penggantian oli berkala agar armada becak tetap prima.',
+    icon: Truck,
+    top: '82%',
+    left: '84%',
+    transform: 'translate(-50%, -50%)'
+  },
+  {
+    label: 'Perbaikan Ban',
+    desc: 'Pengeluaran tambal atau ganti ban kendaraan pengantaran.',
+    icon: ShieldCheck,
+    top: '96%',
+    left: '50%',
+    transform: 'translate(-50%, -100%)'
+  },
+  {
+    label: 'Biaya Lainnya',
+    desc: 'Kebutuhan pendukung depot seperti tutup galon, tisu, dan listrik.',
+    icon: Receipt,
+    top: '82%',
+    left: '16%',
+    transform: 'translate(-50%, -50%)'
+  },
+  {
+    label: 'Kas Tunai',
+    desc: 'Pemasukan penjualan galon tunai yang langsung berstatus Lunas.',
+    icon: Wallet,
+    top: '50%',
+    left: '4%',
+    transform: 'translate(0, -50%)'
+  },
+  {
+    label: 'Piutang Kredit',
+    desc: 'Penjualan galon kredit pelanggan yang dipantau hingga Lunas.',
+    icon: Notebook,
+    top: '18%',
+    left: '16%',
+    transform: 'translate(-50%, -50%)'
+  }
 ];
 
 const CAPABILITY_CARDS = [
@@ -150,12 +338,41 @@ const FAQ_ITEMS = [
 
 export default function LandingPage() {
   const { isAuthenticated } = useAuth();
+  const [activeSignalIdx, setActiveSignalIdx] = useState(0);
+  const [step1PaymentType, setStep1PaymentType] = useState('Kredit');
+  const [selectedExpenseCatIdx, setSelectedExpenseCatIdx] = useState(4);
+  const [activeTrendDayIdx, setActiveTrendDayIdx] = useState(5);
+  const [demoReceivables, setDemoReceivables] = useState(INITIAL_DEMO_RECEIVABLES);
+  const [activeOrbitIdx, setActiveOrbitIdx] = useState(0);
   const [selectedCapabilityFilter, setSelectedCapabilityFilter] = useState('all');
+
+  const activeSignal = HERO_SIGNALS[activeSignalIdx];
+  const TopPillIcon = activeSignal.topPill.icon;
+  const activeExpenseCat = EXPENSE_CATEGORIES_PREVIEW[selectedExpenseCatIdx];
+  const activeTrendDay = DAILY_TREND_DATA[activeTrendDayIdx];
+  const activeOrbitNode = ORBIT_NODES[activeOrbitIdx];
+
+  const unpaidReceivablesCount = demoReceivables.filter((r) => !r.paid).length;
+  const unpaidReceivablesTotal = demoReceivables
+    .filter((r) => !r.paid)
+    .reduce((acc, item) => acc + item.amountNum, 0);
+
+  const toggleDemoReceivable = (id) => {
+    setDemoReceivables((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, paid: !item.paid } : item))
+    );
+  };
 
   const visibleCapabilities =
     selectedCapabilityFilter === 'all'
       ? CAPABILITY_CARDS
       : CAPABILITY_CARDS.filter((c) => c.id === selectedCapabilityFilter);
+
+  const getBadgeClass = (tone) => {
+    if (tone === 'mint') return 'wl-pill-badge wl-pill-badge-mint';
+    if (tone === 'blue') return 'wl-pill-badge wl-pill-badge-blue';
+    return 'wl-pill-badge wl-pill-badge-peach';
+  };
 
   return (
     <div style={{ backgroundColor: 'var(--wl-true-white)', minHeight: '100dvh' }}>
@@ -172,7 +389,7 @@ export default function LandingPage() {
               <div className="wl-spacer-xxlarge" />
 
               <div className="wl-grid-2 is-hero">
-                {/* Left Column: Eyebrow + H1 with Martina Italic Serif + Lead + CTA + Marquee */}
+                {/* Left Column: Eyebrow + H1 + Lead + CTA + Marquee */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1.5rem' }}>
                   <div className="wl-eyebrow">
                     Sistem Pengelolaan Keuangan &amp; Piutang UMKM
@@ -235,207 +452,214 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                {/* Right Column: Layered UI Signal & Dashboard Composition (Mirroring Team-health.avif) */}
-                <div className="position-relative">
-                  <div className="wl-mockup-stage tone-blue">
-                    {/* Top Floating Signal Card (Mirrors Workleap's "Team Performance Signal" Card) */}
-                    <div
-                      className="wl-mockup-window p-3 p-sm-4 mb-3"
-                      style={{
-                        borderLeft: '4px solid var(--wl-brand-100)'
-                      }}
+                {/* Right Column: Exact Workleap Floating Signal & Pill Composition (Team-health.avif) */}
+                <div className="wl-signal-canvas">
+                  <div className="wl-signal-glow" />
+
+                  {/* Top SVG Trend Curve + Top Floating Pill Card */}
+                  <div className="wl-signal-top-track">
+                    <svg
+                      className="wl-signal-svg"
+                      viewBox="0 0 500 115"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
                     >
-                      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-                        <div className="d-flex align-items-center gap-2">
-                          <span
-                            className="d-inline-flex align-items-center justify-content-center"
-                            style={{
-                              width: '28px',
-                              height: '28px',
-                              borderRadius: '8px',
-                              backgroundColor: 'var(--wl-warning-20)',
-                              color: 'var(--wl-warning-120)'
-                            }}
+                      <defs>
+                        <linearGradient id="wlCurveGrad" x1="20" y1="75" x2="355" y2="95" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stopColor="#2545FF" stopOpacity="0" />
+                          <stop offset="22%" stopColor="#2545FF" stopOpacity="0.48" />
+                          <stop offset="55%" stopColor="#2545FF" stopOpacity="1" />
+                          <stop offset="100%" stopColor="#2545FF" stopOpacity="1" />
+                        </linearGradient>
+                      </defs>
+
+                      {/* Dashed secondary reference curve */}
+                      <path
+                        d="M 48 88 C 108 52, 148 56, 212 72 C 258 84, 302 52, 365 18"
+                        stroke="#C5CBE3"
+                        strokeWidth="2"
+                        strokeDasharray="6 6"
+                        strokeLinecap="round"
+                      />
+
+                      {/* Solid primary blue trend curve */}
+                      <path
+                        d="M 28 74 C 86 38, 142 14, 194 30 C 232 42, 248 62, 274 50 C 300 38, 326 78, 355 108"
+                        stroke="url(#wlCurveGrad)"
+                        strokeWidth="2.75"
+                        strokeLinecap="round"
+                      />
+
+                      {/* Interactive curve points */}
+                      {HERO_SIGNALS.map((sig, idx) => {
+                        const isCurrent = idx === activeSignalIdx;
+                        return (
+                          <g
+                            key={sig.id}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setActiveSignalIdx(idx)}
                           >
-                            <BellRinging size={16} weight="fill" />
-                          </span>
-                          <span
-                            style={{
-                              fontFamily: 'var(--wl-display-font)',
-                              fontWeight: 600,
-                              fontSize: '0.88rem',
-                              color: 'var(--wl-grey-100)'
-                            }}
-                          >
-                            Sinyal Pemantauan Piutang &amp; Kas
-                          </span>
-                        </div>
-                        <span className="rj-badge rj-badge-info">
-                          Ilustrasi Produk · Data Contoh
+                            {isCurrent && (
+                              <circle
+                                className="wl-curve-dot-pulse"
+                                cx={sig.dotX}
+                                cy={sig.dotY}
+                                r="15"
+                                fill="#2545FF"
+                              />
+                            )}
+                            <circle
+                              cx={sig.dotX}
+                              cy={sig.dotY}
+                              r={isCurrent ? '7' : '4.5'}
+                              fill={isCurrent ? '#2545FF' : '#FFFFFF'}
+                              stroke="#2545FF"
+                              strokeWidth={isCurrent ? '3' : '2'}
+                              style={{ transition: 'all 0.35s ease' }}
+                            />
+                          </g>
+                        );
+                      })}
+                    </svg>
+
+                    {/* Top Floating Pill Card (Mirrors Workleap "Recognition ↓ 1.3pts" pill) */}
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setActiveSignalIdx((prev) => (prev + 1) % HERO_SIGNALS.length)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setActiveSignalIdx((prev) => (prev + 1) % HERO_SIGNALS.length);
+                        }
+                      }}
+                      className="wl-floating-pill wl-floating-pill-top"
+                      title="Klik untuk mengganti sinyal keuangan"
+                    >
+                      <div className="d-flex align-items-center gap-2">
+                        <TopPillIcon size={20} weight="regular" style={{ color: '#171417' }} />
+                        <span
+                          style={{
+                            fontSize: '0.92rem',
+                            fontWeight: 500,
+                            color: '#171417'
+                          }}
+                        >
+                          {activeSignal.topPill.label}
                         </span>
                       </div>
+                      <span className={getBadgeClass(activeSignal.topPill.badgeTone)}>
+                        {activeSignal.topPill.badge}
+                      </span>
+                    </div>
+                  </div>
 
-                      <p
-                        className="mb-3"
-                        style={{
-                          fontSize: '0.84rem',
-                          color: 'var(--wl-grey-80)',
-                          lineHeight: 1.5
-                        }}
-                      >
-                        Terdapat <strong className="text-dark">4 tagihan kredit pelanggan</strong>{' '}
-                        berstatus <strong className="text-dark">Belum Lunas</strong> senilai{' '}
-                        <strong className="font-tabular text-dark">Rp 505.000</strong>. Sebanyak 2
-                        tagihan telah melewati 5 hari sejak tanggal transaksi.
-                      </p>
-
-                      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2" style={{ borderTop: '1px solid var(--wl-grey-20)' }}>
-                        <div className="d-flex align-items-center gap-2" style={{ fontSize: '0.76rem' }}>
-                          <span className="rj-badge rj-badge-warning">Belum Lunas: Rp 505.000</span>
-                          <span className="rj-badge rj-badge-success">Kas Bersih: Rp 1.085.000</span>
-                        </div>
-                        <Link
-                          to={isAuthenticated ? '/piutang' : '/login'}
-                          style={{
-                            fontSize: '0.78rem',
-                            fontWeight: 600,
-                            color: 'var(--wl-brand-100)',
-                            textDecoration: 'none'
-                          }}
-                        >
-                          Periksa Piutang &rarr;
-                        </Link>
-                      </div>
+                  {/* Center Main Signal Card (Mirrors Workleap "Team Performance signal" card) */}
+                  <div className="wl-signal-main-card">
+                    <div className="d-flex align-items-center gap-3">
+                      <span className="wl-signal-sparkle-badge">
+                        <Sparkle size={22} weight="fill" />
+                      </span>
+                      <h2 className="wl-signal-title">{activeSignal.title}</h2>
                     </div>
 
-                    {/* Main Dashboard Preview Window */}
-                    <div className="wl-mockup-window p-3 p-sm-4">
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <div>
-                          <div
-                            style={{
-                              fontSize: '0.74rem',
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.04em',
-                              color: 'var(--wl-grey-60)'
-                            }}
-                          >
-                            Ringkasan Keuangan Depot RAJASH
-                          </div>
-                          <div
-                            style={{
-                              fontFamily: 'var(--wl-display-font)',
-                              fontSize: '1.05rem',
-                              fontWeight: 600
-                            }}
-                          >
-                            Kondisi Arus Kas &amp; Piutang Bulan Berjalan
-                          </div>
-                        </div>
-                        <span className="rj-badge rj-badge-neutral">November 2026</span>
-                      </div>
+                    <div className="wl-signal-divider" />
 
-                      {/* 4 Key Metrics Grid */}
-                      <div className="row g-2 mb-3">
-                        {[
-                          {
-                            label: 'Total Pemasukan',
-                            val: 'Rp 1.880.000',
-                            sub: 'Kas diterima',
-                            bg: '#EEF2FF',
+                    <p className="wl-signal-copy">{activeSignal.copy}</p>
+
+                    <Link
+                      to={isAuthenticated ? activeSignal.ctaLink : '/login'}
+                      className="wl-signal-action"
+                    >
+                      <span>{activeSignal.ctaLabel}</span>
+                      <ArrowRight size={18} weight="regular" />
+                    </Link>
+                  </div>
+
+                  {/* Bottom Staggered Overlapping Pill Cards (Mirrors "Completed task" & "Quarterly goals") */}
+                  <div className="wl-signal-bottom-stack">
+                    {/* Upper-Right Overlapping Pill */}
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setActiveSignalIdx((prev) => (prev + 1) % HERO_SIGNALS.length)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setActiveSignalIdx((prev) => (prev + 1) % HERO_SIGNALS.length);
+                        }
+                      }}
+                      className="wl-floating-pill wl-floating-pill-bottom-right"
+                    >
+                      <div className="d-flex align-items-center gap-2">
+                        <span
+                          className="d-inline-flex align-items-center justify-content-center"
+                          style={{
+                            width: '34px',
+                            height: '34px',
+                            borderRadius: '50%',
+                            backgroundColor: '#F4F4F2',
                             color: 'var(--wl-brand-100)'
-                          },
-                          {
-                            label: 'Total Pengeluaran',
-                            val: 'Rp 795.000',
-                            sub: '6 kategori beban',
-                            bg: 'var(--wl-soft-20)',
-                            color: 'var(--wl-grey-100)'
-                          },
-                          {
-                            label: 'Keuntungan Bersih',
-                            val: 'Rp 1.085.000',
-                            sub: 'Kas - Pengeluaran',
-                            bg: 'var(--wl-success-20)',
-                            color: 'var(--wl-success-120)'
-                          },
-                          {
-                            label: 'Total Piutang',
-                            val: 'Rp 505.000',
-                            sub: '4 belum lunas',
-                            bg: 'var(--wl-warning-20)',
-                            color: 'var(--wl-warning-120)'
-                          }
-                        ].map((m) => (
-                          <div key={m.label} className="col-6">
-                            <div
-                              className="p-2 px-3 h-100"
-                              style={{
-                                backgroundColor: m.bg,
-                                borderRadius: '12px',
-                                border: '1px solid rgba(23, 20, 23, 0.06)'
-                              }}
-                            >
-                              <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-80)' }}>
-                                {m.label}
-                              </div>
-                              <div
-                                className="font-tabular fw-bold mt-1"
-                                style={{ fontSize: '0.98rem', color: m.color }}
-                              >
-                                {m.val}
-                              </div>
-                              <div style={{ fontSize: '0.68rem', color: 'var(--wl-grey-60)' }}>
-                                {m.sub}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Live Transaction Status Rows */}
-                      <div className="d-flex flex-column gap-2">
-                        <div
-                          className="p-2 px-3 d-flex align-items-center justify-content-between"
-                          style={{
-                            backgroundColor: 'var(--wl-soft-20)',
-                            borderRadius: '10px',
-                            fontSize: '0.78rem'
                           }}
                         >
-                          <div>
-                            <span className="fw-semibold">Warkop Kupi Aceh</span>
-                            <span style={{ color: 'var(--wl-grey-60)', marginLeft: '6px' }}>
-                              · 35 Galon (Kredit)
-                            </span>
-                          </div>
-                          <div className="d-flex align-items-center gap-2">
-                            <span className="font-tabular fw-bold">Rp 175.000</span>
-                            <span className="rj-badge rj-badge-warning">Belum Lunas</span>
-                          </div>
-                        </div>
-
-                        <div
-                          className="p-2 px-3 d-flex align-items-center justify-content-between"
+                          <ArrowUpRight size={18} weight="bold" />
+                        </span>
+                        <span
                           style={{
-                            backgroundColor: 'var(--wl-soft-20)',
-                            borderRadius: '10px',
-                            fontSize: '0.78rem'
+                            fontSize: '0.92rem',
+                            fontWeight: 500,
+                            color: '#171417'
                           }}
                         >
-                          <div>
-                            <span className="fw-semibold">Penjualan Depot Harian</span>
-                            <span style={{ color: 'var(--wl-grey-60)', marginLeft: '6px' }}>
-                              · 48 Galon (Tunai)
-                            </span>
-                          </div>
-                          <div className="d-flex align-items-center gap-2">
-                            <span className="font-tabular fw-bold">Rp 240.000</span>
-                            <span className="rj-badge rj-badge-success">Lunas</span>
-                          </div>
-                        </div>
+                          {activeSignal.bottomRightPill.label}
+                        </span>
                       </div>
+                      <span className={`${getBadgeClass(activeSignal.bottomRightPill.badgeTone)} font-tabular`}>
+                        {activeSignal.bottomRightPill.badge}
+                      </span>
                     </div>
+
+                    {/* Lower-Left Staggered Pill */}
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setActiveSignalIdx((prev) => (prev + 1) % HERO_SIGNALS.length)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setActiveSignalIdx((prev) => (prev + 1) % HERO_SIGNALS.length);
+                        }
+                      }}
+                      className="wl-floating-pill wl-floating-pill-bottom-left"
+                    >
+                      <div className="d-flex align-items-center gap-2">
+                        <Target size={22} weight="regular" style={{ color: '#171417', flexShrink: 0 }} />
+                        <span style={{ fontSize: '0.9rem', color: '#171417' }}>
+                          {activeSignal.bottomLeftPill.prefix}
+                          <strong style={{ fontWeight: 700 }}>{activeSignal.bottomLeftPill.boldText}</strong>
+                        </span>
+                      </div>
+                      <span className={getBadgeClass(activeSignal.bottomLeftPill.badgeTone)}>
+                        {activeSignal.bottomLeftPill.badge}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Interactive Signal Switcher Pills */}
+                  <div className="wl-signal-switcher" role="tablist" aria-label="Pilih simulasi sinyal keuangan">
+                    {HERO_SIGNALS.map((sig, idx) => (
+                      <button
+                        key={sig.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={activeSignalIdx === idx}
+                        onClick={() => setActiveSignalIdx(idx)}
+                        className={`wl-signal-switch-btn ${activeSignalIdx === idx ? 'is-active' : ''}`}
+                      >
+                        {sig.tabLabel}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -468,34 +692,36 @@ export default function LandingPage() {
                   </p>
                 </div>
 
-                {/* 3-Column Illustrated Step Cards (Mirrors Workleap's 3-column How It Works) */}
+                {/* 3-Column Illustrated Step Cards with Floating Pill Aesthetic */}
                 <div className="wl-grid-3 text-center">
                   {/* Card 1 */}
                   <div className="d-flex flex-column align-items-center">
                     <div className="wl-how-step-visual">
-                      <div className="wl-mockup-window p-3">
-                        <div className="d-flex justify-content-between align-items-center mb-2">
-                          <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--wl-grey-80)' }}>
-                            Input Transaksi Baru
-                          </span>
-                          <span className="rj-badge rj-badge-info">Tahap 1</span>
-                        </div>
-                        <div
-                          className="p-2 mb-2 rounded"
-                          style={{ backgroundColor: 'var(--wl-soft-20)', fontSize: '0.75rem' }}
-                        >
-                          <div className="d-flex justify-content-between">
-                            <span>Penjualan 30 Galon</span>
-                            <strong className="font-tabular">Rp 150.000</strong>
+                      <div className="d-flex flex-column gap-2">
+                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
+                          <div className="d-flex align-items-center gap-2">
+                            <span
+                              className="d-inline-flex align-items-center justify-content-center"
+                              style={{
+                                width: '28px',
+                                height: '28px',
+                                borderRadius: '50%',
+                                backgroundColor: 'var(--wl-brand-100)',
+                                color: '#FFFFFF'
+                              }}
+                            >
+                              <Sparkle size={14} weight="fill" />
+                            </span>
+                            <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>Penjualan 30 Galon</span>
                           </div>
+                          <span className="wl-pill-badge wl-pill-badge-mint font-tabular">Rp 150.000</span>
                         </div>
-                        <div className="d-flex gap-2">
-                          <span className="rj-badge rj-badge-success w-50 justify-content-center">
-                            Tunai · Lunas
+
+                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--wl-grey-80)' }}>
+                            Jenis Pembayaran
                           </span>
-                          <span className="rj-badge rj-badge-warning w-50 justify-content-center">
-                            Kredit · Piutang
-                          </span>
+                          <span className="wl-pill-badge wl-pill-badge-blue">Tunai / Kredit</span>
                         </div>
                       </div>
                     </div>
@@ -513,30 +739,20 @@ export default function LandingPage() {
                         background: 'linear-gradient(155deg, #EDE9FE 0%, #DBF3FF 100%)'
                       }}
                     >
-                      <div className="wl-mockup-window p-3">
-                        <div className="d-flex justify-content-between align-items-center mb-2">
-                          <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--wl-grey-80)' }}>
-                            Pemantauan Piutang
+                      <div className="d-flex flex-column gap-2">
+                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
+                          <div className="d-flex align-items-center gap-2">
+                            <BellRinging size={18} weight="fill" style={{ color: 'var(--wl-brand-100)' }} />
+                            <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>Warkop Kupi Aceh</span>
+                          </div>
+                          <span className="wl-pill-badge wl-pill-badge-peach">Belum Lunas</span>
+                        </div>
+
+                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--wl-grey-80)' }}>
+                            Pengingat Aplikasi
                           </span>
-                          <span className="rj-badge rj-badge-warning">4 Belum Lunas</span>
-                        </div>
-                        <div
-                          className="p-2 mb-2 rounded d-flex justify-content-between align-items-center"
-                          style={{ backgroundColor: 'var(--wl-soft-20)', fontSize: '0.75rem' }}
-                        >
-                          <span>Warkop Kupi Aceh</span>
-                          <strong className="font-tabular">Rp 175.000</strong>
-                        </div>
-                        <div
-                          className="p-1 px-2 rounded text-center"
-                          style={{
-                            backgroundColor: 'var(--wl-brand-100)',
-                            color: '#FFFFFF',
-                            fontSize: '0.72rem',
-                            fontWeight: 500
-                          }}
-                        >
-                          Pengingat Aplikasi Aktif
+                          <span className="wl-pill-badge wl-pill-badge-peach font-tabular">Rp 175.000</span>
                         </div>
                       </div>
                     </div>
@@ -554,38 +770,20 @@ export default function LandingPage() {
                         background: 'linear-gradient(155deg, #E1F5EB 0%, #DBF3FF 100%)'
                       }}
                     >
-                      <div className="wl-mockup-window p-3">
-                        <div className="d-flex justify-content-between align-items-center mb-2">
-                          <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--wl-grey-80)' }}>
-                            Rekapitulasi &amp; Laba Bersih
+                      <div className="d-flex flex-column gap-2">
+                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
+                          <div className="d-flex align-items-center gap-2">
+                            <Trophy size={18} weight="regular" style={{ color: '#166638' }} />
+                            <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>Keuntungan Bersih</span>
+                          </div>
+                          <span className="wl-pill-badge wl-pill-badge-mint font-tabular">Rp 1.085.000</span>
+                        </div>
+
+                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--wl-grey-80)' }}>
+                            Periode Laporan
                           </span>
-                          <span className="rj-badge rj-badge-success">Otomatis</span>
-                        </div>
-                        <div
-                          className="p-2 mb-2 rounded d-flex justify-content-between"
-                          style={{ backgroundColor: 'var(--wl-soft-20)', fontSize: '0.75rem' }}
-                        >
-                          <span>Keuntungan Bersih</span>
-                          <strong
-                            className="font-tabular"
-                            style={{ color: 'var(--wl-success-120)' }}
-                          >
-                            Rp 1.085.000
-                          </strong>
-                        </div>
-                        <div className="d-flex gap-1 align-items-end" style={{ height: '24px' }}>
-                          {[55, 75, 60, 90, 80, 100].map((h, i) => (
-                            <div
-                              key={i}
-                              style={{
-                                flex: 1,
-                                height: `${h}%`,
-                                backgroundColor:
-                                  i % 2 === 0 ? 'var(--wl-brand-100)' : '#93C5FD',
-                                borderRadius: '3px 3px 0 0'
-                              }}
-                            />
-                          ))}
+                          <span className="wl-pill-badge wl-pill-badge-blue">Harian &amp; Bulanan</span>
                         </div>
                       </div>
                     </div>
@@ -603,7 +801,7 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 3: STEP 1 DEEP DIVE (Mirrors Workleap "Get the real information")
+            SECTION 3: STEP 1 DEEP DIVE (Interactive Transaction & Category Preview)
             ==================================================================== */}
         <section id="fitur" className="wl-section">
           <div className="wl-padding-global">
@@ -669,96 +867,151 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                {/* Right UI Mockup Column (Mirrors OV_Step1_EN.avif) */}
-                <div className="wl-mockup-stage tone-blue">
-                  <div className="wl-mockup-window p-3 p-sm-4">
-                    <div className="d-flex align-items-center justify-content-between pb-3 mb-3" style={{ borderBottom: '1px solid var(--wl-grey-20)' }}>
-                      <div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase' }}>
-                          Formulir Pencatatan Harian
-                        </div>
-                        <div style={{ fontFamily: 'var(--wl-display-font)', fontWeight: 600, fontSize: '1rem' }}>
-                          Input Transaksi Pemasukan &amp; Pengeluaran
-                        </div>
-                      </div>
-                      <span className="rj-badge rj-badge-info">Ilustrasi UI</span>
-                    </div>
+                {/* Right Interactive Layered Composition */}
+                <div className="wl-signal-canvas">
+                  <div className="wl-signal-glow" />
 
-                    <div className="row g-2 mb-3">
-                      <div className="col-12 col-sm-6">
-                        <div className="p-2 px-3 rounded" style={{ backgroundColor: 'var(--wl-soft-20)', border: '1px solid var(--wl-grey-20)' }}>
-                          <div style={{ fontSize: '0.7rem', color: 'var(--wl-grey-60)' }}>Keterangan / Pelanggan</div>
-                          <div className="fw-semibold" style={{ fontSize: '0.84rem' }}>
-                            Pesanan 35 Galon - Warkop Kupi Aceh
-                          </div>
-                        </div>
+                  {/* Top Floating Pill */}
+                  <div className="d-flex justify-content-end w-100 mb-2" style={{ maxWidth: '490px', zIndex: 4 }}>
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setStep1PaymentType((p) => (p === 'Kredit' ? 'Tunai' : 'Kredit'))}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setStep1PaymentType((p) => (p === 'Kredit' ? 'Tunai' : 'Kredit'));
+                        }
+                      }}
+                      className="wl-floating-pill"
+                      style={{ animation: 'wlGentleFloat 5.5s ease-in-out infinite' }}
+                      title="Klik untuk mengubah jenis pembayaran"
+                    >
+                      <div className="d-flex align-items-center gap-2">
+                        <Wallet size={19} style={{ color: '#171417' }} />
+                        <span style={{ fontSize: '0.88rem', fontWeight: 500 }}>
+                          Mode Pembayaran: <strong>{step1PaymentType}</strong>
+                        </span>
                       </div>
-                      <div className="col-6 col-sm-3">
-                        <div className="p-2 px-3 rounded" style={{ backgroundColor: 'var(--wl-soft-20)', border: '1px solid var(--wl-grey-20)' }}>
-                          <div style={{ fontSize: '0.7rem', color: 'var(--wl-grey-60)' }}>Nominal</div>
-                          <div className="font-tabular fw-bold" style={{ fontSize: '0.84rem' }}>
-                            Rp 175.000
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-6 col-sm-3">
-                        <div className="p-2 px-3 rounded" style={{ backgroundColor: 'var(--wl-warning-20)', border: '1px solid var(--wl-warning-60)' }}>
-                          <div style={{ fontSize: '0.7rem', color: 'var(--wl-warning-120)' }}>Pembayaran</div>
-                          <div className="fw-bold" style={{ fontSize: '0.84rem', color: 'var(--wl-warning-120)' }}>
-                            Kredit
-                          </div>
-                        </div>
-                      </div>
+                      <span
+                        className={
+                          step1PaymentType === 'Tunai'
+                            ? 'wl-pill-badge wl-pill-badge-mint'
+                            : 'wl-pill-badge wl-pill-badge-peach'
+                        }
+                      >
+                        {step1PaymentType === 'Tunai' ? 'Otomatis Lunas' : 'Masuk Piutang'}
+                      </span>
                     </div>
+                  </div>
 
-                    {/* Category Pills */}
-                    <div className="mb-3">
-                      <div style={{ fontSize: '0.74rem', fontWeight: 600, marginBottom: '0.45rem', color: 'var(--wl-grey-80)' }}>
-                        Kategori Pengeluaran Operasional Depot:
+                  {/* Main Interactive Card */}
+                  <div className="wl-signal-main-card">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <div className="d-flex align-items-center gap-3">
+                        <span className="wl-signal-sparkle-badge">
+                          <Sparkle size={20} weight="fill" />
+                        </span>
+                        <div>
+                          <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            Simulasi Pencatatan Interaktif
+                          </div>
+                          <h3 className="wl-signal-title" style={{ fontSize: '1.35rem' }}>
+                            Input Pemasukan &amp; Beban
+                          </h3>
+                        </div>
                       </div>
-                      <div className="d-flex flex-wrap gap-1">
-                        {[
-                          'BBM Becak',
-                          'Servis Kendaraan',
-                          'Penggantian Oli',
-                          'Perbaikan Ban',
-                          'Pembelian Pasokan Air',
-                          'Lainnya'
-                        ].map((cat, idx) => (
-                          <span
-                            key={cat}
+
+                      {/* Payment Toggle Buttons */}
+                      <div className="d-flex gap-1 p-1 rounded-pill" style={{ backgroundColor: 'var(--wl-soft-20)', border: '1px solid var(--wl-grey-20)' }}>
+                        {['Tunai', 'Kredit'].map((mode) => (
+                          <button
+                            key={mode}
+                            type="button"
+                            onClick={() => setStep1PaymentType(mode)}
                             style={{
-                              padding: '0.28rem 0.7rem',
+                              border: 'none',
                               borderRadius: '100px',
-                              fontSize: '0.72rem',
-                              fontWeight: 500,
-                              backgroundColor: idx === 0 || idx === 4 ? 'var(--wl-brand-100)' : 'var(--wl-soft-20)',
-                              color: idx === 0 || idx === 4 ? '#FFFFFF' : 'var(--wl-grey-80)',
-                              border: '1px solid var(--wl-grey-20)'
+                              padding: '0.25rem 0.7rem',
+                              fontSize: '0.75rem',
+                              fontWeight: 600,
+                              backgroundColor: step1PaymentType === mode ? 'var(--wl-brand-100)' : 'transparent',
+                              color: step1PaymentType === mode ? '#FFFFFF' : 'var(--wl-grey-80)',
+                              cursor: 'pointer',
+                              transition: 'all 0.2s ease'
                             }}
                           >
-                            {cat}
-                          </span>
+                            {mode}
+                          </button>
                         ))}
                       </div>
                     </div>
 
-                    {/* Duplicate Warning Callout */}
+                    <div className="wl-signal-divider" />
+
+                    {/* Selected Expense Category Preview */}
+                    <div className="mb-3">
+                      <div style={{ fontSize: '0.78rem', fontWeight: 500, color: 'var(--wl-grey-80)', marginBottom: '0.5rem' }}>
+                        Klik salah satu dari 6 kategori pengeluaran operasional:
+                      </div>
+                      <div className="d-flex flex-wrap gap-1">
+                        {EXPENSE_CATEGORIES_PREVIEW.map((cat, idx) => {
+                          const isSelected = idx === selectedExpenseCatIdx;
+                          return (
+                            <button
+                              key={cat.name}
+                              type="button"
+                              onClick={() => setSelectedExpenseCatIdx(idx)}
+                              style={{
+                                padding: '0.34rem 0.78rem',
+                                borderRadius: '100px',
+                                fontSize: '0.76rem',
+                                fontWeight: 500,
+                                backgroundColor: isSelected ? 'var(--wl-brand-100)' : 'var(--wl-soft-20)',
+                                color: isSelected ? '#FFFFFF' : 'var(--wl-grey-100)',
+                                border: isSelected ? '1px solid var(--wl-brand-100)' : '1px solid var(--wl-grey-20)',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s ease'
+                              }}
+                            >
+                              {cat.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
                     <div
-                      className="p-3 rounded-3 d-flex align-items-start gap-2"
+                      className="p-3 rounded-4 d-flex align-items-center justify-content-between gap-2"
                       style={{
-                        backgroundColor: 'var(--wl-warning-20)',
-                        border: '1px solid var(--wl-warning-60)',
-                        fontSize: '0.78rem',
-                        color: 'var(--wl-warning-120)'
+                        backgroundColor: 'var(--wl-soft-20)',
+                        border: '1px solid var(--wl-grey-20)'
                       }}
                     >
-                      <Warning size={18} weight="fill" className="flex-shrink-0 mt-1" />
                       <div>
-                        <strong>Peringatan Kemungkinan Transaksi Duplikat:</strong> Ditemukan catatan
-                        serupa pada tanggal yang sama. Periksa kembali sebelum menyimpan agar tidak
-                        tercatat dua kali.
+                        <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)' }}>
+                          Contoh Transaksi ({activeExpenseCat.name})
+                        </div>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--wl-grey-100)' }}>
+                          {activeExpenseCat.sample}
+                        </div>
                       </div>
+                      <span className="wl-pill-badge wl-pill-badge-blue font-tabular">
+                        {activeExpenseCat.nominal}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Overlapping Bottom Duplicate Warning Pill */}
+                  <div className="wl-signal-bottom-stack">
+                    <div className="wl-floating-pill wl-floating-pill-bottom-left" style={{ cursor: 'default' }}>
+                      <div className="d-flex align-items-center gap-2">
+                        <Warning size={20} weight="fill" style={{ color: '#D9532F', flexShrink: 0 }} />
+                        <span style={{ fontSize: '0.84rem', color: '#171417' }}>
+                          Cek otomatis bila nominal &amp; tanggal <strong>tercatat ganda.</strong>
+                        </span>
+                      </div>
+                      <span className="wl-pill-badge wl-pill-badge-peach">Anti-Duplikat</span>
                     </div>
                   </div>
                 </div>
@@ -770,7 +1023,7 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 4: STEP 2 DEEP DIVE (Mirrors Workleap "Get a clear picture" - Reversed)
+            SECTION 4: STEP 2 DEEP DIVE (Interactive 7-Day Trend & Net Profit Signal)
             ==================================================================== */}
         <section className="wl-section">
           <div className="wl-padding-global">
@@ -778,102 +1031,128 @@ export default function LandingPage() {
               <div className="wl-spacer-xxlarge" />
 
               <div className="wl-grid-2">
-                {/* Left UI Mockup Column (Mirrors OV_Step2_EN.avif Report & Trend Card) */}
-                <div className="wl-mockup-stage tone-lilac order-2 order-lg-1">
-                  <div className="wl-mockup-window p-3 p-sm-4">
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase' }}>
-                          Ringkasan &amp; Grafik Keuangan
-                        </div>
-                        <div style={{ fontFamily: 'var(--wl-display-font)', fontWeight: 600, fontSize: '1rem' }}>
-                          Laporan Keuntungan Bersih &amp; Arus Kas
-                        </div>
-                      </div>
-                      <span className="rj-badge rj-badge-success">Kas Positif</span>
-                    </div>
+                {/* Left Interactive Layered Card Column */}
+                <div className="wl-signal-canvas order-2 order-lg-1">
+                  <div className="wl-signal-glow" />
 
-                    <div className="row g-2 mb-3">
-                      <div className="col-12 col-sm-5">
-                        <div
-                          className="p-3 h-100 d-flex flex-column justify-content-between"
-                          style={{
-                            backgroundColor: 'var(--wl-brand-100)',
-                            color: '#FFFFFF',
-                            borderRadius: '14px'
-                          }}
-                        >
-                          <div style={{ fontSize: '0.75rem', opacity: 0.88 }}>
-                            Keuntungan Bersih Kas
-                          </div>
-                          <div className="font-tabular my-1" style={{ fontSize: '1.35rem', fontWeight: 700 }}>
-                            Rp 1.085.000
-                          </div>
-                          <div style={{ fontSize: '0.7rem', opacity: 0.85 }}>
-                            Kas Diterima - Pengeluaran
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-12 col-sm-7">
-                        <div
-                          className="p-3 h-100"
-                          style={{
-                            backgroundColor: 'var(--wl-soft-20)',
-                            border: '1px solid var(--wl-grey-20)',
-                            borderRadius: '14px'
-                          }}
-                        >
-                          <div className="d-flex justify-content-between mb-2" style={{ fontSize: '0.75rem' }}>
-                            <span style={{ color: 'var(--wl-grey-80)' }}>Pemasukan Kas Tunai:</span>
-                            <strong className="font-tabular">Rp 1.560.000</strong>
-                          </div>
-                          <div className="d-flex justify-content-between mb-2" style={{ fontSize: '0.75rem' }}>
-                            <span style={{ color: 'var(--wl-grey-80)' }}>Pelunasan Piutang Masuk:</span>
-                            <strong className="font-tabular">Rp 320.000</strong>
-                          </div>
-                          <div className="d-flex justify-content-between pt-2 border-top" style={{ fontSize: '0.75rem' }}>
-                            <span style={{ color: 'var(--wl-grey-80)' }}>Total Pengeluaran Depot:</span>
-                            <strong className="font-tabular" style={{ color: 'var(--wl-danger-120)' }}>
-                              - Rp 795.000
-                            </strong>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Visual Trend Chart */}
+                  {/* Top Floating Pill showing Selected Day's Net Profit */}
+                  <div className="d-flex justify-content-end w-100 mb-2" style={{ maxWidth: '490px', zIndex: 4 }}>
                     <div
-                      className="p-3"
+                      className="wl-floating-pill"
+                      style={{ animation: 'wlGentleFloat 5.8s ease-in-out infinite', cursor: 'default' }}
+                    >
+                      <div className="d-flex align-items-center gap-2">
+                        <Trophy size={19} style={{ color: '#171417' }} />
+                        <span style={{ fontSize: '0.88rem', fontWeight: 500 }}>
+                          Laba Bersih ({activeTrendDay.label})
+                        </span>
+                      </div>
+                      <span className="wl-pill-badge wl-pill-badge-mint font-tabular">
+                        +{activeTrendDay.netVal}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Main Interactive Chart Card */}
+                  <div className="wl-signal-main-card">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <div className="d-flex align-items-center gap-3">
+                        <span className="wl-signal-sparkle-badge">
+                          <ChartBar size={20} weight="fill" />
+                        </span>
+                        <div>
+                          <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            Klik Batang Grafik Harian
+                          </div>
+                          <h3 className="wl-signal-title" style={{ fontSize: '1.35rem' }}>
+                            Tren Kas &amp; Keuntungan Bersih
+                          </h3>
+                        </div>
+                      </div>
+                      <span className="wl-pill-badge wl-pill-badge-mint font-tabular">Rp 1.085.000</span>
+                    </div>
+
+                    <div className="wl-signal-divider" />
+
+                    {/* Interactive 7-Day Bar Chart */}
+                    <div
+                      className="p-3 rounded-4"
                       style={{
-                        backgroundColor: 'var(--wl-true-white)',
-                        border: '1px solid var(--wl-grey-20)',
-                        borderRadius: '14px'
+                        backgroundColor: 'var(--wl-soft-20)',
+                        border: '1px solid var(--wl-grey-20)'
                       }}
                     >
-                      <div className="d-flex justify-content-between align-items-center mb-2" style={{ fontSize: '0.74rem' }}>
-                        <span className="fw-semibold">Tren Pemasukan Kas vs Pengeluaran (7 Hari)</span>
-                        <span style={{ color: 'var(--wl-brand-100)', fontWeight: 600 }}>Rekap Harian &amp; Bulanan</span>
+                      <div className="d-flex justify-content-between align-items-center mb-2" style={{ fontSize: '0.76rem' }}>
+                        <span className="fw-semibold">Tanggal {activeTrendDay.label} 2026</span>
+                        <span className="font-tabular" style={{ color: 'var(--wl-brand-100)', fontWeight: 600 }}>
+                          Masuk: {activeTrendDay.inVal} · Beban: {activeTrendDay.outVal}
+                        </span>
                       </div>
-                      <div className="d-flex align-items-end justify-content-between gap-2 pt-2" style={{ height: '90px' }}>
-                        {[
-                          { label: '04 Nov', inH: '65%', outH: '30%' },
-                          { label: '05 Nov', inH: '80%', outH: '25%' },
-                          { label: '06 Nov', inH: '58%', outH: '50%' },
-                          { label: '07 Nov', inH: '88%', outH: '28%' },
-                          { label: '08 Nov', inH: '74%', outH: '34%' },
-                          { label: '09 Nov', inH: '92%', outH: '38%' },
-                          { label: '10 Nov', inH: '85%', outH: '22%' }
-                        ].map((d) => (
-                          <div key={d.label} className="d-flex flex-column align-items-center flex-grow-1 h-100 justify-content-end">
-                            <div className="d-flex align-items-end gap-1 w-100 justify-content-center h-100">
-                              <div style={{ width: '9px', height: d.inH, backgroundColor: 'var(--wl-brand-100)', borderRadius: '3px 3px 0 0' }} />
-                              <div style={{ width: '9px', height: d.outH, backgroundColor: '#CBD5E1', borderRadius: '3px 3px 0 0' }} />
-                            </div>
-                            <span style={{ fontSize: '0.62rem', color: 'var(--wl-grey-60)', marginTop: '4px' }}>{d.label}</span>
-                          </div>
-                        ))}
+
+                      <div className="d-flex align-items-end justify-content-between gap-2 pt-2" style={{ height: '104px' }}>
+                        {DAILY_TREND_DATA.map((d, idx) => {
+                          const isSelected = idx === activeTrendDayIdx;
+                          return (
+                            <button
+                              key={d.label}
+                              type="button"
+                              onClick={() => setActiveTrendDayIdx(idx)}
+                              onMouseEnter={() => setActiveTrendDayIdx(idx)}
+                              className="d-flex flex-column align-items-center flex-grow-1 h-100 justify-content-end border-0 bg-transparent p-1"
+                              style={{
+                                cursor: 'pointer',
+                                borderRadius: '10px',
+                                backgroundColor: isSelected ? 'rgba(37, 69, 255, 0.08)' : 'transparent',
+                                transition: 'all 0.2s ease'
+                              }}
+                            >
+                              <div className="d-flex align-items-end gap-1 w-100 justify-content-center h-100">
+                                <div
+                                  style={{
+                                    width: '10px',
+                                    height: d.inH,
+                                    backgroundColor: isSelected ? 'var(--wl-brand-100)' : '#7C92FF',
+                                    borderRadius: '4px 4px 0 0',
+                                    transition: 'all 0.25s ease'
+                                  }}
+                                />
+                                <div
+                                  style={{
+                                    width: '10px',
+                                    height: d.outH,
+                                    backgroundColor: isSelected ? '#F28107' : '#CBD5E1',
+                                    borderRadius: '4px 4px 0 0',
+                                    transition: 'all 0.25s ease'
+                                  }}
+                                />
+                              </div>
+                              <span
+                                style={{
+                                  fontSize: '0.66rem',
+                                  fontWeight: isSelected ? 700 : 500,
+                                  color: isSelected ? 'var(--wl-brand-100)' : 'var(--wl-grey-60)',
+                                  marginTop: '5px'
+                                }}
+                              >
+                                {d.label}
+                              </span>
+                            </button>
+                          );
+                        })}
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom Staggered Pill */}
+                  <div className="wl-signal-bottom-stack">
+                    <div className="wl-floating-pill wl-floating-pill-bottom-right" style={{ cursor: 'default' }}>
+                      <div className="d-flex align-items-center gap-2">
+                        <Target size={20} style={{ color: '#171417' }} />
+                        <span style={{ fontSize: '0.86rem', color: '#171417' }}>
+                          Rumus: <strong>Kas Masuk Aktual - Pengeluaran</strong>
+                        </span>
+                      </div>
+                      <span className="wl-pill-badge wl-pill-badge-blue">Otomatis</span>
                     </div>
                   </div>
                 </div>
@@ -929,7 +1208,7 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 5: STEP 3 DEEP DIVE (Mirrors Workleap "Act with an AI coach")
+            SECTION 5: STEP 3 DEEP DIVE (Interactive Receivables Status Toggle)
             ==================================================================== */}
         <section className="wl-section">
           <div className="wl-padding-global">
@@ -981,74 +1260,107 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                {/* Right UI Mockup Column (Mirrors OV_Step3_EN.avif) */}
-                <div className="wl-mockup-stage tone-sand">
-                  <div className="wl-mockup-window p-3 p-sm-4">
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <span style={{ fontFamily: 'var(--wl-display-font)', fontWeight: 600, fontSize: '0.95rem' }}>
-                        Manajemen Piutang &amp; Pengingat Aplikasi
+                {/* Right Interactive Layered Receivables Composition */}
+                <div className="wl-signal-canvas">
+                  <div className="wl-signal-glow" />
+
+                  {/* Top Floating Pill with Live Remaining Receivables */}
+                  <div className="d-flex justify-content-end w-100 mb-2" style={{ maxWidth: '490px', zIndex: 4 }}>
+                    <div
+                      className="wl-floating-pill"
+                      style={{ animation: 'wlGentleFloat 5.6s ease-in-out infinite', cursor: 'default' }}
+                    >
+                      <div className="d-flex align-items-center gap-2">
+                        <Notebook size={19} style={{ color: '#171417' }} />
+                        <span style={{ fontSize: '0.88rem', fontWeight: 500 }}>
+                          Sisa Piutang Simulasi
+                        </span>
+                      </div>
+                      <span
+                        className={`font-tabular ${
+                          unpaidReceivablesCount === 0
+                            ? 'wl-pill-badge wl-pill-badge-mint'
+                            : 'wl-pill-badge wl-pill-badge-peach'
+                        }`}
+                      >
+                        Rp {unpaidReceivablesTotal.toLocaleString('id-ID')}
                       </span>
-                      <span className="rj-badge rj-badge-warning">4 Tagihan Aktif</span>
+                    </div>
+                  </div>
+
+                  {/* Main Interactive Receivables Card */}
+                  <div className="wl-signal-main-card">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <div className="d-flex align-items-center gap-3">
+                        <span className="wl-signal-sparkle-badge">
+                          <BellRinging size={20} weight="fill" />
+                        </span>
+                        <div>
+                          <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            Klik Status Untuk Simulasi Pelunasan
+                          </div>
+                          <h3 className="wl-signal-title" style={{ fontSize: '1.35rem' }}>
+                            Daftar Piutang Pelanggan
+                          </h3>
+                        </div>
+                      </div>
+                      <span
+                        className={
+                          unpaidReceivablesCount === 0
+                            ? 'wl-pill-badge wl-pill-badge-mint'
+                            : 'wl-pill-badge wl-pill-badge-peach'
+                        }
+                      >
+                        {unpaidReceivablesCount === 0 ? 'Semua Lunas' : `${unpaidReceivablesCount} Belum Lunas`}
+                      </span>
                     </div>
 
-                    <div className="d-flex flex-column gap-2 mb-3">
-                      {[
-                        {
-                          name: 'Warkop Kupi Aceh (Ulee Kareng)',
-                          meta: '05 Nov 2026 · Tertunggak 5 hari',
-                          amount: 'Rp 175.000',
-                          status: 'Belum Lunas',
-                          paid: false
-                        },
-                        {
-                          name: 'Kantin Kampus Darussalam',
-                          meta: '03 Nov 2026 · Sisa cicilan',
-                          amount: 'Rp 90.000',
-                          status: 'Belum Lunas',
-                          paid: false
-                        },
-                        {
-                          name: 'Warung Mie Aceh Seulawah',
-                          meta: '07 Nov 2026 · Dilunasi 09 Nov',
-                          amount: 'Rp 100.000',
-                          status: 'Lunas',
-                          paid: true
-                        }
-                      ].map((r) => (
+                    <div className="wl-signal-divider" />
+
+                    <div className="d-flex flex-column gap-2">
+                      {demoReceivables.map((r) => (
                         <div
-                          key={r.name}
-                          className="p-3 rounded-3 d-flex align-items-center justify-content-between gap-2"
-                          style={{
-                            backgroundColor: 'var(--wl-soft-20)',
-                            border: '1px solid var(--wl-grey-20)'
+                          key={r.id}
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => toggleDemoReceivable(r.id)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              toggleDemoReceivable(r.id);
+                            }
                           }}
+                          className="p-3 rounded-4 d-flex align-items-center justify-content-between gap-2"
+                          style={{
+                            backgroundColor: r.paid ? '#F8FAF9' : 'var(--wl-soft-20)',
+                            border: r.paid ? '1px solid var(--wl-success-60)' : '1px solid var(--wl-grey-20)',
+                            cursor: 'pointer',
+                            transition: 'all 0.22s ease'
+                          }}
+                          title="Klik untuk mengubah status Lunas / Belum Lunas"
                         >
                           <div>
-                            <div className="fw-semibold" style={{ fontSize: '0.84rem' }}>{r.name}</div>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)' }}>{r.meta}</div>
+                            <div className="fw-semibold" style={{ fontSize: '0.86rem', color: '#171417' }}>
+                              {r.name}
+                            </div>
+                            <div style={{ fontSize: '0.73rem', color: 'var(--wl-grey-60)' }}>{r.meta}</div>
                           </div>
-                          <div className="text-end">
-                            <div className="font-tabular fw-bold" style={{ fontSize: '0.86rem' }}>{r.amount}</div>
-                            <span className={`rj-badge ${r.paid ? 'rj-badge-success' : 'rj-badge-warning'}`}>
-                              {r.status}
+                          <div className="d-flex align-items-center gap-2">
+                            <span className="font-tabular fw-bold" style={{ fontSize: '0.86rem' }}>
+                              {r.amount}
+                            </span>
+                            <span
+                              className={
+                                r.paid
+                                  ? 'wl-pill-badge wl-pill-badge-mint'
+                                  : 'wl-pill-badge wl-pill-badge-peach'
+                              }
+                            >
+                              {r.paid ? 'Lunas' : 'Belum Lunas'}
                             </span>
                           </div>
                         </div>
                       ))}
-                    </div>
-
-                    <div
-                      className="p-3 rounded-3 d-flex align-items-center justify-content-between gap-2"
-                      style={{
-                        backgroundColor: '#EEF2FF',
-                        border: '1px solid var(--wl-blue-05)',
-                        fontSize: '0.78rem'
-                      }}
-                    >
-                      <span style={{ color: 'var(--wl-brand-deep)' }}>
-                        <strong>Tindakan Cepat:</strong> Tandai pembayaran lunas saat pelanggan membayar tagihan.
-                      </span>
-                      <span className="rj-badge rj-badge-info">Update Status</span>
                     </div>
                   </div>
                 </div>
@@ -1060,7 +1372,7 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 6: BENEFIT SECTION (Mirrors Workleap "Easy engagement win: Make your people feel seen")
+            SECTION 6: BENEFIT SECTION (Floating Pill Cards Composition)
             ==================================================================== */}
         <section className="wl-section">
           <div className="wl-padding-global">
@@ -1068,53 +1380,72 @@ export default function LandingPage() {
               <div className="wl-spacer-xxlarge" />
 
               <div className="wl-grid-2">
-                {/* Left Visual Composition (Mirrors Hero_Good-vibes.avif) */}
-                <div className="wl-mockup-stage tone-mint order-2 order-lg-1">
-                  <div className="d-flex flex-column gap-3">
+                {/* Left Visual Composition */}
+                <div className="wl-signal-canvas order-2 order-lg-1">
+                  <div className="wl-signal-glow" />
+                  <div className="d-flex flex-column gap-3 w-100" style={{ maxWidth: '490px', zIndex: 3 }}>
                     {[
                       {
                         num: '01',
                         title: 'Mengurangi risiko pencatatan terlewat atau ganda',
-                        desc: 'Transaksi tersimpan rapi berdasarkan tanggal dan memiliki deteksi kemiripan transaksi.'
+                        desc: 'Transaksi tersimpan rapi berdasarkan tanggal dan memiliki deteksi kemiripan transaksi.',
+                        badge: 'Terstruktur',
+                        tone: 'blue'
                       },
                       {
                         num: '02',
                         title: 'Mempermudah perhitungan keuntungan bersih',
-                        desc: 'Keuntungan bersih dihitung otomatis dari kas masuk aktual dikurangi total pengeluaran.'
+                        desc: 'Keuntungan bersih dihitung otomatis dari kas masuk aktual dikurangi total pengeluaran.',
+                        badge: 'Otomatis',
+                        tone: 'mint'
                       },
                       {
                         num: '03',
                         title: 'Membantu memantau transaksi kredit pelanggan',
-                        desc: 'Tagihan kredit tercatat terpisah sebagai piutang sampai pelanggan melunasinya.'
+                        desc: 'Tagihan kredit tercatat terpisah sebagai piutang sampai pelanggan melunasinya.',
+                        badge: 'Pantauan Kredit',
+                        tone: 'peach'
                       },
                       {
                         num: '04',
                         title: 'Mempercepat pembuatan rekap harian dan bulanan',
-                        desc: 'Laporan siap dilihat, dicetak, atau diekspor kapan saja tanpa rekap manual.'
+                        desc: 'Laporan siap dilihat, dicetak, atau diekspor kapan saja tanpa rekap manual.',
+                        badge: 'Praktis',
+                        tone: 'blue'
                       }
-                    ].map((b) => (
-                      <div key={b.num} className="wl-mockup-window p-3 d-flex align-items-start gap-3">
-                        <span
-                          className="font-tabular fw-bold d-inline-flex align-items-center justify-content-center flex-shrink-0"
-                          style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            backgroundColor: 'var(--wl-brand-100)',
-                            color: '#FFFFFF',
-                            fontSize: '0.82rem'
-                          }}
-                        >
-                          {b.num}
-                        </span>
-                        <div>
-                          <div style={{ fontFamily: 'var(--wl-display-font)', fontWeight: 600, fontSize: '0.92rem' }}>
-                            {b.title}
-                          </div>
-                          <div style={{ fontSize: '0.8rem', color: 'var(--wl-grey-80)', marginTop: '2px' }}>
-                            {b.desc}
+                    ].map((b, idx) => (
+                      <div
+                        key={b.num}
+                        className="wl-floating-pill w-100 p-3 align-items-start"
+                        style={{
+                          cursor: 'default',
+                          animation: `wlGentleFloat ${5.4 + idx * 0.4}s ease-in-out ${idx * 0.5}s infinite`
+                        }}
+                      >
+                        <div className="d-flex align-items-start gap-3">
+                          <span
+                            className="font-tabular fw-bold d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                            style={{
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '50%',
+                              backgroundColor: 'var(--wl-brand-100)',
+                              color: '#FFFFFF',
+                              fontSize: '0.82rem'
+                            }}
+                          >
+                            {b.num}
+                          </span>
+                          <div>
+                            <div style={{ fontFamily: 'var(--wl-display-font)', fontWeight: 600, fontSize: '0.94rem', color: '#171417' }}>
+                              {b.title}
+                            </div>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--wl-grey-80)', marginTop: '3px', lineHeight: 1.45 }}>
+                              {b.desc}
+                            </div>
                           </div>
                         </div>
+                        <span className={getBadgeClass(b.tone)}>{b.badge}</span>
                       </div>
                     ))}
                   </div>
@@ -1154,7 +1485,7 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 7: ORBIT ECOSYSTEM ON SOFT-LIGHT BG (Mirrors Workleap Section 7)
+            SECTION 7: ORBIT ECOSYSTEM ON SOFT-LIGHT BG (Interactive Orbit Nodes)
             ==================================================================== */}
         <section className="wl-section bg-soft-light">
           <div className="wl-padding-global">
@@ -1163,7 +1494,7 @@ export default function LandingPage() {
 
               <div className="wl-grid-2">
                 {/* Left Column: Concentric Orbit Circle Graphic (.u-logo-rotation-container) */}
-                <div>
+                <div className="d-flex flex-column align-items-center">
                   <div className="wl-orbit-stage" aria-label="Diagram kategori pencatatan RAJASH">
                     <div className="wl-orbit-ring ring-outer" />
                     <div className="wl-orbit-ring ring-inner" />
@@ -1183,12 +1514,16 @@ export default function LandingPage() {
                       </span>
                     </div>
 
-                    {ORBIT_NODES.map((node) => {
+                    {ORBIT_NODES.map((node, idx) => {
                       const Icon = node.icon;
+                      const isActive = idx === activeOrbitIdx;
                       return (
-                        <div
+                        <button
                           key={node.label}
-                          className="wl-orbit-node"
+                          type="button"
+                          onClick={() => setActiveOrbitIdx(idx)}
+                          onMouseEnter={() => setActiveOrbitIdx(idx)}
+                          className={`wl-orbit-node ${isActive ? 'is-active' : ''}`}
                           style={{
                             top: node.top,
                             left: node.left,
@@ -1207,9 +1542,22 @@ export default function LandingPage() {
                           >
                             {node.label}
                           </span>
-                        </div>
+                        </button>
                       );
                     })}
+                  </div>
+
+                  {/* Interactive Floating Detail Pill below the Orbit */}
+                  <div className="wl-floating-pill mt-4 w-100" style={{ maxWidth: '430px', cursor: 'default' }}>
+                    <div>
+                      <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--wl-brand-100)' }}>
+                        {activeOrbitNode.label}
+                      </div>
+                      <div style={{ fontSize: '0.82rem', color: 'var(--wl-grey-80)' }}>
+                        {activeOrbitNode.desc}
+                      </div>
+                    </div>
+                    <span className="wl-pill-badge wl-pill-badge-blue">Aktif</span>
                   </div>
                 </div>
 
@@ -1393,7 +1741,8 @@ export default function LandingPage() {
                           style={{
                             backgroundColor: 'var(--wl-true-white)',
                             border: '1px solid var(--wl-grey-20)',
-                            borderRadius: '16px'
+                            borderRadius: '16px',
+                            boxShadow: '0 8px 20px rgba(12, 23, 84, 0.05)'
                           }}
                         >
                           <div className="d-flex align-items-center justify-content-between mb-2">
@@ -1405,9 +1754,9 @@ export default function LandingPage() {
                                 textTransform: 'uppercase'
                               }}
                             >
-                              Ilustrasi Modul
+                              Sinyal Modul
                             </span>
-                            <span className="rj-badge rj-badge-info">{card.badge}</span>
+                            <span className="wl-pill-badge wl-pill-badge-blue">{card.badge}</span>
                           </div>
                           <div style={{ fontSize: '0.75rem', color: 'var(--wl-grey-80)' }}>
                             {card.metricLabel}
@@ -1498,7 +1847,7 @@ export default function LandingPage() {
               <div className="wl-spacer-xxlarge" />
 
               <div className="wl-grid-2 is-faq">
-                {/* Left Column: Eyebrow + H3 with Large Martina Italic Serif Lead Word */}
+                {/* Left Column: Eyebrow + H3 */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1rem' }}>
                   <div className="wl-eyebrow">Pertanyaan Umum (FAQ)</div>
                   <h3 className="wl-heading-h3">
