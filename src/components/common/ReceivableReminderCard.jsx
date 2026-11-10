@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BellRinging, ArrowRight, CheckCircle } from '@phosphor-icons/react';
+import { BellRinging, ArrowRight, CheckCircle, SortAscending } from '@phosphor-icons/react';
 import { formatRupiah, formatTanggalIndonesia, getDaysElapsed } from '../../utils/formatters';
 import StatusBadge from './StatusBadge';
 
 /**
- * ReceivableReminderCard - Komponen Pengingat Piutang di dalam aplikasi (FR-08 & Bagian 7.3.G / 7.8)
- * Tanpa WhatsApp Gateway atau SMS otomatis (sesuai batasan ruang lingkup MVP).
+ * ReceivableReminderCard - Komponen Pengingat Piutang di dalam aplikasi (SRS 4.10: FR-RMD-01 s.d. 04)
+ * - Menampilkan total piutang, tanggal tertua, dan lama tertunggak (FR-RMD-01)
+ * - Mendukung pengurutan dari piutang terlama atau nominal terbesar (FR-RMD-03)
+ * - Tanpa WhatsApp Gateway atau SMS otomatis (FR-RMD-04)
  */
 export default function ReceivableReminderCard({
   activeReceivables = [],
   onSelectPay,
-  compact = false
+  compact = false,
+  reminderHour = '21:00'
 }) {
-  const unpaidList = activeReceivables.filter(
-    (r) => r.status === 'Belum Lunas' && Number(r.remaining_amount) > 0
-  );
+  const [sortBy, setSortBy] = useState('oldest'); // 'oldest' | 'largest'
+
+  const unpaidList = activeReceivables
+    .filter((r) => r.status === 'Belum Lunas' && Number(r.remaining_amount) > 0)
+    .sort((a, b) => {
+      if (sortBy === 'largest') {
+        return Number(b.remaining_amount) - Number(a.remaining_amount);
+      }
+      return String(a.transaction_date).localeCompare(String(b.transaction_date));
+    });
 
   if (unpaidList.length === 0) {
     return (
@@ -73,19 +83,49 @@ export default function ReceivableReminderCard({
               Pengingat Pemeriksaan Piutang Harian
             </h3>
             <p className="mb-0" style={{ fontSize: '0.78rem', color: 'var(--rj-text-secondary)' }}>
-              Terdapat {unpaidList.length} tagihan pelanggan belum lunas senilai total{' '}
+              Terdapat {unpaidList.length} tagihan belum lunas senilai total{' '}
               <strong className="font-tabular text-dark">{formatRupiah(totalRemaining)}</strong>{' '}
-              (Evaluasi sebelum tutup buku operasional pukul 22.00 WIB).
+              (Jadwal evaluasi menjelang tutup operasional pukul {reminderHour} WIB).
             </p>
           </div>
         </div>
 
-        {compact && (
-          <Link to="/piutang" className="btn-rj-secondary py-1 px-3" style={{ fontSize: '0.8rem' }}>
-            <span>Kelola Piutang</span>
-            <ArrowRight size={14} />
-          </Link>
-        )}
+        <div className="d-flex flex-wrap align-items-center gap-2">
+          {/* FR-RMD-03: Urutkan dari piutang terlama atau terbesar */}
+          <div
+            className="d-inline-flex align-items-center gap-1 p-1"
+            style={{
+              backgroundColor: 'var(--rj-bg)',
+              border: '1px solid var(--rj-border)',
+              borderRadius: '8px'
+            }}
+          >
+            <SortAscending size={14} className="ms-1 text-secondary" />
+            <button
+              type="button"
+              onClick={() => setSortBy('oldest')}
+              className={sortBy === 'oldest' ? 'btn-rj-primary py-1 px-2' : 'btn-rj-ghost py-1 px-2'}
+              style={{ fontSize: '0.73rem' }}
+            >
+              Terlama
+            </button>
+            <button
+              type="button"
+              onClick={() => setSortBy('largest')}
+              className={sortBy === 'largest' ? 'btn-rj-primary py-1 px-2' : 'btn-rj-ghost py-1 px-2'}
+              style={{ fontSize: '0.73rem' }}
+            >
+              Terbesar
+            </button>
+          </div>
+
+          {compact && (
+            <Link to="/piutang" className="btn-rj-secondary py-1 px-3" style={{ fontSize: '0.78rem' }}>
+              <span>Kelola Piutang</span>
+              <ArrowRight size={14} />
+            </Link>
+          )}
+        </div>
       </div>
 
       <div className="d-flex flex-column gap-2">
@@ -107,7 +147,9 @@ export default function ReceivableReminderCard({
                 </div>
                 <div style={{ fontSize: '0.76rem', color: 'var(--rj-text-secondary)' }}>
                   Transaksi {formatTanggalIndonesia(rcv.transaction_date)}{' '}
-                  {daysOld > 0 ? `(${daysOld} hari lalu)` : '(Hari ini)'}
+                  <span className="fw-medium text-dark">
+                    ({daysOld > 0 ? `Tertunggak ${daysOld} hari` : 'Hari ini'})
+                  </span>
                 </div>
               </div>
 
@@ -144,4 +186,3 @@ export default function ReceivableReminderCard({
     </div>
   );
 }
-

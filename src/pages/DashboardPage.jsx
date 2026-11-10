@@ -6,14 +6,12 @@ import {
   Wallet,
   Notebook,
   Plus,
-  ArrowRight,
-  Sparkle
+  ArrowRight
 } from '@phosphor-icons/react';
 import PageContainer from '../components/layout/PageContainer';
 import SummaryCard from '../components/common/SummaryCard';
 import FinancialBarChart from '../components/common/FinancialBarChart';
 import ReceivableReminderCard from '../components/common/ReceivableReminderCard';
-import AIInsightCard from '../components/common/AIInsightCard';
 import StatusBadge from '../components/common/StatusBadge';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
@@ -60,7 +58,7 @@ export default function DashboardPage() {
 
   const periodLabel =
     periodType === 'monthly'
-      ?`Bulan ${formatBulanIndonesia(selectedMonth)}`
+      ? `Bulan ${formatBulanIndonesia(selectedMonth)}`
       : 'Seluruh Periode';
 
   const summary = data?.summary || {
@@ -84,8 +82,8 @@ export default function DashboardPage() {
 
   return (
     <PageContainer
-      title="Dashboard Arus Kas & Piutang RAJASH"
-      subtitle="Ringkasan pemasukan kas, pengeluaran operasional, laba bersih, piutang pelanggan, dan proyeksi AI."
+      title="Dashboard Keuangan Usaha"
+      subtitle="Ringkasan pemasukan, pengeluaran operasional, keuntungan bersih, dan pemantauan piutang pelanggan."
       headerActions={
         <div className="d-flex flex-wrap align-items-center gap-2">
           <div
@@ -93,13 +91,17 @@ export default function DashboardPage() {
             style={{
               backgroundColor: 'var(--rj-white)',
               border: '1px solid var(--rj-border)',
-              borderRadius: '8px'
+              borderRadius: '10px'
             }}
           >
             <button
               type="button"
               onClick={() => setPeriodType('monthly')}
-              className={periodType === 'monthly' ? 'btn-rj-primary py-1 px-2' : 'btn-rj-ghost py-1 px-2'}
+              className={
+                periodType === 'monthly'
+                  ? 'btn-rj-primary py-1 px-2'
+                  : 'btn-rj-ghost py-1 px-2'
+              }
               style={{ fontSize: '0.8rem' }}
             >
               Bulan Ini
@@ -107,7 +109,11 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setPeriodType('all')}
-              className={periodType === 'all' ? 'btn-rj-primary py-1 px-2' : 'btn-rj-ghost py-1 px-2'}
+              className={
+                periodType === 'all'
+                  ? 'btn-rj-primary py-1 px-2'
+                  : 'btn-rj-ghost py-1 px-2'
+              }
               style={{ fontSize: '0.8rem' }}
             >
               Semua Waktu
@@ -121,13 +127,13 @@ export default function DashboardPage() {
               onChange={(e) => setSelectedMonth(e.target.value || '2026-11')}
               aria-label="Pilih bulan ringkasan"
               className="rj-form-control"
-              style={{ width: 'auto', fontSize: '0.825rem', padding: '0.45rem 0.7rem' }}
+              style={{ width: 'auto', fontSize: '0.825rem', padding: '0.45rem 0.75rem' }}
             />
           )}
 
           <Link to="/pemasukan" className="btn-rj-primary">
             <Plus size={16} weight="bold" />
-            <span>Catat Penjualan</span>
+            <span>Catat Pemasukan</span>
           </Link>
         </div>
       }
@@ -138,23 +144,23 @@ export default function DashboardPage() {
         <ErrorState message={error} onRetry={loadDashboard} />
       ) : (
         <div className="d-flex flex-column gap-4">
-          {/* FR-DSH-01: Ringkasan Hari Ini & Bulan Ini */}
+          {/* 4 Ringkasan Utama Sesuai Bagian 7 Master Prompt */}
           <section aria-label="Metrik utama keuangan">
             <div className="row g-3">
               <div className="col-12 col-sm-6 col-xl-3">
                 <SummaryCard
-                  label="Pemasukan Kas Diterima"
+                  label="Total Pemasukan"
                   amount={summary.actualCashReceived}
                   icon={ArrowDownLeft}
                   highlightPrimary={true}
                   subDetail={`Hari ini: ${formatRupiah(todaySummary.actualCashReceived)}`}
-                  periodNote={`Tunai: ${formatRupiah(summary.cashSales)} | Pelunasan Piutang: ${formatRupiah(summary.receivablePaymentsReceived)}`}
+                  periodNote={`Tunai: ${formatRupiah(summary.cashSales)} · Pelunasan: ${formatRupiah(summary.receivablePaymentsReceived)}`}
                 />
               </div>
 
               <div className="col-12 col-sm-6 col-xl-3">
                 <SummaryCard
-                  label="Pengeluaran Operasional"
+                  label="Total Pengeluaran"
                   amount={summary.totalExpenses}
                   icon={ArrowUpRight}
                   subDetail={`Hari ini: ${formatRupiah(todaySummary.totalExpenses)}`}
@@ -164,32 +170,27 @@ export default function DashboardPage() {
 
               <div className="col-12 col-sm-6 col-xl-3">
                 <SummaryCard
-                  label="Laba Bersih Kas"
+                  label="Keuntungan Bersih"
                   amount={summary.netCashProfit}
                   icon={Wallet}
                   subDetail={`Hari ini: ${formatRupiah(todaySummary.netCashProfit)}`}
-                  periodNote="Rumus: Kas Diterima - Pengeluaran"
+                  periodNote="Pemasukan Kas Diterima - Total Pengeluaran"
                 />
               </div>
 
               <div className="col-12 col-sm-6 col-xl-3">
                 <SummaryCard
-                  label="Total Piutang Belum Lunas"
+                  label="Total Piutang"
                   amount={summary.totalUnpaidReceivables}
                   icon={Notebook}
-                  subDetail={`${summary.activeReceivablesCount} tagihan pelanggan aktif`}
-                  periodNote="Belum termasuk uang kas yang diterima"
+                  subDetail={`${summary.activeReceivablesCount} pelanggan belum lunas`}
+                  periodNote="Belum dihitung sebagai kas masuk sebelum lunas"
                 />
               </div>
             </div>
           </section>
 
-          {/* FR-DSH-05 & FR-AIE: Modul Kecerdasan Buatan (Proyeksi Prediksi & Generative AI) */}
-          <section aria-label="Insight kecerdasan buatan">
-            <AIInsightCard insightData={data?.aiInsight} onRefresh={loadDashboard} />
-          </section>
-
-          {/* FR-RMD: Pengingat Piutang Ringkas di Dalam Aplikasi */}
+          {/* Pengingat Piutang di Dalam Aplikasi */}
           <section aria-label="Pengingat piutang">
             <ReceivableReminderCard
               activeReceivables={data?.allActiveReceivables || []}
@@ -197,26 +198,29 @@ export default function DashboardPage() {
             />
           </section>
 
-          {/* Grafik & Daftar Piutang */}
+          {/* Grafik Keuangan Sederhana & Piutang Belum Lunas */}
           <div className="row g-4">
             <div className="col-12 col-lg-7">
               <div className="rj-card h-100 p-3 p-md-4">
                 <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
                   <div>
-                    <h3 className="mb-0" style={{ fontSize: '1rem', fontWeight: 600 }}>
-                      Grafik Arus Kas Harian
+                    <h3 className="mb-0" style={{ fontSize: '1.05rem', fontWeight: 700 }}>
+                      Grafik Keuangan Harian
                     </h3>
-                    <p className="mb-0 mt-1" style={{ fontSize: '0.8rem', color: 'var(--rj-text-secondary)' }}>
-                      Perbandingan kas diterima, piutang tempo, dan pengeluaran harian ({periodLabel}).
+                    <p
+                      className="mb-0 mt-1"
+                      style={{ fontSize: '0.82rem', color: 'var(--rj-text-secondary)' }}
+                    >
+                      Perbandingan pemasukan kas, piutang kredit, dan pengeluaran harian ({periodLabel}).
                     </p>
                   </div>
                   <Link
                     to="/rekapitulasi"
                     className="btn-rj-ghost py-1 px-2 text-decoration-none"
-                    style={{ fontSize: '0.8rem' }}
+                    style={{ fontSize: '0.82rem' }}
                   >
-                    <span>Rekap Lengkap</span>
-                    <ArrowRight size={14} />
+                    <span>Lihat Rekapitulasi</span>
+                    <ArrowRight size={14} weight="bold" />
                   </Link>
                 </div>
 
@@ -229,11 +233,14 @@ export default function DashboardPage() {
                 <div>
                   <div className="d-flex align-items-center justify-content-between gap-2 mb-3">
                     <div>
-                      <h3 className="mb-0" style={{ fontSize: '1rem', fontWeight: 600 }}>
-                        Daftar Piutang Pelanggan
+                      <h3 className="mb-0" style={{ fontSize: '1.05rem', fontWeight: 700 }}>
+                        Piutang Belum Lunas
                       </h3>
-                      <p className="mb-0 mt-1" style={{ fontSize: '0.8rem', color: 'var(--rj-text-secondary)' }}>
-                        Tagihan penjualan tempo yang belum lunas.
+                      <p
+                        className="mb-0 mt-1"
+                        style={{ fontSize: '0.82rem', color: 'var(--rj-text-secondary)' }}
+                      >
+                        Daftar pelanggan yang masih memiliki sisa tagihan kredit.
                       </p>
                     </div>
                     <Link
@@ -241,12 +248,13 @@ export default function DashboardPage() {
                       className="btn-rj-secondary py-1 px-2 text-decoration-none"
                       style={{ fontSize: '0.78rem' }}
                     >
-                      <span>Semua Piutang</span>
-                      <ArrowRight size={13} />
+                      <span>Kelola Piutang</span>
+                      <ArrowRight size={13} weight="bold" />
                     </Link>
                   </div>
 
-                  {!data?.outstandingReceivables || data.outstandingReceivables.length === 0 ? (
+                  {!data?.outstandingReceivables ||
+                  data.outstandingReceivables.length === 0 ? (
                     <EmptyState
                       title="Tidak Ada Piutang Aktif"
                       description="Seluruh tagihan pelanggan saat ini telah lunas."
@@ -258,19 +266,24 @@ export default function DashboardPage() {
                           key={item.id}
                           className="p-3 d-flex align-items-center justify-content-between gap-2"
                           style={{
-                            backgroundColor: 'var(--rj-bg)',
+                            backgroundColor: 'var(--rj-pale-blue)',
                             border: '1px solid var(--rj-border)',
-                            borderRadius: '8px'
+                            borderRadius: '10px'
                           }}
                         >
                           <div style={{ minWidth: 0 }}>
                             <div
                               className="fw-semibold text-truncate"
-                              style={{ fontSize: '0.85rem', color: 'var(--rj-text-primary)' }}
+                              style={{ fontSize: '0.875rem', color: 'var(--rj-text-primary)' }}
                             >
                               {item.customer_name}
                             </div>
-                            <div style={{ fontSize: '0.75rem', color: 'var(--rj-text-secondary)' }}>
+                            <div
+                              style={{
+                                fontSize: '0.75rem',
+                                color: 'var(--rj-text-secondary)'
+                              }}
+                            >
                               Transaksi {formatTanggalIndonesia(item.transaction_date)}
                             </div>
                           </div>
@@ -278,7 +291,7 @@ export default function DashboardPage() {
                           <div className="text-end flex-shrink-0">
                             <div
                               className="font-tabular fw-bold"
-                              style={{ fontSize: '0.875rem', color: 'var(--rj-text-primary)' }}
+                              style={{ fontSize: '0.885rem', color: 'var(--rj-text-primary)' }}
                             >
                               {formatRupiah(item.remaining_amount)}
                             </div>
@@ -292,12 +305,12 @@ export default function DashboardPage() {
 
                 <div
                   className="mt-3 pt-3 d-flex align-items-center justify-content-between"
-                  style={{ borderTop: '1px solid var(--rj-border)', fontSize: '0.8rem' }}
+                  style={{ borderTop: '1px solid var(--rj-border)', fontSize: '0.82rem' }}
                 >
                   <span style={{ color: 'var(--rj-text-secondary)' }}>
-                    Total Sisa Tagihan Aktif:
+                    Total Sisa Piutang Belum Lunas:
                   </span>
-                  <strong className="font-tabular" style={{ fontSize: '0.9rem' }}>
+                  <strong className="font-tabular" style={{ fontSize: '0.925rem' }}>
                     {formatRupiah(summary.totalUnpaidReceivables)}
                   </strong>
                 </div>
@@ -305,7 +318,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Transaksi Terbaru (FR-HIS) */}
+          {/* Transaksi Terbaru */}
           <section aria-label="Transaksi terbaru">
             <div className="rj-card">
               <div
@@ -313,20 +326,31 @@ export default function DashboardPage() {
                 style={{ borderBottom: '1px solid var(--rj-border)' }}
               >
                 <div>
-                  <h3 className="mb-0" style={{ fontSize: '1rem', fontWeight: 600 }}>
-                    Riwayat Transaksi Terbaru
+                  <h3 className="mb-0" style={{ fontSize: '1.05rem', fontWeight: 700 }}>
+                    Transaksi Terbaru
                   </h3>
-                  <p className="mb-0 mt-1" style={{ fontSize: '0.8rem', color: 'var(--rj-text-secondary)' }}>
-                    6 aktivitas pemasukan dan pengeluaran terakhir yang tercatat di depot.
+                  <p
+                    className="mb-0 mt-1"
+                    style={{ fontSize: '0.82rem', color: 'var(--rj-text-secondary)' }}
+                  >
+                    Aktivitas pemasukan dan pengeluaran terakhir yang tercatat pada sistem.
                   </p>
                 </div>
 
                 <div className="d-flex gap-2">
-                  <Link to="/pemasukan" className="btn-rj-secondary py-1 px-2" style={{ fontSize: '0.8rem' }}>
-                    Riwayat Pemasukan
+                  <Link
+                    to="/pemasukan"
+                    className="btn-rj-secondary py-1 px-2"
+                    style={{ fontSize: '0.8rem' }}
+                  >
+                    Pemasukan
                   </Link>
-                  <Link to="/pengeluaran" className="btn-rj-secondary py-1 px-2" style={{ fontSize: '0.8rem' }}>
-                    Riwayat Pengeluaran
+                  <Link
+                    to="/pengeluaran"
+                    className="btn-rj-secondary py-1 px-2"
+                    style={{ fontSize: '0.8rem' }}
+                  >
+                    Pengeluaran
                   </Link>
                 </div>
               </div>
@@ -338,6 +362,7 @@ export default function DashboardPage() {
                 />
               ) : (
                 <>
+                  {/* Tampilan Mobile */}
                   <div className="d-md-none d-flex flex-column gap-2 p-3">
                     {data.recentTransactions.map((trx) => (
                       <div
@@ -355,10 +380,13 @@ export default function DashboardPage() {
                           </span>
                           <StatusBadge status={trx.status} />
                         </div>
-                        <div className="fw-semibold mb-2" style={{ fontSize: '0.85rem' }}>
+                        <div className="fw-semibold mb-2" style={{ fontSize: '0.86rem' }}>
                           {trx.description}
                         </div>
-                        <div className="d-flex justify-content-between align-items-center pt-2" style={{ borderTop: '1px solid var(--rj-border-subtle)' }}>
+                        <div
+                          className="d-flex justify-content-between align-items-center pt-2"
+                          style={{ borderTop: '1px solid var(--rj-border-subtle)' }}
+                        >
                           <span style={{ fontSize: '0.775rem', color: 'var(--rj-text-secondary)' }}>
                             {trx.type} ({trx.subType})
                           </span>
@@ -370,6 +398,7 @@ export default function DashboardPage() {
                     ))}
                   </div>
 
+                  {/* Tampilan Desktop */}
                   <div className="d-none d-md-block rj-table-wrapper">
                     <table className="rj-table">
                       <thead>
@@ -388,15 +417,23 @@ export default function DashboardPage() {
                               {formatTanggalIndonesia(trx.date)}
                             </td>
                             <td>
-                              <div className="fw-medium">{trx.description}</div>
+                              <div className="fw-semibold">{trx.description}</div>
                             </td>
                             <td>
                               <span className="fw-medium">{trx.type}</span>{' '}
-                              <span style={{ color: 'var(--rj-text-secondary)', fontSize: '0.8rem' }}>
+                              <span
+                                style={{
+                                  color: 'var(--rj-text-secondary)',
+                                  fontSize: '0.8rem'
+                                }}
+                              >
                                 ({trx.subType})
                               </span>
                             </td>
-                            <td data-numeric="true" style={{ textAlign: 'right', fontWeight: 600 }}>
+                            <td
+                              data-numeric="true"
+                              style={{ textAlign: 'right', fontWeight: 700 }}
+                            >
                               {formatRupiah(trx.amount)}
                             </td>
                             <td>

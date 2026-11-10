@@ -1,19 +1,16 @@
 /**
  * DATA SIMULASI DEMO - Sistem Pengelolaan Keuangan & Piutang UMKM RAJASH
- * Disesuaikan dengan Dokumen SRS Capstone Asah 2026 (Tim A26-CS148)
- * - Jenis Air: Air Mineral (Rp6.000) & Air RO (Rp7.000) (FR-MST-03)
- * - Kuantitas & Harga Satuan (FR-INC-01, FR-INC-02, BR-01)
- * - 6 Kategori Biaya Operasional (FR-MST-04, FR-EXP-01)
- * - Piutang & Pelunasan (FR-RCV)
- * - Proyeksi Model Prediksi & Insight Generative AI (FR-AIE)
+ * Disesuaikan penuh dengan Dokumen PRD & SRS Capstone Asah 2026 (Tim A26-CS148)
  */
 
-export const WATER_TYPES = [
+export const INITIAL_WATER_TYPES = [
   { id: 'Mineral', label: 'Air Mineral', defaultPrice: 6000 },
   { id: 'RO', label: 'Air RO (Reverse Osmosis)', defaultPrice: 7000 }
 ];
 
-export const EXPENSE_CATEGORIES = [
+export const WATER_TYPES = INITIAL_WATER_TYPES;
+
+export const INITIAL_EXPENSE_CATEGORIES = [
   'BBM Becak',
   'Servis Kendaraan',
   'Penggantian Oli',
@@ -21,6 +18,64 @@ export const EXPENSE_CATEGORIES = [
   'Pembelian Pasokan Air',
   'Lainnya'
 ];
+
+export const EXPENSE_CATEGORIES = INITIAL_EXPENSE_CATEGORIES;
+
+export const INITIAL_CUSTOMERS = [
+  {
+    id: 'CUST-01',
+    name: 'Warkop Kupi Khop Ulee Kareng',
+    note: 'Langganan pengantaran becak pagi (rata-rata 15 galon)',
+    created_at: '2026-08-25'
+  },
+  {
+    id: 'CUST-02',
+    name: 'Rumah Makan Kari Kambing Pak Hasan',
+    note: 'Pemesanan rutin via WhatsApp, pembayaran tempo mingguan',
+    created_at: '2026-08-28'
+  },
+  {
+    id: 'CUST-03',
+    name: 'Asrama Mahasiswa Darussalam',
+    note: 'Langganan mingguan 30 galon air mineral',
+    created_at: '2026-09-02'
+  },
+  {
+    id: 'CUST-04',
+    name: 'Kedai Mie Aceh Simpang Tujuh',
+    note: 'Pembayaran tunai saat pengantaran',
+    created_at: '2026-09-05'
+  },
+  {
+    id: 'CUST-05',
+    name: 'Katering Ibu Cut Meutia',
+    note: 'Pesanan galon RO untuk kebutuhan katering dan acara',
+    created_at: '2026-09-10'
+  },
+  {
+    id: 'CUST-06',
+    name: 'Kost Putri Krueng Cut',
+    note: 'Pengantaran becak sore',
+    created_at: '2026-09-14'
+  },
+  {
+    id: 'CUST-07',
+    name: 'Toko Kelontong Bang Joni',
+    note: 'Mitra titipan galon isi ulang',
+    created_at: '2026-09-20'
+  },
+  {
+    id: 'CUST-08',
+    name: 'Dayah Mini Al-Ikhlas Pango',
+    note: 'Langganan bulanan 40 galon',
+    created_at: '2026-09-25'
+  }
+];
+
+export const INITIAL_SYSTEM_SETTINGS = {
+  reminder_hour: '21:00',
+  duplicate_window_minutes: 5
+};
 
 export const DEMO_OWNER_ACCOUNT = {
   id: 1,
@@ -44,6 +99,7 @@ export const INITIAL_DEMO_INCOMES = [
     payment_method: 'Tunai',
     status: 'Lunas',
     description: 'Pengantaran 15 galon isi ulang via becak pagi',
+    data_source: 'Input Aplikasi',
     created_at: '2026-11-10T08:30:00+07:00',
     is_demo: true
   },
@@ -59,6 +115,7 @@ export const INITIAL_DEMO_INCOMES = [
     status: 'Piutang',
     receivable_id: 'RCV-20261110-01',
     description: 'Pemesanan WhatsApp 25 galon isi ulang',
+    data_source: 'Input Aplikasi',
     created_at: '2026-11-10T09:45:00+07:00',
     is_demo: true
   },
@@ -73,6 +130,7 @@ export const INITIAL_DEMO_INCOMES = [
     payment_method: 'Tunai',
     status: 'Lunas',
     description: 'Penjualan langsung di depot (12 galon air RO eceran)',
+    data_source: 'Input Aplikasi',
     created_at: '2026-11-10T11:15:00+07:00',
     is_demo: true
   },
@@ -88,6 +146,7 @@ export const INITIAL_DEMO_INCOMES = [
     status: 'Piutang',
     receivable_id: 'RCV-20261109-01',
     description: 'Langganan mingguan 30 galon air minum',
+    data_source: 'Data Sintetis',
     created_at: '2026-11-09T14:20:00+07:00',
     is_demo: true
   },
@@ -102,6 +161,7 @@ export const INITIAL_DEMO_INCOMES = [
     payment_method: 'Tunai',
     status: 'Lunas',
     description: 'Pengisian 20 galon reguler',
+    data_source: 'Data Sintetis',
     created_at: '2026-11-09T16:10:00+07:00',
     is_demo: true
   },
@@ -117,6 +177,7 @@ export const INITIAL_DEMO_INCOMES = [
     status: 'Piutang',
     receivable_id: 'RCV-20261108-01',
     description: 'Pemesanan 30 galon air RO untuk acara kenduri',
+    data_source: 'Data Sintetis',
     created_at: '2026-11-08T10:00:00+07:00',
     is_demo: true
   },
@@ -131,6 +192,7 @@ export const INITIAL_DEMO_INCOMES = [
     payment_method: 'Tunai',
     status: 'Lunas',
     description: 'Rekap penjualan galon tunai di depot (28 galon)',
+    data_source: 'Data Sintetis',
     created_at: '2026-11-08T17:30:00+07:00',
     is_demo: true
   },
@@ -145,6 +207,7 @@ export const INITIAL_DEMO_INCOMES = [
     payment_method: 'Tunai',
     status: 'Lunas',
     description: 'Pengantaran 18 galon via becak sore',
+    data_source: 'Data Sintetis',
     created_at: '2026-11-07T15:40:00+07:00',
     is_demo: true
   },
@@ -160,12 +223,13 @@ export const INITIAL_DEMO_INCOMES = [
     status: 'Lunas',
     receivable_id: 'RCV-20261106-01',
     description: 'Stok titipan 20 galon isi ulang',
+    data_source: 'Data Sintetis',
     created_at: '2026-11-06T09:15:00+07:00',
     is_demo: true
   },
   {
-    id: 'INC-20261028-01',
-    date: '2026-10-28',
+    id: 'INC-20261022-01',
+    date: '2026-10-22',
     customer_name: 'Dayah Mini Al-Ikhlas Pango',
     water_type: 'Air Mineral',
     quantity: 40,
@@ -173,14 +237,15 @@ export const INITIAL_DEMO_INCOMES = [
     amount: 240000,
     payment_method: 'Kredit',
     status: 'Piutang',
-    receivable_id: 'RCV-20261028-01',
-    description: 'Pengantaran rutin 40 galon akhir bulan',
-    created_at: '2026-10-28T13:00:00+07:00',
+    receivable_id: 'RCV-20261022-01',
+    description: 'Pengantaran rutin 40 galon buku besar Oktober',
+    data_source: 'Data Historis Riil',
+    created_at: '2026-10-22T13:00:00+07:00',
     is_demo: true
   },
   {
-    id: 'INC-20261025-01',
-    date: '2026-10-25',
+    id: 'INC-20261020-01',
+    date: '2026-10-20',
     customer_name: 'Warkop Solong Mini Ulee Kareng',
     water_type: 'Air Mineral',
     quantity: 32,
@@ -188,8 +253,9 @@ export const INITIAL_DEMO_INCOMES = [
     amount: 192000,
     payment_method: 'Tunai',
     status: 'Lunas',
-    description: 'Penjualan 32 galon tunai',
-    created_at: '2026-10-25T11:00:00+07:00',
+    description: 'Penjualan 32 galon tunai (catatan buku besar)',
+    data_source: 'Data Historis Riil',
+    created_at: '2026-10-20T11:00:00+07:00',
     is_demo: true
   }
 ];
@@ -201,6 +267,7 @@ export const INITIAL_DEMO_EXPENSES = [
     category: 'BBM Becak',
     description: 'Pengisian Pertalite becak pengantar pagi & siang',
     amount: 35000,
+    data_source: 'Input Aplikasi',
     created_at: '2026-11-10T07:50:00+07:00',
     is_demo: true
   },
@@ -210,6 +277,7 @@ export const INITIAL_DEMO_EXPENSES = [
     category: 'Pembelian Pasokan Air',
     description: 'Pengisian tangki utama air baku pegunungan (1 tangki)',
     amount: 250000,
+    data_source: 'Data Sintetis',
     created_at: '2026-11-09T08:15:00+07:00',
     is_demo: true
   },
@@ -219,6 +287,7 @@ export const INITIAL_DEMO_EXPENSES = [
     category: 'Penggantian Oli',
     description: 'Ganti oli mesin becak operasional bulanan',
     amount: 55000,
+    data_source: 'Data Sintetis',
     created_at: '2026-11-08T16:20:00+07:00',
     is_demo: true
   },
@@ -228,6 +297,7 @@ export const INITIAL_DEMO_EXPENSES = [
     category: 'Perbaikan Ban',
     description: 'Tambal ban dalam dan ganti pentil becak pengantar',
     amount: 25000,
+    data_source: 'Data Sintetis',
     created_at: '2026-11-07T13:10:00+07:00',
     is_demo: true
   },
@@ -237,16 +307,18 @@ export const INITIAL_DEMO_EXPENSES = [
     category: 'Lainnya',
     description: 'Pembelian tutup galon segel dan tisu antiseptik (500 pcs)',
     amount: 65000,
+    data_source: 'Data Sintetis',
     created_at: '2026-11-06T10:30:00+07:00',
     is_demo: true
   },
   {
-    id: 'EXP-20261027-01',
-    date: '2026-10-27',
+    id: 'EXP-20261021-01',
+    date: '2026-10-21',
     category: 'Servis Kendaraan',
     description: 'Servis karburator dan rantai becak pengantar',
     amount: 95000,
-    created_at: '2026-10-27T14:00:00+07:00',
+    data_source: 'Data Historis Riil',
+    created_at: '2026-10-21T14:00:00+07:00',
     is_demo: true
   }
 ];
@@ -306,11 +378,11 @@ export const INITIAL_DEMO_RECEIVABLES = [
     is_demo: true
   },
   {
-    id: 'RCV-20261028-01',
-    income_id: 'INC-20261028-01',
+    id: 'RCV-20261022-01',
+    income_id: 'INC-20261022-01',
     customer_name: 'Dayah Mini Al-Ikhlas Pango',
-    transaction_date: '2026-10-28',
-    description: 'Pengantaran rutin 40 galon akhir bulan',
+    transaction_date: '2026-10-22',
+    description: 'Pengantaran rutin 40 galon buku besar Oktober',
     total_amount: 240000,
     paid_amount: 150000,
     remaining_amount: 90000,
@@ -357,7 +429,7 @@ export const DEMO_AI_INSIGHT = {
     disclaimer: 'Hasil proyeksi merupakan estimasi bantuan analisis Capstone AI, bukan angka pembukuan resmi.'
   },
   summary_text:
-    'Berdasarkan pola transaksi 7 hari terakhir: Arus kas masuk stabil dengan rata-rata harian Rp250.000. Biaya operasional terbesar berasal dari Pembelian Pasokan Air Tangki Utama (Rp250.000) dan BBM Becak Pengantar. Terdapat 4 tagihan piutang aktif senilai Rp450.000 dengan tagihan tertua dari Dayah Mini Al-Ikhlas (28 Oktober 2026) yang disarankan untuk ditindaklanjuti sebelum akhir pekan.',
+    'Berdasarkan pola transaksi 7 hari terakhir: Arus kas masuk stabil dengan rata-rata harian Rp250.000. Biaya operasional terbesar berasal dari Pembelian Pasokan Air Tangki Utama (Rp250.000) dan BBM Becak Pengantar. Terdapat 4 tagihan piutang aktif senilai Rp450.000 dengan tagihan tertua dari Dayah Mini Al-Ikhlas (22 Oktober 2026) yang disarankan untuk ditindaklanjuti sebelum akhir pekan.',
   recommendations: [
     'Pastikan stok air tangki utama diperiksa kembali mengingat volume pengantaran meningkat pada hari Jumat.',
     'Lakukan evaluasi piutang aktif menjelang pukul 21.00 atau 22.00 WIB sebelum tutup operasional depot.',

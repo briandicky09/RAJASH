@@ -1,75 +1,131 @@
 /* ==========================================================================
-   RAJASH DESIGN SYSTEM - Minimalist SaaS Financial Interface
-   Built on Bootstrap 5.3 with strict palette, typography, and motion discipline
+   RAJASH DESIGN SYSTEM - Workleap Officevibe Visual Blueprint
+   Recreated from workleap.com/officevibe Layout, Tokens & Typography
    ========================================================================== */
 
 :root {
-  /* Core Palette (Section 5.1) */
-  --rj-primary: #2563EB;
-  --rj-primary-hover: #1D4ED8;
-  --rj-primary-subtle: #EFF6FF;
-  --rj-primary-border: #BFDBFE;
+  /* Workleap Officevibe Exact Brand & Surface Tokens */
+  --wl-brand-100: #2545FF;
+  --wl-brand-hover: #1D30EC;
+  --wl-brand-deep: #00248F;
+  --wl-brand-20: #DBF3FF;
+  --wl-blue-05: #C8D0FF;
+  --wl-lilac: #D9D4FF;
+  --wl-boardroom-navy: #0C1754;
+
+  --wl-true-white: #FFFFFF;
+  --wl-soft-20: #F9F8F6;
+  --wl-soft-40: #F0E9E1;
+  --wl-soft-60: #F4E6CD;
+  --wl-card-gray: #FAFAFA;
+
+  --wl-grey-100: #171417;
+  --wl-grey-80: #484747;
+  --wl-grey-60: #676665;
+  --wl-grey-40: #A2A2A2;
+  --wl-grey-20: #E6E6E4;
+
+  /* Workleap Semantic Status Tokens */
+  --wl-success-20: #E1F5EB;
+  --wl-success-60: #A6E3C2;
+  --wl-success-100: #4ABD80;
+  --wl-success-120: #166638;
+
+  --wl-warning-20: #FFF1CC;
+  --wl-warning-60: #FFD77A;
+  --wl-warning-100: #F28107;
+  --wl-warning-120: #8B4A04;
+
+  --wl-danger-20: #FFE7D7;
+  --wl-danger-60: #FFB08F;
+  --wl-danger-100: #FA7249;
+  --wl-danger-120: #9D3107;
+
+  /* Mapped RAJASH App Variables (Unified with Workleap Palette) */
+  --rj-primary: #2545FF;
+  --rj-primary-hover: #1D30EC;
+  --rj-primary-deep: #0C1754;
+  --rj-soft-blue: #EEF2FF;
+  --rj-primary-subtle: #EEF2FF;
+  --rj-pale-blue: #F9F8F6;
+  --rj-primary-border: #C8D0FF;
+  --rj-primary-ring: rgba(37, 69, 255, 0.16);
 
   --rj-white: #FFFFFF;
-  --rj-black: #111827;
-  --rj-bg: #F8FAFC;
+  --rj-bg: #F9F8F6;
   --rj-surface: #FFFFFF;
-  --rj-surface-muted: #F1F5F9;
-  --rj-text-primary: #111827;
-  --rj-text-secondary: #475569;
-  --rj-text-muted: #64748B;
-  --rj-border: #E5E7EB;
-  --rj-border-subtle: #F1F5F9;
+  --rj-surface-muted: #F0E9E1;
 
-  /* Minimal Accessible Status Tokens (Muted Pastels per minimalist-ui) */
-  --rj-status-success-bg: #EDF3EC;
-  --rj-status-success-text: #27592B;
-  --rj-status-success-border: #C8DEC6;
+  --rj-text-primary: #171417;
+  --rj-text-secondary: #484747;
+  --rj-text-muted: #676665;
 
-  --rj-status-warning-bg: #FBF3DB;
-  --rj-status-warning-text: #8A5A00;
-  --rj-status-warning-border: #EFE0B0;
+  --rj-border: #E6E6E4;
+  --rj-border-subtle: #F0EFEA;
+  --rj-border-strong: #D1D1CE;
 
-  --rj-status-danger-bg: #FDEBEC;
-  --rj-status-danger-text: #9F2F2D;
-  --rj-status-danger-border: #F5C6C8;
+  --rj-status-success-bg: #E1F5EB;
+  --rj-status-success-text: #166638;
+  --rj-status-success-border: #A6E3C2;
 
-  --rj-status-info-bg: #E1F3FE;
-  --rj-status-info-text: #1D4ED8;
-  --rj-status-info-border: #BFDBFE;
+  --rj-status-warning-bg: #FFF1CC;
+  --rj-status-warning-text: #8B4A04;
+  --rj-status-warning-border: #FFD77A;
 
-  /* Typography */
-  --rj-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --rj-status-danger-bg: #FFE7D7;
+  --rj-status-danger-text: #9D3107;
+  --rj-status-danger-border: #FFB08F;
+
+  --rj-status-info-bg: #DBF3FF;
+  --rj-status-info-text: #00248F;
+  --rj-status-info-border: #C8D0FF;
+
+  /* Typography Families */
+  --wl-display-font: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --wl-body-font: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --wl-serif-font: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --rj-font-sans: var(--wl-body-font);
   --rj-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Geometry & Elevation */
-  --rj-radius-sm: 6px;
-  --rj-radius-md: 8px;
-  --rj-radius-lg: 12px;
-  --rj-radius-xl: 16px;
-  --rj-shadow-xs: 0 1px 2px rgba(17, 24, 39, 0.03);
-  --rj-shadow-sm: 0 2px 8px rgba(17, 24, 39, 0.04);
-  --rj-shadow-md: 0 8px 24px rgba(17, 24, 39, 0.06);
+  /* Border Radius Tokens */
+  --rj-radius-xs: 6px;
+  --rj-radius-sm: 8px;
+  --rj-radius-md: 12px;
+  --rj-radius-lg: 16px;
+  --rj-radius-xl: 24px;
+  --rj-radius-2xl: 40px;
+  --rj-radius-pill: 100px;
 
-  /* Layout Dimensions */
-  --rj-sidebar-width: 248px;
-  --rj-header-height: 64px;
+  /* Shadows */
+  --rj-shadow-xs: 0 2px 6px rgba(23, 20, 23, 0.04);
+  --rj-shadow-sm: 0 4px 12px rgba(37, 69, 255, 0.08);
+  --rj-shadow-md: 0 12px 28px -6px rgba(23, 20, 23, 0.09);
+  --rj-shadow-lg: 0 24px 48px -12px rgba(12, 23, 84, 0.14);
+  --rj-shadow-blue: 0 14px 32px -6px rgba(37, 69, 255, 0.28);
 
-  /* Motion (Apple-design critically damped spring feel) */
-  --rj-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --rj-transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
-  --rj-transition-base: 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Layout & App Shell */
+  --wl-container-max: 80rem; /* 1280px exact Workleap container */
+  --rj-sidebar-width: 264px;
+  --rj-header-height: 70px;
 
-  /* Bootstrap 5 CSS Variable Overrides */
-  --bs-primary: #2563EB;
-  --bs-primary-rgb: 37, 99, 235;
-  --bs-body-font-family: var(--rj-font-sans);
-  --bs-body-color: var(--rj-text-primary);
-  --bs-body-bg: var(--rj-bg);
-  --bs-border-color: var(--rj-border);
+  /* Motion */
+  --wl-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --rj-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --rj-transition-fast: 180ms var(--wl-ease);
+  --rj-transition-base: 300ms var(--wl-ease);
+
+  /* Bootstrap 5 Overrides */
+  --bs-primary: #2545FF;
+  --bs-primary-rgb: 37, 69, 255;
+  --bs-body-font-family: var(--wl-body-font);
+  --bs-body-color: var(--wl-grey-100);
+  --bs-body-bg: var(--wl-soft-20);
+  --bs-border-color: var(--wl-grey-20);
 }
 
-/* Base Reset & Typography */
+/* ==========================================================================
+   Base Reset
+   ========================================================================== */
 *,
 *::before,
 *::after {
@@ -77,9 +133,9 @@
 }
 
 html {
-  font-family: var(--rj-font-sans);
-  color: var(--rj-text-primary);
-  background-color: var(--rj-bg);
+  font-family: var(--wl-body-font);
+  color: var(--wl-grey-100);
+  background-color: var(--wl-true-white);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -87,23 +143,20 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--rj-font-sans);
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--rj-text-primary);
-  background-color: var(--rj-bg);
+  font-family: var(--wl-body-font);
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--wl-grey-100);
+  background-color: var(--wl-true-white);
   overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--rj-text-primary);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  font-family: var(--wl-display-font);
+  color: var(--wl-grey-100);
   margin-top: 0;
 }
 
-/* Tabular Numerals for Financial Figures */
 .font-tabular,
 .currency-value,
 .table td[data-numeric="true"] {
@@ -112,64 +165,736 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-/* Accessibility Skip Link */
 .skip-to-content {
   position: absolute;
   top: -100px;
   left: 16px;
-  z-index: 2000;
-  padding: 8px 16px;
-  background: var(--rj-primary);
-  color: var(--rj-white);
-  border-radius: var(--rj-radius-sm);
-  font-weight: 600;
+  z-index: 10000;
+  padding: 10px 18px;
+  background: var(--wl-brand-100);
+  color: var(--wl-true-white);
+  border-radius: 100px;
+  font-weight: 500;
   text-decoration: none;
-  transition: top var(--rj-transition-fast);
+  transition: top 0.2s ease;
 }
 
 .skip-to-content:focus {
   top: 16px;
-  color: var(--rj-white);
+  color: var(--wl-true-white);
 }
 
-/* Focus Ring Discipline (WCAG AA) */
 :focus-visible {
-  outline: 2px solid var(--rj-primary);
+  outline: 2px solid var(--wl-brand-100);
   outline-offset: 2px;
 }
 
 /* ==========================================================================
-   Buttons - Instant Tactile Response & High Contrast
+   WORKLEAP OFFICEVIBE EXACT TYPOGRAPHY SYSTEM
+   ========================================================================== */
+.wl-eyebrow {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: var(--wl-grey-80);
+  font-family: var(--wl-display-font);
+  font-size: 0.875rem; /* 14px exact */
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.wl-heading-h0 {
+  font-family: var(--wl-display-font);
+  font-size: clamp(3rem, 2.5rem + 3.2vw, 5.25rem);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.045em;
+  margin-bottom: 0;
+  text-wrap: balance;
+}
+
+.wl-heading-h1 {
+  font-family: var(--wl-display-font);
+  font-size: clamp(2.65rem, 2.3rem + 1.6vw, 4rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  color: var(--wl-grey-100);
+  margin-bottom: 0;
+}
+
+.wl-heading-h2 {
+  font-family: var(--wl-display-font);
+  font-size: clamp(2rem, 1.7rem + 1.45vw, 3rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--wl-grey-100);
+  margin-bottom: 0;
+  text-wrap: balance;
+}
+
+.wl-heading-h3 {
+  font-family: var(--wl-display-font);
+  font-size: clamp(1.75rem, 1.5rem + 1.1vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--wl-grey-100);
+  margin-bottom: 0;
+}
+
+.wl-heading-h5 {
+  font-family: var(--wl-display-font);
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--wl-grey-100);
+  margin-bottom: 0;
+}
+
+/* Signature Workleap Martina Plantijn Italic Serif Accent */
+.wl-serif-italic {
+  font-family: var(--wl-serif-font);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 1.08em;
+  line-height: 1;
+}
+
+/* Signature Workleap Highlight Span */
+.wl-highlight {
+  font-family: var(--wl-serif-font);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 1.08em;
+  color: var(--wl-brand-100);
+  position: relative;
+  display: inline-block;
+}
+
+.wl-highlight-inverted {
+  font-family: var(--wl-serif-font);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 1.08em;
+  color: var(--wl-brand-20);
+  text-decoration: underline;
+  text-decoration-color: rgba(219, 243, 255, 0.55);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+.wl-body-lead {
+  font-family: var(--wl-body-font);
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.18rem);
+  line-height: 1.48;
+  color: var(--wl-grey-80);
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   WORKLEAP OFFICEVIBE BUTTONS (Pill 100px -> 8px Morph on Hover)
+   ========================================================================== */
+.wl-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.78em 2em;
+  border: 2px solid var(--wl-brand-100);
+  border-radius: 100px;
+  background-color: var(--wl-brand-100);
+  color: var(--wl-true-white);
+  font-family: var(--wl-body-font);
+  font-size: 1rem;
+  line-height: 1.1;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.wl-button:hover {
+  border-radius: 0.5rem;
+  background-color: var(--wl-brand-hover);
+  border-color: var(--wl-brand-hover);
+  color: var(--wl-true-white);
+}
+
+.wl-button.is-secondary {
+  background-color: transparent;
+  color: var(--wl-brand-100);
+  border: 2px solid var(--wl-brand-100);
+}
+
+.wl-button.is-secondary:hover {
+  border-radius: 0.5rem;
+  background-color: rgba(37, 69, 255, 0.06);
+  color: var(--wl-brand-hover);
+}
+
+.wl-button.is-secondary.is-dark {
+  border-color: var(--wl-grey-100);
+  color: var(--wl-grey-100);
+}
+
+.wl-button.is-secondary.is-dark:hover {
+  background-color: var(--wl-grey-100);
+  color: var(--wl-true-white);
+}
+
+.wl-button.is-alternate {
+  background-color: var(--wl-true-white);
+  border-color: var(--wl-true-white);
+  color: var(--wl-brand-100);
+}
+
+.wl-button.is-alternate:hover {
+  border-radius: 0.5rem;
+  background-color: var(--wl-soft-20);
+  border-color: var(--wl-soft-20);
+  color: var(--wl-brand-deep);
+}
+
+.wl-button.is-small {
+  padding: 0.62em 1.45em;
+  font-size: 0.925rem;
+}
+
+.wl-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+/* ==========================================================================
+   WORKLEAP OFFICEVIBE LAYOUT, GRIDS & CONTAINERS
+   ========================================================================== */
+.wl-section {
+  width: 100%;
+  background-color: var(--wl-true-white);
+  position: relative;
+}
+
+.wl-section.bg-soft-light {
+  background-color: var(--wl-soft-20);
+}
+
+.wl-padding-global {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.wl-container {
+  width: 100%;
+  max-width: var(--wl-container-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wl-spacer-xxlarge {
+  width: 100%;
+  padding-top: 5rem;
+}
+
+.wl-spacer-xhuge {
+  width: 100%;
+  padding-top: 6.5rem;
+}
+
+.wl-grid-2 {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr);
+  grid-column-gap: 4rem;
+  grid-row-gap: 3rem;
+  align-items: center;
+}
+
+.wl-grid-2.is-hero {
+  grid-column-gap: 3rem;
+}
+
+.wl-grid-2.is-faq {
+  grid-template-columns: 0.85fr 1.15fr;
+  align-items: start;
+  grid-column-gap: 4.5rem;
+}
+
+.wl-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 1.5rem;
+}
+
+/* ==========================================================================
+   WORKLEAP NAVBAR (.navbar_component)
+   ========================================================================== */
+.wl-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1040;
+  width: 100%;
+  min-height: 4.5rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--wl-grey-20);
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.wl-navbar-container {
+  width: 100%;
+  max-width: var(--wl-container-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.wl-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.wl-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.75rem 1rem;
+  color: var(--wl-grey-100);
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.wl-nav-link:hover {
+  color: var(--wl-brand-100);
+}
+
+/* ==========================================================================
+   WORKLEAP HERO MARQUEE STRIP (.logos_slider-wrapper)
+   ========================================================================== */
+.wl-marquee-mask {
+  width: 100%;
+  max-width: 560px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%);
+}
+
+.wl-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  width: max-content;
+  animation: wlMarqueeScroll 26s linear infinite;
+}
+
+.wl-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--wl-display-font);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--wl-grey-60);
+  white-space: nowrap;
+}
+
+@keyframes wlMarqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   WORKLEAP SECTION 2: HOW IT WORKS CONTAINER (.capability-container.cc-how-it-works)
+   ========================================================================== */
+.wl-capability-container {
+  background-color: var(--wl-card-gray);
+  border: 1px solid var(--wl-grey-20);
+  border-radius: 40px;
+  padding: 4.5rem 3.5rem;
+}
+
+.wl-how-step-visual {
+  width: 100%;
+  background: linear-gradient(155deg, #EEF2FF 0%, #DBF3FF 100%);
+  border: 1px solid rgba(37, 69, 255, 0.14);
+  border-radius: 20px;
+  padding: 1.35rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  box-shadow: 0 8px 24px -8px rgba(12, 23, 84, 0.08);
+  transition: transform 0.3s var(--wl-ease);
+}
+
+.wl-how-step-visual:hover {
+  transform: translateY(-4px);
+}
+
+/* ==========================================================================
+   WORKLEAP CHECKMARKS LIST (.checkmarks_list)
+   ========================================================================== */
+.wl-checkmarks-list {
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.wl-checkmarks-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: var(--wl-grey-100);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.wl-check-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: rgba(37, 69, 255, 0.1);
+  color: var(--wl-brand-100);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   WORKLEAP PRODUCT MOCKUP FRAMES (.border-radius-medium)
+   ========================================================================== */
+.wl-mockup-stage {
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 2rem;
+  position: relative;
+  border: 1px solid rgba(23, 20, 23, 0.07);
+}
+
+.wl-mockup-stage.tone-blue {
+  background: linear-gradient(140deg, #E8EEFF 0%, #DBF3FF 60%, #F0F4FF 100%);
+}
+
+.wl-mockup-stage.tone-lilac {
+  background: linear-gradient(140deg, #EDE9FE 0%, #E0E7FF 55%, #DBF3FF 100%);
+}
+
+.wl-mockup-stage.tone-sand {
+  background: linear-gradient(140deg, #F9F3E8 0%, #F0E9E1 50%, #E8EEFF 100%);
+}
+
+.wl-mockup-stage.tone-mint {
+  background: linear-gradient(140deg, #E1F5EB 0%, #DBF3FF 65%, #EEF2FF 100%);
+}
+
+.wl-mockup-window {
+  background-color: var(--wl-true-white);
+  border-radius: 18px;
+  border: 1px solid rgba(23, 20, 23, 0.08);
+  box-shadow: 0 20px 44px -14px rgba(12, 23, 84, 0.14);
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   WORKLEAP SECTION 7: ORBIT ROTATION CIRCLES (.u-logo-rotation-circle)
+   ========================================================================== */
+.wl-orbit-stage {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wl-orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(37, 69, 255, 0.24);
+  pointer-events: none;
+}
+
+.wl-orbit-ring.ring-outer {
+  width: 92%;
+  height: 92%;
+}
+
+.wl-orbit-ring.ring-inner {
+  width: 58%;
+  height: 58%;
+  border-style: solid;
+  border-color: rgba(37, 69, 255, 0.14);
+}
+
+.wl-orbit-center {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background-color: var(--wl-brand-100);
+  color: var(--wl-true-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 16px 36px rgba(37, 69, 255, 0.35);
+  z-index: 3;
+}
+
+.wl-orbit-node {
+  position: absolute;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background-color: var(--wl-true-white);
+  border: 1px solid var(--wl-grey-20);
+  box-shadow: 0 10px 24px rgba(12, 23, 84, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px;
+  z-index: 2;
+  transition: transform 0.25s var(--wl-ease), border-color 0.25s ease;
+}
+
+.wl-orbit-node:hover {
+  transform: scale(1.08);
+  border-color: var(--wl-brand-100);
+}
+
+/* ==========================================================================
+   WORKLEAP SECTION 8: TRUST / CONTEXT COLUMNS (.trust-carousel)
+   ========================================================================== */
+.wl-trust-card {
+  border-left: 1px solid var(--wl-grey-20);
+  height: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.wl-trust-quote-mark {
+  font-family: var(--wl-serif-font);
+  font-size: 3.25rem;
+  line-height: 0.8;
+  color: var(--wl-brand-100);
+  margin-bottom: 0.75rem;
+}
+
+/* ==========================================================================
+   WORKLEAP SECTION 9: CAPABILITIES CARDS (.capabilities-card.cc-hoverable)
+   ========================================================================== */
+.wl-capabilities-card {
+  border: 1px solid var(--wl-grey-20);
+  background-color: var(--wl-card-gray);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0) 62%, rgba(37, 69, 255, 0.16) 100%);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(37, 69, 255, 0.08);
+  transition: all 0.3s var(--wl-ease);
+  text-decoration: none;
+  color: var(--wl-grey-100);
+}
+
+.wl-capabilities-card:hover {
+  color: var(--wl-brand-100);
+  border-color: rgba(37, 69, 255, 0.35);
+  box-shadow: 2px 2px 16px rgba(37, 69, 255, 0.12), 0 12px 24px rgba(37, 58, 177, 0.08);
+  transform: translateY(-3px);
+}
+
+.wl-capabilities-card-visual {
+  width: 100%;
+  padding: 1.25rem 1.25rem 0.5rem;
+}
+
+.wl-capabilities-card-content {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.35rem 1.5rem 1.6rem;
+  flex: 1;
+}
+
+/* ==========================================================================
+   WORKLEAP SECTION 10: CLOSING CTA CARD (.cta_card)
+   ========================================================================== */
+.wl-cta-card {
+  border-radius: 24px;
+  background-color: var(--wl-brand-100);
+  background-image:
+    radial-gradient(circle at 18% 20%, rgba(219, 243, 255, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(12, 23, 84, 0.55) 0%, transparent 52%),
+    linear-gradient(125deg, #2545FF 0%, #1D30EC 55%, #00248F 100%);
+  color: var(--wl-true-white);
+  text-align: center;
+  padding: 5.5rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   WORKLEAP SECTION 11: TWO-COLUMN FAQ (.faq_accordion & .faq_question)
+   ========================================================================== */
+.wl-faq-section {
+  background-color: var(--wl-soft-20);
+}
+
+.wl-faq-item {
+  border-bottom: 1px solid var(--wl-grey-20);
+}
+
+.wl-faq-item:first-child {
+  border-top: 1px solid var(--wl-grey-20);
+}
+
+.wl-faq-question {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 1.5rem 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-family: var(--wl-display-font);
+  font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--wl-grey-100);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.wl-faq-question:hover {
+  color: var(--wl-brand-100);
+}
+
+.wl-faq-answer {
+  padding-bottom: 1.5rem;
+  color: var(--wl-grey-80);
+  font-size: 0.975rem;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   WORKLEAP FOOTER (.footer_main in Boardroom Navy #0C1754)
+   ========================================================================== */
+.wl-footer {
+  background-color: var(--wl-boardroom-navy);
+  color: var(--wl-soft-20);
+  padding-top: 5rem;
+  padding-bottom: 3.5rem;
+  position: relative;
+}
+
+.wl-footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 4rem;
+}
+
+.wl-footer-heading {
+  font-family: var(--wl-display-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--wl-true-white);
+  margin-bottom: 1.15rem;
+}
+
+.wl-footer-link {
+  color: rgba(249, 248, 246, 0.78);
+  text-decoration: none;
+  font-size: 0.925rem;
+  transition: color 0.2s ease;
+}
+
+.wl-footer-link:hover {
+  color: var(--wl-brand-20);
+}
+
+.wl-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding-top: 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: rgba(249, 248, 246, 0.72);
+}
+
+/* ==========================================================================
+   INTERNAL APP & DASHBOARD COMPONENTS (Unified with Workleap Design Language)
    ========================================================================== */
 .btn-rj-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--rj-primary);
-  color: var(--rj-white);
-  border: 1px solid var(--rj-primary);
-  border-radius: var(--rj-radius-md);
-  padding: 0.55rem 1.1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
+  background-color: var(--wl-brand-100);
+  color: var(--wl-true-white);
+  border: 2px solid var(--wl-brand-100);
+  border-radius: 100px;
+  padding: 0.58rem 1.35rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   line-height: 1.3;
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--rj-transition-fast),
-              border-color var(--rj-transition-fast),
-              transform 100ms ease-out;
+  transition: all 0.28s var(--wl-ease);
 }
 
 .btn-rj-primary:hover:not(:disabled) {
-  background-color: var(--rj-primary-hover);
-  border-color: var(--rj-primary-hover);
-  color: var(--rj-white);
-}
-
-.btn-rj-primary:active:not(:disabled) {
-  transform: scale(0.98) translateY(0.5px);
+  background-color: var(--wl-brand-hover);
+  border-color: var(--wl-brand-hover);
+  color: var(--wl-true-white);
+  border-radius: 0.5rem;
 }
 
 .btn-rj-primary:disabled {
@@ -177,40 +902,67 @@ h1, h2, h3, h4, h5, h6 {
   cursor: not-allowed;
 }
 
+.btn-rj-primary-lg {
+  padding: 0.82rem 1.85rem;
+  font-size: 1rem;
+}
+
 .btn-rj-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--rj-white);
-  color: var(--rj-text-primary);
-  border: 1px solid var(--rj-border);
-  border-radius: var(--rj-radius-md);
-  padding: 0.55rem 1.1rem;
-  font-size: 0.875rem;
+  background-color: var(--wl-true-white);
+  color: var(--wl-brand-100);
+  border: 1.5px solid var(--wl-brand-100);
+  border-radius: 100px;
+  padding: 0.56rem 1.3rem;
+  font-size: 0.9rem;
   font-weight: 500;
   line-height: 1.3;
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--rj-transition-fast),
-              border-color var(--rj-transition-fast),
-              transform 100ms ease-out;
+  transition: all 0.28s var(--wl-ease);
 }
 
 .btn-rj-secondary:hover:not(:disabled) {
-  background-color: var(--rj-bg);
-  border-color: #CBD5E1;
-  color: var(--rj-text-primary);
-}
-
-.btn-rj-secondary:active:not(:disabled) {
-  transform: scale(0.98) translateY(0.5px);
+  background-color: var(--rj-soft-blue);
+  color: var(--wl-brand-hover);
+  border-radius: 0.5rem;
 }
 
 .btn-rj-secondary:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+.btn-rj-secondary-lg {
+  padding: 0.82rem 1.85rem;
+  font-size: 1rem;
+}
+
+.btn-rj-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--wl-true-white);
+  color: var(--wl-brand-100);
+  border: 2px solid var(--wl-true-white);
+  border-radius: 100px;
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.28s var(--wl-ease);
+}
+
+.btn-rj-white:hover {
+  border-radius: 0.5rem;
+  background-color: var(--wl-soft-20);
+  color: var(--wl-brand-deep);
 }
 
 .btn-rj-ghost {
@@ -219,26 +971,22 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   gap: 6px;
   background-color: transparent;
-  color: var(--rj-text-secondary);
+  color: var(--wl-grey-80);
   border: 1px solid transparent;
-  border-radius: var(--rj-radius-md);
-  padding: 0.45rem 0.75rem;
-  font-size: 0.85rem;
+  border-radius: 100px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.875rem;
   font-weight: 500;
   white-space: nowrap;
+  text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--rj-transition-fast),
-              color var(--rj-transition-fast),
-              transform 100ms ease-out;
+  transition: all 0.2s var(--wl-ease);
 }
 
 .btn-rj-ghost:hover:not(:disabled) {
-  background-color: var(--rj-surface-muted);
-  color: var(--rj-text-primary);
-}
-
-.btn-rj-ghost:active:not(:disabled) {
-  transform: scale(0.98);
+  background-color: var(--wl-soft-40);
+  color: var(--wl-grey-100);
+  border-radius: 0.5rem;
 }
 
 .btn-rj-danger-outline {
@@ -246,174 +994,151 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background-color: var(--rj-white);
+  background-color: var(--wl-true-white);
   color: var(--rj-status-danger-text);
   border: 1px solid var(--rj-status-danger-border);
-  border-radius: var(--rj-radius-md);
-  padding: 0.45rem 0.85rem;
+  border-radius: 100px;
+  padding: 0.42rem 0.85rem;
   font-size: 0.8125rem;
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--rj-transition-fast),
-              transform 100ms ease-out;
+  transition: all 0.2s var(--wl-ease);
 }
 
 .btn-rj-danger-outline:hover:not(:disabled) {
   background-color: var(--rj-status-danger-bg);
+  border-radius: 0.5rem;
 }
 
-/* ==========================================================================
-   Surfaces, Cards & Double-Bezel Restraint
-   ========================================================================== */
+/* Surfaces & Cards */
 .rj-card {
-  background-color: var(--rj-surface);
-  border: 1px solid var(--rj-border);
-  border-radius: var(--rj-radius-lg);
+  background-color: var(--wl-true-white);
+  border: 1px solid var(--wl-grey-20);
+  border-radius: 20px;
   box-shadow: var(--rj-shadow-xs);
-  transition: border-color var(--rj-transition-base),
-              box-shadow var(--rj-transition-base);
+  transition: border-color 0.25s var(--wl-ease),
+              box-shadow 0.25s var(--wl-ease);
 }
 
 .rj-card-interactive:hover {
-  border-color: #CBD5E1;
+  border-color: var(--rj-primary-border);
   box-shadow: var(--rj-shadow-sm);
 }
 
-.rj-shell-frame {
-  background-color: rgba(17, 24, 39, 0.025);
-  border: 1px solid var(--rj-border);
-  padding: 6px;
-  border-radius: calc(var(--rj-radius-xl) + 4px);
-}
-
-.rj-shell-inner {
-  background-color: var(--rj-white);
-  border: 1px solid var(--rj-border);
-  border-radius: var(--rj-radius-xl);
-  box-shadow: var(--rj-shadow-sm);
-}
-
-/* ==========================================================================
-   Status Badges - Muted Pastels & Semantic Clarity
-   ========================================================================== */
+/* Status Badges */
 .rj-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 0.22rem 0.65rem;
-  border-radius: 9999px;
+  padding: 0.26rem 0.75rem;
+  border-radius: 100px;
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   line-height: 1.3;
   white-space: nowrap;
 }
 
 .rj-badge-success {
-  background-color: var(--rj-status-success-bg);
-  color: var(--rj-status-success-text);
-  border: 1px solid var(--rj-status-success-border);
+  background-color: var(--wl-success-20);
+  color: var(--wl-success-120);
+  border: 1px solid var(--wl-success-60);
 }
 
 .rj-badge-warning {
-  background-color: var(--rj-status-warning-bg);
-  color: var(--rj-status-warning-text);
-  border: 1px solid var(--rj-status-warning-border);
+  background-color: var(--wl-warning-20);
+  color: var(--wl-warning-120);
+  border: 1px solid var(--wl-warning-60);
 }
 
 .rj-badge-danger {
-  background-color: var(--rj-status-danger-bg);
-  color: var(--rj-status-danger-text);
-  border: 1px solid var(--rj-status-danger-border);
+  background-color: var(--wl-danger-20);
+  color: var(--wl-danger-120);
+  border: 1px solid var(--wl-danger-60);
 }
 
 .rj-badge-info {
-  background-color: var(--rj-status-info-bg);
-  color: var(--rj-status-info-text);
-  border: 1px solid var(--rj-status-info-border);
+  background-color: var(--wl-brand-20);
+  color: var(--wl-brand-deep);
+  border: 1px solid var(--wl-blue-05);
 }
 
 .rj-badge-neutral {
-  background-color: var(--rj-surface-muted);
-  color: var(--rj-text-secondary);
-  border: 1px solid var(--rj-border);
+  background-color: var(--wl-soft-20);
+  color: var(--wl-grey-80);
+  border: 1px solid var(--wl-grey-20);
 }
 
-/* ==========================================================================
-   Form Controls - Accessible, High-Contrast, Label-Above-Input
-   ========================================================================== */
+/* Form Controls */
 .rj-form-label {
   display: block;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--rj-text-primary);
-  margin-bottom: 0.375rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--wl-grey-100);
+  margin-bottom: 0.4rem;
 }
 
 .rj-form-control,
 .rj-form-select {
   display: block;
   width: 100%;
-  padding: 0.55rem 0.8rem;
-  font-size: 0.9rem;
-  font-family: var(--rj-font-sans);
-  color: var(--rj-text-primary);
-  background-color: var(--rj-white);
-  border: 1px solid var(--rj-border);
-  border-radius: var(--rj-radius-md);
-  transition: border-color var(--rj-transition-fast),
-              box-shadow var(--rj-transition-fast);
+  padding: 0.65rem 0.95rem;
+  font-size: 0.925rem;
+  font-family: var(--wl-body-font);
+  color: var(--wl-grey-100);
+  background-color: var(--wl-true-white);
+  border: 1px solid var(--rj-border-strong);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .rj-form-control::placeholder {
-  color: #64748B;
+  color: var(--wl-grey-40);
   opacity: 1;
 }
 
 .rj-form-control:focus,
 .rj-form-select:focus {
-  border-color: var(--rj-primary);
+  border-color: var(--wl-brand-100);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+  box-shadow: 0 0 0 3px var(--rj-primary-ring);
 }
 
 .rj-form-control.is-invalid,
 .rj-form-select.is-invalid {
-  border-color: var(--rj-status-danger-text);
+  border-color: var(--wl-danger-100);
   background-color: #FFFBFB;
 }
 
 .rj-form-error {
   margin-top: 0.35rem;
   font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--rj-status-danger-text);
+  font-weight: 600;
+  color: var(--wl-danger-120);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .rj-form-helper {
   margin-top: 0.35rem;
   font-size: 0.78rem;
-  color: var(--rj-text-secondary);
+  color: var(--wl-grey-80);
 }
 
-/* ==========================================================================
-   App Layout - Sidebar + Main Content
-   ========================================================================== */
+/* Internal Dashboard Layout */
 .rj-app-wrapper {
   display: flex;
   min-height: 100dvh;
-  background-color: var(--rj-bg);
+  background-color: var(--wl-soft-20);
 }
 
 .rj-sidebar {
   width: var(--rj-sidebar-width);
   flex-shrink: 0;
-  background-color: var(--rj-white);
-  border-right: 1px solid var(--rj-border);
+  background-color: var(--wl-true-white);
+  border-right: 1px solid var(--wl-grey-20);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -421,7 +1146,7 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 0;
   left: 0;
   z-index: 1030;
-  transition: transform var(--rj-transition-base);
+  transition: transform 0.28s var(--wl-ease);
 }
 
 .rj-main-area {
@@ -435,17 +1160,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .rj-app-header {
   height: var(--rj-header-height);
-  background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--rj-border);
+  background-color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--wl-grey-20);
   position: sticky;
   top: 0;
   z-index: 1020;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
+  padding: 0 1.75rem;
 }
 
 .rj-page-container {
@@ -453,40 +1178,35 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   max-width: 1320px;
   margin: 0 auto;
-  padding: 1.75rem 1.5rem 3rem;
+  padding: 2rem 1.75rem 3.25rem;
 }
 
-/* Sidebar Nav Links */
 .rj-nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0.6rem 0.85rem;
-  border-radius: var(--rj-radius-md);
-  color: var(--rj-text-secondary);
-  font-size: 0.875rem;
+  gap: 11px;
+  padding: 0.68rem 1rem;
+  border-radius: 100px;
+  color: var(--wl-grey-80);
+  font-size: 0.9rem;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color var(--rj-transition-fast),
-              color var(--rj-transition-fast);
+  transition: all 0.22s var(--wl-ease);
   border: 1px solid transparent;
 }
 
 .rj-nav-item:hover {
-  background-color: var(--rj-bg);
-  color: var(--rj-text-primary);
+  background-color: var(--wl-soft-20);
+  color: var(--wl-grey-100);
 }
 
 .rj-nav-item.active {
-  background-color: var(--rj-primary-subtle);
-  color: var(--rj-primary);
-  font-weight: 600;
-  border-color: var(--rj-primary-border);
+  background-color: var(--wl-brand-100);
+  color: var(--wl-true-white);
+  font-weight: 500;
 }
 
-/* ==========================================================================
-   Tables - Clean Financial Ledger Aesthetic
-   ========================================================================== */
+/* Tables */
 .rj-table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -500,22 +1220,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rj-table thead th {
-  background-color: var(--rj-bg);
-  color: var(--rj-text-secondary);
+  background-color: var(--wl-soft-20);
+  color: var(--wl-grey-80);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--rj-border);
+  padding: 0.9rem 1.15rem;
+  border-bottom: 1px solid var(--wl-grey-20);
   white-space: nowrap;
 }
 
 .rj-table tbody td {
-  padding: 0.875rem 1rem;
-  border-bottom: 1px solid var(--rj-border);
-  color: var(--rj-text-primary);
-  font-size: 0.875rem;
+  padding: 0.95rem 1.15rem;
+  border-bottom: 1px solid var(--rj-border-subtle);
+  color: var(--wl-grey-100);
+  font-size: 0.9rem;
   vertical-align: middle;
 }
 
@@ -523,21 +1243,15 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: none;
 }
 
-.rj-table tbody tr {
-  transition: background-color var(--rj-transition-fast);
-}
-
 .rj-table tbody tr:hover {
-  background-color: #FAFBFD;
+  background-color: var(--wl-soft-20);
 }
 
-/* ==========================================================================
-   Modals & Drawers
-   ========================================================================== */
+/* Modals */
 .rj-modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(17, 24, 39, 0.42);
+  background-color: rgba(12, 23, 84, 0.45);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 1050;
@@ -545,52 +1259,49 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  animation: rjFadeIn 180ms var(--rj-ease-out);
 }
 
 .rj-modal-dialog {
-  background-color: var(--rj-white);
-  border: 1px solid var(--rj-border);
-  border-radius: var(--rj-radius-xl);
-  box-shadow: var(--rj-shadow-md);
+  background-color: var(--wl-true-white);
+  border: 1px solid var(--wl-grey-20);
+  border-radius: 24px;
+  box-shadow: var(--rj-shadow-lg);
   width: 100%;
-  max-width: 520px;
+  max-width: 540px;
   max-height: calc(100dvh - 2rem);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: rjSlideUp 220ms var(--rj-ease-out);
 }
 
 .rj-modal-header {
-  padding: 1.15rem 1.35rem;
-  border-bottom: 1px solid var(--rj-border);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--wl-grey-20);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .rj-modal-body {
-  padding: 1.35rem;
+  padding: 1.5rem;
   overflow-y: auto;
 }
 
 .rj-modal-footer {
-  padding: 1rem 1.35rem;
-  border-top: 1px solid var(--rj-border);
-  background-color: var(--rj-bg);
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--wl-grey-20);
+  background-color: var(--wl-soft-20);
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.65rem;
 }
 
-/* Skeleton Loader */
 .rj-skeleton {
-  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+  background: linear-gradient(90deg, #F0E9E1 25%, #E6E6E4 50%, #F0E9E1 75%);
   background-size: 200% 100%;
   animation: rjShimmer 1.5s infinite;
-  border-radius: var(--rj-radius-sm);
+  border-radius: 8px;
 }
 
 @keyframes rjShimmer {
@@ -598,23 +1309,52 @@ h1, h2, h3, h4, h5, h6 {
   100% { background-position: -200% 0; }
 }
 
-@keyframes rjFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes rjSlideUp {
-  from { opacity: 0; transform: translateY(10px) scale(0.99); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
 /* ==========================================================================
-   Responsive Breakpoints (Desktop, Tablet, Mobile)
+   RESPONSIVE BREAKPOINTS (Matching Workleap Officevibe Grid Collapse)
    ========================================================================== */
 @media (max-width: 991.98px) {
+  .wl-padding-global {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .wl-navbar {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .wl-spacer-xxlarge {
+    padding-top: 3.75rem;
+  }
+
+  .wl-spacer-xhuge {
+    padding-top: 4.5rem;
+  }
+
+  .wl-grid-2,
+  .wl-grid-2.is-hero,
+  .wl-grid-2.is-faq {
+    grid-template-columns: 1fr;
+    grid-column-gap: 2rem;
+    grid-row-gap: 2.5rem;
+  }
+
+  .wl-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-capability-container {
+    padding: 3rem 1.75rem;
+    border-radius: 28px;
+  }
+
+  .wl-footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .rj-sidebar {
     transform: translateX(-100%);
-    box-shadow: var(--rj-shadow-md);
+    box-shadow: var(--rj-shadow-lg);
   }
 
   .rj-sidebar.is-open {
@@ -626,7 +1366,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .rj-page-container {
-    padding: 1.25rem 1rem 2.5rem;
+    padding: 1.35rem 1rem 2.5rem;
   }
 
   .rj-app-header {
@@ -635,20 +1375,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 767.98px) {
-  .rj-modal-backdrop {
-    align-items: flex-end;
-    padding: 0;
+  .wl-padding-global {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
-  .rj-modal-dialog {
-    max-width: 100%;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    max-height: 92dvh;
+  .wl-navbar {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .wl-cta-card {
+    padding: 3.5rem 1.5rem;
+  }
+
+  .wl-footer-top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .wl-orbit-stage {
+    max-width: 330px;
+  }
+
+  .wl-orbit-node {
+    width: 66px;
+    height: 66px;
   }
 }
 
-/* Reduced Motion & Reduced Transparency Accessibility (apple-design §14) */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -657,16 +1412,5 @@ h1, h2, h3, h4, h5, h6 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  .rj-app-header,
-  .rj-modal-backdrop {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  .rj-app-header {
-    background-color: var(--rj-white) !important;
   }
 }

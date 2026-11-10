@@ -1,7 +1,7 @@
 import React from 'react';
 import { Drop } from '@phosphor-icons/react';
 
-export default function BrandLogo({ size = 34, showSubtitle = true }) {
+export default function BrandLogo({ size = 36, showSubtitle = true, inverted = false }) {
   return (
     <div className="d-inline-flex align-items-center gap-2 text-decoration-none">
       <div
@@ -9,9 +9,9 @@ export default function BrandLogo({ size = 34, showSubtitle = true }) {
         style={{
           width: `${size}px`,
           height: `${size}px`,
-          borderRadius: '8px',
-          backgroundColor: 'var(--rj-primary)',
-          color: 'var(--rj-white)'
+          borderRadius: '10px',
+          backgroundColor: inverted ? '#FFFFFF' : 'var(--wl-brand-100)',
+          color: inverted ? 'var(--wl-brand-100)' : '#FFFFFF'
         }}
       >
         <Drop size={Math.round(size * 0.56)} weight="fill" />
@@ -19,11 +19,12 @@ export default function BrandLogo({ size = 34, showSubtitle = true }) {
       <div className="d-flex flex-column">
         <span
           style={{
+            fontFamily: 'var(--wl-display-font)',
             fontWeight: 700,
-            fontSize: '0.975rem',
-            letterSpacing: '-0.02em',
-            color: 'var(--rj-text-primary)',
-            lineHeight: 1.15
+            fontSize: '1.08rem',
+            letterSpacing: '-0.03em',
+            color: inverted ? '#FFFFFF' : 'var(--wl-grey-100)',
+            lineHeight: 1.1
           }}
         >
           RAJASH
@@ -33,15 +34,14 @@ export default function BrandLogo({ size = 34, showSubtitle = true }) {
             style={{
               fontSize: '0.7rem',
               fontWeight: 500,
-              color: 'var(--rj-text-secondary)',
+              color: inverted ? 'rgba(249, 248, 246, 0.72)' : 'var(--wl-grey-80)',
               lineHeight: 1.2
             }}
           >
-            Keuangan & Piutang
+            Keuangan &amp; Piutang
           </span>
         )}
       </div>
     </div>
   );
 }
-
