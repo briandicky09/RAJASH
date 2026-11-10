@@ -1,0 +1,24 @@
+{
+  "name": "rajash-keuangan-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sistem Pengelolaan Keuangan dan Piutang UMKM RAJASH - Capstone Asah 2026 (A26-CS148)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
+    "bootstrap": "^5.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.3",
+    "vite": "^5.4.11"
+  }
+}
+
