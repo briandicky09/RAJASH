@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Compass } from '@phosphor-icons/react';
+import { ArrowLeft } from '@phosphor-icons/react';
+import { RajashMark } from '../components/layout/BrandLogo';
 
 export default function NotFoundPage() {
   return (
@@ -10,18 +11,8 @@ export default function NotFoundPage() {
       style={{ backgroundColor: 'var(--rj-bg)' }}
     >
       <div className="rj-card p-4 p-sm-5 text-center" style={{ maxWidth: '440px', width: '100%' }}>
-        <div
-          className="d-inline-flex align-items-center justify-content-center mb-3"
-          style={{
-            width: '48px',
-            height: '48px',
-            borderRadius: '12px',
-            backgroundColor: 'var(--rj-primary-subtle)',
-            color: 'var(--rj-primary)',
-            border: '1px solid var(--rj-primary-border)'
-          }}
-        >
-          <Compass size={26} weight="regular" />
+        <div className="d-inline-flex align-items-center justify-content-center mb-3">
+          <RajashMark size={48} tile={true} />
         </div>
         <h1 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.4rem' }}>
           Halaman Tidak Ditemukan

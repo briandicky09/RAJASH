@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Check,
@@ -23,6 +23,7 @@ import {
 } from '@phosphor-icons/react';
 import LandingNavbar from '../components/layout/LandingNavbar';
 import LandingFooter from '../components/layout/LandingFooter';
+import { RajashMark } from '../components/layout/BrandLogo';
 import Accordion from '../components/common/Accordion';
 import { useAuth } from '../context/AuthContext';
 
@@ -169,137 +170,193 @@ const INITIAL_DEMO_RECEIVABLES = [
 
 const ORBIT_NODES = [
   {
-    label: 'BBM Becak',
-    desc: 'Pencatatan biaya bahan bakar becak pengantaran galon harian.',
-    icon: GasPump,
-    top: '4%',
-    left: '50%',
-    transform: 'translate(-50%, 0)'
-  },
-  {
-    label: 'Pasokan Air',
-    desc: 'Pembelian pasokan air baku tangki untuk kebutuhan isi ulang depot.',
-    icon: Drop,
-    top: '18%',
-    left: '84%',
-    transform: 'translate(-50%, -50%)'
-  },
-  {
-    label: 'Servis Becak',
-    desc: 'Biaya perawatan rutin mesin kendaraan operasional pengantaran.',
-    icon: Wrench,
-    top: '50%',
-    left: '96%',
-    transform: 'translate(-100%, -50%)'
-  },
-  {
-    label: 'Ganti Oli',
-    desc: 'Penggantian oli berkala agar armada becak tetap prima.',
-    icon: Truck,
-    top: '82%',
-    left: '84%',
-    transform: 'translate(-50%, -50%)'
-  },
-  {
-    label: 'Perbaikan Ban',
-    desc: 'Pengeluaran tambal atau ganti ban kendaraan pengantaran.',
-    icon: ShieldCheck,
-    top: '96%',
-    left: '50%',
-    transform: 'translate(-50%, -100%)'
-  },
-  {
+    id: 'lainnya',
     label: 'Biaya Lainnya',
     desc: 'Kebutuhan pendukung depot seperti tutup galon, tisu, dan listrik.',
-    icon: Receipt,
-    top: '82%',
-    left: '16%',
-    transform: 'translate(-50%, -50%)'
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Notion-style isometric tilted cube */}
+        <g transform="rotate(-7 24 24)">
+          <rect x="9" y="9" width="30" height="30" rx="6" fill="#FFFFFF" stroke="#2F2F2F" strokeWidth="2.8" />
+          <path d="M9 15H39" stroke="#2F2F2F" strokeWidth="2.2" />
+          <path d="M18 21V33L29 21V33" stroke="#2F2F2F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+      </svg>
+    )
   },
   {
-    label: 'Kas Tunai',
+    id: 'pasokan-air',
+    label: 'Pembelian Pasokan Air',
+    desc: 'Pembelian pasokan air baku tangki untuk kebutuhan isi ulang depot.',
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Workday-style orange sun arc over blue wave mark */}
+        <path d="M13 22C15.5 15.5 21 12 24 12C27 12 32.5 15.5 35 22" stroke="#F59E0B" strokeWidth="3.6" strokeLinecap="round" />
+        <path d="M12 27L16.5 36L24 26L31.5 36L36 27" stroke="#2563EB" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    )
+  },
+  {
+    id: 'ganti-oli',
+    label: 'Penggantian Oli',
+    desc: 'Penggantian oli berkala agar armada becak pengantaran tetap prima.',
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Rotational geometric knot */}
+        <circle cx="24" cy="24" r="13" stroke="#0F766E" strokeWidth="3.2" strokeDasharray="10 5" />
+        <circle cx="24" cy="24" r="6" fill="#14B8A6" />
+      </svg>
+    )
+  },
+  {
+    id: 'kas-tunai',
+    label: 'Pemasukan Kas Tunai',
     desc: 'Pemasukan penjualan galon tunai yang langsung berstatus Lunas.',
-    icon: Wallet,
-    top: '50%',
-    left: '4%',
-    transform: 'translate(0, -50%)'
-  },
-  {
-    label: 'Piutang Kredit',
-    desc: 'Penjualan galon kredit pelanggan yang dipantau hingga Lunas.',
-    icon: Notebook,
-    top: '18%',
-    left: '16%',
-    transform: 'translate(-50%, -50%)'
-  }
-];
-
-const CAPABILITY_CARDS = [
-  {
-    id: 'dashboard',
-    title: 'Dashboard Keuangan',
-    icon: SquaresFour,
-    badge: '4 Ringkasan Utama',
-    metricLabel: 'Keuntungan Bersih Kas',
-    metricValue: 'Rp 1.085.000',
-    subText: 'Kas Masuk Rp 1.880.000 · Beban Rp 795.000',
-    description:
-      'Menampilkan total pemasukan, total pengeluaran, keuntungan bersih, total piutang, grafik keuangan, dan transaksi terbaru dalam satu tampilan.'
-  },
-  {
-    id: 'pemasukan',
-    title: 'Pencatatan Pemasukan',
-    icon: ArrowDownLeft,
-    badge: 'Tunai & Kredit',
-    metricLabel: 'Penjualan Hari Ini',
-    metricValue: 'Rp 390.000',
-    subText: 'Tunai (Lunas) & Kredit (Belum Lunas)',
-    description:
-      'Mencatat penjualan air minum isi ulang baik pembayaran tunai maupun kredit, lengkap dengan peringatan kemungkinan transaksi duplikat.'
-  },
-  {
-    id: 'pengeluaran',
-    title: 'Pencatatan Pengeluaran',
-    icon: ArrowUpRight,
-    badge: '6 Kategori Baku',
-    metricLabel: 'Total Beban Operasional',
-    metricValue: 'Rp 795.000',
-    subText: 'BBM Becak, Pasokan Air, Servis, Oli, Ban, Lainnya',
-    description:
-      'Mendokumentasikan biaya rutin operasional depot sesuai kategori yang telah ditetapkan agar perhitungan keuntungan bersih akurat.'
-  },
-  {
-    id: 'piutang',
-    title: 'Pengelolaan Piutang',
-    icon: Notebook,
-    badge: 'Status Pembayaran',
-    metricLabel: 'Total Piutang Aktif',
-    metricValue: 'Rp 505.000',
-    subText: '4 pelanggan berstatus Belum Lunas',
-    description:
-      'Memantau daftar pelanggan yang masih memiliki utang, memeriksa tanggal transaksi, serta memperbarui status dari Belum Lunas menjadi Lunas.'
-  },
-  {
-    id: 'rekapitulasi',
-    title: 'Rekapitulasi Keuangan',
-    icon: ChartBar,
-    badge: 'Harian & Bulanan',
-    metricLabel: 'Periode Rekapitulasi',
-    metricValue: 'Harian / Bulanan',
-    subText: 'Ekspor CSV & Cetak Laporan Pembukuan',
-    description:
-      'Menyajikan rekapitulasi pemasukan, pengeluaran, piutang, dan perhitungan keuntungan bersih berdasarkan periode harian maupun bulanan.'
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Emerald green organic leaf & stem mark */}
+        <path d="M16 35C16 24 23 14 34 13C34 24 27 33 16 35Z" fill="#65A30D" />
+        <path d="M16 35C14 27 17 19 24 15" stroke="#84CC16" strokeWidth="3.4" strokeLinecap="round" />
+        <circle cx="16" cy="35" r="2.5" fill="#4D7C0F" />
+      </svg>
+    )
   },
   {
     id: 'pengingat',
-    title: 'Pengingat Piutang Aplikasi',
-    icon: BellRinging,
-    badge: 'Pantauan Tagihan',
-    metricLabel: 'Tagihan Perlu Tindak Lanjut',
-    metricValue: '2 Pelanggan > 5 Hari',
-    subText: 'Urutkan dari piutang terlama atau terbesar',
-    description:
-      'Memberikan pengingat di dalam aplikasi bagi pemilik usaha terhadap piutang pelanggan yang belum dilunasi tanpa memerlukan integrasi eksternal.'
+    label: 'Pengingat Tagihan',
+    desc: 'Peringatan otomatis di dalam aplikasi untuk piutang yang belum lunas.',
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Terracotta sunburst / spark */}
+        <path d="M24 9V39M9 24H39M13.4 13.4L34.6 34.6M34.6 13.4L13.4 34.6" stroke="#D97757" strokeWidth="3.6" strokeLinecap="round" />
+        <circle cx="24" cy="24" r="4.5" fill="#D97757" />
+      </svg>
+    )
+  },
+  {
+    id: 'perbaikan-ban',
+    label: 'Perbaikan Ban',
+    desc: 'Pengeluaran tambal atau ganti ban kendaraan pengantaran galon.',
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* UKG-style teal smile arc with dual dots */}
+        <circle cx="18.5" cy="17.5" r="2.6" fill="#0D9488" />
+        <circle cx="29.5" cy="17.5" r="2.6" fill="#0D9488" />
+        <path d="M14.5 24C14.5 29.8 18.7 34 24 34C29.3 34 33.5 29.8 33.5 24" stroke="#0D9488" strokeWidth="4.2" strokeLinecap="round" />
+      </svg>
+    )
+  },
+  {
+    id: 'rekapitulasi',
+    label: 'Rekapitulasi Keuangan',
+    desc: 'Laporan ringkasan pemasukan, pengeluaran, piutang, dan kas bersih.',
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Jira-style triple cascading blue chevrons */}
+        <path d="M24 11H35V22L24 11Z" fill="#2563EB" />
+        <path d="M18.5 18.5H29.5V29.5L18.5 18.5Z" fill="#3B82F6" />
+        <path d="M13 26H24V37L13 26Z" fill="#60A5FA" />
+      </svg>
+    )
+  },
+  {
+    id: 'piutang-kredit',
+    label: 'Piutang Pelanggan',
+    desc: 'Penjualan galon kredit pelanggan yang dipantau hingga berstatus Lunas.',
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Teams-style purple/indigo people & badge */}
+        <circle cx="29" cy="15" r="4.2" fill="#7C83EB" />
+        <circle cx="21" cy="13.5" r="5" fill="#5059C9" />
+        <rect x="23" y="21" width="15" height="14" rx="4" fill="#7C83EB" />
+        <rect x="15" y="20" width="16" height="17" rx="4.5" fill="#4B53BC" />
+        <rect x="9" y="18" width="15" height="15" rx="3.8" fill="#3B429F" />
+        <path d="M13.5 22.5H19.5M16.5 22.5V28.5" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" />
+      </svg>
+    )
+  },
+  {
+    id: 'bbm-becak',
+    label: 'BBM Becak',
+    desc: 'Pencatatan biaya bahan bakar becak pengantaran galon harian.',
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* HiBob-style vibrant coral-red speech tile */}
+        <path d="M10 16C10 11.5817 13.5817 8 18 8H30C34.4183 8 38 11.5817 38 16V28C38 32.4183 34.4183 36 30 36H26L21 41V36H18C13.5817 36 10 32.4183 10 28V16Z" fill="#E11D48" />
+        <path d="M17 17V27M24 17V27M17 22H24" stroke="#FFFFFF" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M30.5 20.5V27" stroke="#FFFFFF" strokeWidth="3.2" strokeLinecap="round" />
+        <circle cx="30.5" cy="16.2" r="1.9" fill="#FFFFFF" />
+      </svg>
+    )
+  },
+  {
+    id: 'servis-becak',
+    label: 'Servis Kendaraan',
+    desc: 'Biaya perawatan rutin mesin kendaraan operasional pengantaran.',
+    renderGlyph: () => (
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Slack-style 4-color pinwheel (cyan, emerald, rose, amber) */}
+        <rect x="18" y="9" width="5" height="12" rx="2.5" fill="#36C5F0" />
+        <circle cx="14" cy="18.5" r="2.5" fill="#36C5F0" />
+        <rect x="27" y="18" width="12" height="5" rx="2.5" fill="#2EB67D" />
+        <circle cx="29.5" cy="14" r="2.5" fill="#2EB67D" />
+        <rect x="25" y="27" width="5" height="12" rx="2.5" fill="#E01E5A" />
+        <circle cx="34" cy="29.5" r="2.5" fill="#E01E5A" />
+        <rect x="9" y="25" width="12" height="5" rx="2.5" fill="#ECB22E" />
+        <circle cx="18.5" cy="34" r="2.5" fill="#ECB22E" />
+      </svg>
+    )
+  }
+];
+
+const TRUST_TESTIMONIALS = [
+  {
+    id: 't1',
+    brandWordmark: 'RAJASH · 2016',
+    quote:
+      'Tanpa pencatatan terpusat, pemasukan tunai dan tagihan kredit sulit dipisahkan. Dengan RAJASH, kami beralih dari buku catatan manual menuju visibilitas keuangan yang nyata.”',
+    author: 'Dedy Darmansyah',
+    role: 'Pemilik Usaha (Owner) Depot Air Minum RAJASH'
+  },
+  {
+    id: 't2',
+    brandWordmark: 'ULEE KARENG',
+    quote:
+      'RAJASH sangat membantu dalam memantau pelanggan yang membeli secara kredit dan mengetahui tagihan mana yang masih berstatus Belum Lunas maupun yang sudah Lunas.”',
+    author: 'Operasional Pengantaran',
+    role: 'Manajemen Piutang & Tagihan Pelanggan'
+  },
+  {
+    id: 't3',
+    brandWordmark: 'PEMBUKUAN KAS',
+    quote:
+      'Begitu mulai mencatat rutin, perhitungan keuntungan bersih harian dan bulanan menjadi jauh lebih praktis karena seluruh kategori beban depot langsung terdata rapi.”',
+    author: 'Evaluasi Keuangan Harian',
+    role: 'Rekapitulasi Pemasukan & Pengeluaran Depot'
+  },
+  {
+    id: 't4',
+    brandWordmark: 'ANTI-DUPLIKAT',
+    quote:
+      'Peringatan transaksi duplikat membantu mencegah kesalahan pencatatan ganda pada tanggal dan nominal yang sama, sehingga buku kas depot tetap akurat.”',
+    author: 'Kontrol Kualitas Data',
+    role: 'Perlindungan Catatan Transaksi Harian'
+  },
+  {
+    id: 't5',
+    brandWordmark: '6 KATEGORI',
+    quote:
+      'Seluruh pengeluaran mulai dari pembelian pasokan air, BBM becak, servis kendaraan, ganti oli, hingga perbaikan ban tercatat sesuai aktivitas nyata depot.”',
+    author: 'Operasional Armada & Depot',
+    role: 'Struktur Kategori Beban Operasional'
+  },
+  {
+    id: 't6',
+    brandWordmark: 'A26-CS148',
+    quote:
+      'Dirancang khusus mengikuti alur kerja nyata UMKM Depot Air Minum Isi Ulang RAJASH agar pemilik usaha dapat mengelola keuangan dari perangkat apa saja.”',
+    author: 'Tim Capstone A26-CS148',
+    role: 'Pengembang Sistem Pengelolaan Keuangan RAJASH'
   }
 ];
 
@@ -343,8 +400,107 @@ export default function LandingPage() {
   const [selectedExpenseCatIdx, setSelectedExpenseCatIdx] = useState(4);
   const [activeTrendDayIdx, setActiveTrendDayIdx] = useState(5);
   const [demoReceivables, setDemoReceivables] = useState(INITIAL_DEMO_RECEIVABLES);
-  const [activeOrbitIdx, setActiveOrbitIdx] = useState(0);
-  const [selectedCapabilityFilter, setSelectedCapabilityFilter] = useState('all');
+  const [activeOrbitIdx, setActiveOrbitIdx] = useState(8);
+  const [testimonialSlideIdx, setTestimonialSlideIdx] = useState(0);
+  const [testimonialPlaying, setTestimonialPlaying] = useState(true);
+  const [testimonialProgress, setTestimonialProgress] = useState(0);
+  const orbitNodeRefs = useRef([]);
+  const orbitGlyphRefs = useRef([]);
+
+  useEffect(() => {
+    if (!testimonialPlaying) return undefined;
+    const SLIDE_DURATION = 5500;
+    const TICK_MS = 50;
+    let elapsed = 0;
+
+    const timer = setInterval(() => {
+      elapsed += TICK_MS;
+      if (elapsed >= SLIDE_DURATION) {
+        elapsed = 0;
+        setTestimonialSlideIdx((prev) => (prev + 1) % TRUST_TESTIMONIALS.length);
+        setTestimonialProgress(0);
+      } else {
+        setTestimonialProgress(elapsed / SLIDE_DURATION);
+      }
+    }, TICK_MS);
+
+    return () => clearInterval(timer);
+  }, [testimonialPlaying, testimonialSlideIdx]);
+
+  const handlePrevTestimonial = () => {
+    setTestimonialProgress(0);
+    setTestimonialSlideIdx(
+      (prev) => (prev - 1 + TRUST_TESTIMONIALS.length) % TRUST_TESTIMONIALS.length
+    );
+  };
+
+  const handleNextTestimonial = () => {
+    setTestimonialProgress(0);
+    setTestimonialSlideIdx((prev) => (prev + 1) % TRUST_TESTIMONIALS.length);
+  };
+
+  const visibleTestimonials = [0, 1, 2].map(
+    (offset) => TRUST_TESTIMONIALS[(testimonialSlideIdx + offset) % TRUST_TESTIMONIALS.length]
+  );
+
+  useEffect(() => {
+    const N = ORBIT_NODES.length;
+    const R_PCT = 0.28;
+    const R_MAX = 225;
+    const SIZE_MAX = 108;
+    const SIZE_MIN = 23;
+    const IMG_MAX = 50;
+    const IMG_MIN = 18;
+    const PERIOD = 45500;
+    const OPACITY_MIN = 0;
+
+    const startAngles = ORBIT_NODES.map((_, i) => (Math.PI * 2 * i) / N);
+    let startTime = null;
+    let rafId = null;
+
+    function easeSize(angle) {
+      return (Math.cos(angle - Math.PI) + 1) / 2;
+    }
+
+    function animate(ts) {
+      if (!startTime) startTime = ts;
+      const elapsed = ts - startTime;
+
+      const r = Math.min(R_PCT * Math.min(window.innerWidth, window.innerHeight), R_MAX);
+      const cx = 170;
+      const cy = 170;
+
+      orbitNodeRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const angle = startAngles[i] + (elapsed / PERIOD) * Math.PI * 2;
+
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+
+        const t = easeSize(angle % (Math.PI * 2));
+        const size = SIZE_MIN + (SIZE_MAX - SIZE_MIN) * t;
+        const imgSize = IMG_MIN + (IMG_MAX - IMG_MIN) * t;
+
+        const s = size / SIZE_MAX;
+        el.style.transform = `translate(${x - SIZE_MAX / 2}px, ${y - SIZE_MAX / 2}px) scale(${s})`;
+        el.style.zIndex = String(Math.round(1 + t * 8));
+        el.style.opacity = String(OPACITY_MIN + (1 - OPACITY_MIN) * t);
+
+        const glyphEl = orbitGlyphRefs.current[i];
+        if (glyphEl) {
+          glyphEl.style.width = `${imgSize}px`;
+          glyphEl.style.height = `${imgSize}px`;
+        }
+      });
+
+      rafId = requestAnimationFrame(animate);
+    }
+
+    rafId = requestAnimationFrame(animate);
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   const activeSignal = HERO_SIGNALS[activeSignalIdx];
   const TopPillIcon = activeSignal.topPill.icon;
@@ -363,11 +519,6 @@ export default function LandingPage() {
     );
   };
 
-  const visibleCapabilities =
-    selectedCapabilityFilter === 'all'
-      ? CAPABILITY_CARDS
-      : CAPABILITY_CARDS.filter((c) => c.id === selectedCapabilityFilter);
-
   const getBadgeClass = (tone) => {
     if (tone === 'mint') return 'wl-pill-badge wl-pill-badge-mint';
     if (tone === 'blue') return 'wl-pill-badge wl-pill-badge-blue';
@@ -380,10 +531,11 @@ export default function LandingPage() {
       <LandingNavbar />
 
       <main id="main-content">
-        {/* ====================================================================
-            SECTION 1: HERO SECTION (Exact Workleap Officevibe 2-Column Blueprint)
-            ==================================================================== */}
-        <section id="beranda" className="wl-section">
+        <div className="wl-bg-waves">
+          {/* ====================================================================
+              SECTION 1: HERO SECTION (Exact Workleap Officevibe 2-Column Blueprint)
+              ==================================================================== */}
+          <section id="beranda" className="wl-section">
           <div className="wl-padding-global">
             <div className="wl-container">
               <div className="wl-spacer-xxlarge" />
@@ -669,8 +821,9 @@ export default function LandingPage() {
 
         {/* ====================================================================
             SECTION 2: HOW IT WORKS (.capability-container.cc-how-it-works)
+            Wrapped inside .wl-bg-waves (Matching Workleap Officevibe Blueprint)
             ==================================================================== */}
-        <section id="cara-kerja" className="wl-section">
+        <section id="cara-kerja" className="wl-section wl-how-it-works-section">
           <div className="wl-padding-global">
             <div className="wl-container">
               <div className="wl-spacer-xxlarge" />
@@ -692,36 +845,91 @@ export default function LandingPage() {
                   </p>
                 </div>
 
-                {/* 3-Column Illustrated Step Cards with Floating Pill Aesthetic */}
+                {/* 3-Column Illustrated Step Cards (Matching Screenshot 1 Visuals) */}
                 <div className="wl-grid-3 text-center">
-                  {/* Card 1 */}
+                  {/* Card 1: Circular Gauge + Trend Curve (Mirrors "Engagement 7.5 VERY GOOD") */}
                   <div className="d-flex flex-column align-items-center">
                     <div className="wl-how-step-visual">
-                      <div className="d-flex flex-column gap-2">
-                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
-                          <div className="d-flex align-items-center gap-2">
-                            <span
-                              className="d-inline-flex align-items-center justify-content-center"
-                              style={{
-                                width: '28px',
-                                height: '28px',
-                                borderRadius: '50%',
-                                backgroundColor: 'var(--wl-brand-100)',
-                                color: '#FFFFFF'
-                              }}
-                            >
-                              <Sparkle size={14} weight="fill" />
-                            </span>
-                            <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>Penjualan 30 Galon</span>
+                      {/* Background SVG Trend Curve */}
+                      <svg
+                        viewBox="0 0 260 65"
+                        fill="none"
+                        style={{
+                          width: '90%',
+                          height: '52px',
+                          marginBottom: '-18px',
+                          zIndex: 1
+                        }}
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M 10 54 C 55 24, 95 28, 135 42 C 175 56, 205 18, 250 8"
+                          stroke="#2545FF"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                        <circle cx="176" cy="39" r="5" fill="#2545FF" />
+                      </svg>
+
+                      {/* Floating White Gauge Card */}
+                      <div
+                        className="d-flex align-items-center gap-3 p-3 px-4"
+                        style={{
+                          backgroundColor: '#FFFFFF',
+                          borderRadius: '20px',
+                          boxShadow: '0 16px 36px -8px rgba(37, 69, 255, 0.14), 0 4px 12px rgba(12, 23, 84, 0.05)',
+                          border: '1px solid rgba(23, 20, 23, 0.05)',
+                          zIndex: 2
+                        }}
+                      >
+                        {/* Circular Ring Gauge */}
+                        <div className="position-relative d-flex align-items-center justify-content-center" style={{ width: '68px', height: '68px' }}>
+                          <svg viewBox="0 0 72 72" style={{ width: '68px', height: '68px', transform: 'rotate(-90deg)' }}>
+                            <circle cx="36" cy="36" r="29" stroke="#E8EEFF" strokeWidth="7" fill="none" />
+                            <circle
+                              cx="36"
+                              cy="36"
+                              r="29"
+                              stroke="#1D35C8"
+                              strokeWidth="7"
+                              strokeDasharray="182"
+                              strokeDashoffset="38"
+                              strokeLinecap="round"
+                              fill="none"
+                            />
+                          </svg>
+                          <div className="position-absolute text-center">
+                            <div className="font-tabular fw-bold" style={{ fontSize: '0.95rem', lineHeight: 1, color: '#171417' }}>
+                              100%
+                            </div>
+                            <div style={{ fontSize: '0.58rem', color: 'var(--wl-grey-60)', marginTop: '2px' }}>
+                              Rapi
+                            </div>
                           </div>
-                          <span className="wl-pill-badge wl-pill-badge-mint font-tabular">Rp 150.000</span>
                         </div>
 
-                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
-                          <span style={{ fontSize: '0.78rem', color: 'var(--wl-grey-80)' }}>
-                            Jenis Pembayaran
+                        <div className="text-start">
+                          <div style={{ fontSize: '0.84rem', fontWeight: 600, color: '#171417' }}>
+                            Pencatatan
+                          </div>
+                          <div style={{ fontSize: '0.76rem', color: '#166638', fontWeight: 500, margin: '2px 0 6px' }}>
+                            &uarr; Tunai &amp; Kredit
+                          </div>
+                          <span
+                            style={{
+                              display: 'inline-block',
+                              padding: '0.18rem 0.55rem',
+                              borderRadius: '100px',
+                              fontSize: '0.62rem',
+                              fontWeight: 700,
+                              letterSpacing: '0.03em',
+                              backgroundColor: '#E0E7FF',
+                              color: '#1D30EC',
+                              textTransform: 'uppercase'
+                            }}
+                          >
+                            TERSTRUKTUR
                           </span>
-                          <span className="wl-pill-badge wl-pill-badge-blue">Tunai / Kredit</span>
                         </div>
                       </div>
                     </div>
@@ -731,28 +939,71 @@ export default function LandingPage() {
                     </p>
                   </div>
 
-                  {/* Card 2 */}
+                  {/* Card 2: Floating Signal Card + Top-Right Notification Tile (Mirrors "Growth signal") */}
                   <div className="d-flex flex-column align-items-center">
-                    <div
-                      className="wl-how-step-visual"
-                      style={{
-                        background: 'linear-gradient(155deg, #EDE9FE 0%, #DBF3FF 100%)'
-                      }}
-                    >
-                      <div className="d-flex flex-column gap-2">
-                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
-                          <div className="d-flex align-items-center gap-2">
-                            <BellRinging size={18} weight="fill" style={{ color: 'var(--wl-brand-100)' }} />
-                            <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>Warkop Kupi Aceh</span>
-                          </div>
-                          <span className="wl-pill-badge wl-pill-badge-peach">Belum Lunas</span>
+                    <div className="wl-how-step-visual">
+                      <div className="position-relative" style={{ width: '100%', maxWidth: '285px' }}>
+                        {/* Top-Right Floating Notification Tile */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '-18px',
+                            right: '10px',
+                            width: '44px',
+                            height: '44px',
+                            borderRadius: '12px',
+                            backgroundColor: '#FFFFFF',
+                            boxShadow: '0 10px 24px rgba(12, 23, 84, 0.14)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 3
+                          }}
+                        >
+                          <RajashMark size={26} />
+                          <span
+                            style={{
+                              position: 'absolute',
+                              top: '-6px',
+                              right: '-6px',
+                              width: '18px',
+                              height: '18px',
+                              borderRadius: '50%',
+                              backgroundColor: '#EF4444',
+                              color: '#FFFFFF',
+                              fontSize: '0.65rem',
+                              fontWeight: 700,
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            4
+                          </span>
                         </div>
 
-                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
-                          <span style={{ fontSize: '0.78rem', color: 'var(--wl-grey-80)' }}>
-                            Pengingat Aplikasi
-                          </span>
-                          <span className="wl-pill-badge wl-pill-badge-peach font-tabular">Rp 175.000</span>
+                        {/* White Signal Card */}
+                        <div
+                          className="p-3 text-start"
+                          style={{
+                            backgroundColor: '#FFFFFF',
+                            borderRadius: '18px',
+                            boxShadow: '0 16px 36px -8px rgba(37, 69, 255, 0.14), 0 4px 12px rgba(12, 23, 84, 0.05)',
+                            border: '1px solid rgba(23, 20, 23, 0.05)'
+                          }}
+                        >
+                          <div className="d-flex align-items-center gap-2 pb-2 mb-2" style={{ borderBottom: '1px solid #ECECE9' }}>
+                            <RajashMark size={24} tile={true} />
+                            <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#171417' }}>
+                              Sinyal Piutang
+                            </span>
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--wl-grey-80)', lineHeight: 1.45, marginBottom: '0.55rem' }}>
+                            Terdapat 4 tagihan kredit pelanggan senilai Rp 505.000 belum lunas.
+                          </div>
+                          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#2545FF' }}>
+                            Periksa piutang &rarr;
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -762,29 +1013,40 @@ export default function LandingPage() {
                     </p>
                   </div>
 
-                  {/* Card 3 */}
+                  {/* Card 3: Sparkle Header + 3 Staggered Checklist Pills (Mirrors "Act with an AI coach") */}
                   <div className="d-flex flex-column align-items-center">
-                    <div
-                      className="wl-how-step-visual"
-                      style={{
-                        background: 'linear-gradient(155deg, #E1F5EB 0%, #DBF3FF 100%)'
-                      }}
-                    >
-                      <div className="d-flex flex-column gap-2">
-                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
-                          <div className="d-flex align-items-center gap-2">
-                            <Trophy size={18} weight="regular" style={{ color: '#166638' }} />
-                            <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>Keuntungan Bersih</span>
-                          </div>
-                          <span className="wl-pill-badge wl-pill-badge-mint font-tabular">Rp 1.085.000</span>
+                    <div className="wl-how-step-visual">
+                      <div className="d-flex flex-column gap-2 w-100" style={{ maxWidth: '290px' }}>
+                        <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
+                          <Sparkle size={15} weight="fill" style={{ color: '#2545FF' }} />
+                          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#171417' }}>
+                            Rekapitulasi telah siap.
+                          </span>
                         </div>
 
-                        <div className="wl-floating-pill w-100 py-2 px-3" style={{ cursor: 'default' }}>
-                          <span style={{ fontSize: '0.78rem', color: 'var(--wl-grey-80)' }}>
-                            Periode Laporan
-                          </span>
-                          <span className="wl-pill-badge wl-pill-badge-blue">Harian &amp; Bulanan</span>
-                        </div>
+                        {[
+                          { text: 'Pemasukan kas tunai telah direkap.', offset: '0px' },
+                          { text: 'Laba bersih Rp 1.085.000 terhitung.', offset: '-10px', bold: true },
+                          { text: 'Laporan harian & bulanan siap cetak.', offset: '8px' }
+                        ].map((item) => (
+                          <div
+                            key={item.text}
+                            className="d-flex align-items-center gap-2 py-2 px-3"
+                            style={{
+                              backgroundColor: '#FFFFFF',
+                              borderRadius: '12px',
+                              boxShadow: '0 10px 24px -6px rgba(37, 69, 255, 0.14)',
+                              border: '1px solid rgba(23, 20, 23, 0.05)',
+                              transform: `translateX(${item.offset})`,
+                              fontSize: '0.73rem',
+                              fontWeight: item.bold ? 600 : 400,
+                              color: '#171417'
+                            }}
+                          >
+                            <Check size={13} weight="bold" style={{ color: '#2545FF', flexShrink: 0 }} />
+                            <span>{item.text}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                     <h5 className="wl-heading-h5">Rekap keuangan lebih praktis</h5>
@@ -799,9 +1061,10 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+        </div>
 
         {/* ====================================================================
-            SECTION 3: STEP 1 DEEP DIVE (Interactive Transaction & Category Preview)
+            SECTION 3: STEP 1 DEEP DIVE (Blue-to-Purple Gradient Stage - Screenshot 2)
             ==================================================================== */}
         <section id="fitur" className="wl-section">
           <div className="wl-padding-global">
@@ -867,63 +1130,59 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                {/* Right Interactive Layered Composition */}
-                <div className="wl-signal-canvas">
-                  <div className="wl-signal-glow" />
-
-                  {/* Top Floating Pill */}
-                  <div className="d-flex justify-content-end w-100 mb-2" style={{ maxWidth: '490px', zIndex: 4 }}>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setStep1PaymentType((p) => (p === 'Kredit' ? 'Tunai' : 'Kredit'))}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setStep1PaymentType((p) => (p === 'Kredit' ? 'Tunai' : 'Kredit'));
-                        }
-                      }}
-                      className="wl-floating-pill"
-                      style={{ animation: 'wlGentleFloat 5.5s ease-in-out infinite' }}
-                      title="Klik untuk mengubah jenis pembayaran"
-                    >
-                      <div className="d-flex align-items-center gap-2">
-                        <Wallet size={19} style={{ color: '#171417' }} />
-                        <span style={{ fontSize: '0.88rem', fontWeight: 500 }}>
-                          Mode Pembayaran: <strong>{step1PaymentType}</strong>
-                        </span>
-                      </div>
-                      <span
-                        className={
-                          step1PaymentType === 'Tunai'
-                            ? 'wl-pill-badge wl-pill-badge-mint'
-                            : 'wl-pill-badge wl-pill-badge-peach'
-                        }
-                      >
-                        {step1PaymentType === 'Tunai' ? 'Otomatis Lunas' : 'Masuk Piutang'}
+                {/* Right Column: Blue-to-Purple Gradient Stage (Matching Screenshot 2) */}
+                <div className="wl-step-gradient-stage">
+                  {/* Top-Left Notification Tile + Overlapping Banner */}
+                  <div className="wl-step-notif-cluster">
+                    <div className="wl-step-app-tile">
+                      <span className="wl-step-notif-dot">1</span>
+                      <RajashMark size={34} />
+                    </div>
+                    <div className="wl-step-notif-banner">
+                      <RajashMark size={30} tile={true} />
+                      <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#171417' }}>
+                        Waktunya catat transaksi harian!
                       </span>
                     </div>
                   </div>
 
-                  {/* Main Interactive Card */}
-                  <div className="wl-signal-main-card">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="d-flex align-items-center gap-3">
-                        <span className="wl-signal-sparkle-badge">
-                          <Sparkle size={20} weight="fill" />
-                        </span>
-                        <div>
-                          <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                            Simulasi Pencatatan Interaktif
-                          </div>
-                          <h3 className="wl-signal-title" style={{ fontSize: '1.35rem' }}>
-                            Input Pemasukan &amp; Beban
-                          </h3>
+                  {/* Curved Orange Loop Arrow SVG */}
+                  <svg
+                    className="wl-step-curved-arrow"
+                    viewBox="0 0 90 130"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M 42 8 C 68 8, 72 34, 48 34 C 20 34, 6 68, 28 112"
+                      stroke="#FA7249"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 18 106 L 29 114 L 32 100"
+                      stroke="#FA7249"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+
+                  {/* Translucent Frosted Glass Frame */}
+                  <div className="wl-step-glass-frame">
+                    {/* Cream Top Prompt Bubble */}
+                    <div className="wl-step-glass-top-bubble d-flex align-items-center justify-content-between gap-2 flex-wrap">
+                      <div>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                          Formulir Pencatatan Terpusat
+                        </div>
+                        <div style={{ fontSize: '0.96rem', fontWeight: 600, color: '#171417' }}>
+                          Pilih jenis pembayaran &amp; kategori beban operasional:
                         </div>
                       </div>
-
-                      {/* Payment Toggle Buttons */}
-                      <div className="d-flex gap-1 p-1 rounded-pill" style={{ backgroundColor: 'var(--wl-soft-20)', border: '1px solid var(--wl-grey-20)' }}>
+                      {/* Toggle Tunai / Kredit */}
+                      <div className="d-flex gap-1 p-1 rounded-pill" style={{ backgroundColor: '#FFFFFF', border: '1px solid var(--wl-grey-20)' }}>
                         {['Tunai', 'Kredit'].map((mode) => (
                           <button
                             key={mode}
@@ -932,8 +1191,8 @@ export default function LandingPage() {
                             style={{
                               border: 'none',
                               borderRadius: '100px',
-                              padding: '0.25rem 0.7rem',
-                              fontSize: '0.75rem',
+                              padding: '0.24rem 0.72rem',
+                              fontSize: '0.74rem',
                               fontWeight: 600,
                               backgroundColor: step1PaymentType === mode ? 'var(--wl-brand-100)' : 'transparent',
                               color: step1PaymentType === mode ? '#FFFFFF' : 'var(--wl-grey-80)',
@@ -947,71 +1206,94 @@ export default function LandingPage() {
                       </div>
                     </div>
 
-                    <div className="wl-signal-divider" />
-
-                    {/* Selected Expense Category Preview */}
-                    <div className="mb-3">
-                      <div style={{ fontSize: '0.78rem', fontWeight: 500, color: 'var(--wl-grey-80)', marginBottom: '0.5rem' }}>
-                        Klik salah satu dari 6 kategori pengeluaran operasional:
-                      </div>
-                      <div className="d-flex flex-wrap gap-1">
-                        {EXPENSE_CATEGORIES_PREVIEW.map((cat, idx) => {
-                          const isSelected = idx === selectedExpenseCatIdx;
-                          return (
-                            <button
-                              key={cat.name}
-                              type="button"
-                              onClick={() => setSelectedExpenseCatIdx(idx)}
-                              style={{
-                                padding: '0.34rem 0.78rem',
-                                borderRadius: '100px',
-                                fontSize: '0.76rem',
-                                fontWeight: 500,
-                                backgroundColor: isSelected ? 'var(--wl-brand-100)' : 'var(--wl-soft-20)',
-                                color: isSelected ? '#FFFFFF' : 'var(--wl-grey-100)',
-                                border: isSelected ? '1px solid var(--wl-brand-100)' : '1px solid var(--wl-grey-20)',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s ease'
-                              }}
-                            >
-                              {cat.name}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    <div
-                      className="p-3 rounded-4 d-flex align-items-center justify-content-between gap-2"
-                      style={{
-                        backgroundColor: 'var(--wl-soft-20)',
-                        border: '1px solid var(--wl-grey-20)'
-                      }}
-                    >
-                      <div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)' }}>
-                          Contoh Transaksi ({activeExpenseCat.name})
+                    {/* White Inner Card */}
+                    <div className="wl-step-glass-inner-card">
+                      <div className="d-flex align-items-center justify-content-between mb-3">
+                        <div className="d-flex align-items-center gap-2">
+                          <span
+                            className="d-inline-flex align-items-center justify-content-center"
+                            style={{
+                              width: '28px',
+                              height: '28px',
+                              borderRadius: '50%',
+                              backgroundColor: '#EEF2FF',
+                              color: 'var(--wl-brand-100)'
+                            }}
+                          >
+                            <Check size={14} weight="bold" />
+                          </span>
+                          <span style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--wl-grey-80)' }}>
+                            Status Otomatis: {step1PaymentType === 'Tunai' ? 'Lunas (Kas)' : 'Belum Lunas (Piutang)'}
+                          </span>
                         </div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--wl-grey-100)' }}>
-                          {activeExpenseCat.sample}
-                        </div>
-                      </div>
-                      <span className="wl-pill-badge wl-pill-badge-blue font-tabular">
-                        {activeExpenseCat.nominal}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Overlapping Bottom Duplicate Warning Pill */}
-                  <div className="wl-signal-bottom-stack">
-                    <div className="wl-floating-pill wl-floating-pill-bottom-left" style={{ cursor: 'default' }}>
-                      <div className="d-flex align-items-center gap-2">
-                        <Warning size={20} weight="fill" style={{ color: '#D9532F', flexShrink: 0 }} />
-                        <span style={{ fontSize: '0.84rem', color: '#171417' }}>
-                          Cek otomatis bila nominal &amp; tanggal <strong>tercatat ganda.</strong>
+                        <span
+                          className={
+                            step1PaymentType === 'Tunai'
+                              ? 'wl-pill-badge wl-pill-badge-mint'
+                              : 'wl-pill-badge wl-pill-badge-peach'
+                          }
+                        >
+                          {step1PaymentType}
                         </span>
                       </div>
-                      <span className="wl-pill-badge wl-pill-badge-peach">Anti-Duplikat</span>
+
+                      {/* 6 Expense Category Interactive Pills */}
+                      <div className="p-3 rounded-3 mb-3" style={{ border: '1px solid var(--wl-grey-20)', backgroundColor: '#FAFAFA' }}>
+                        <div className="d-flex flex-wrap gap-1 mb-2">
+                          {EXPENSE_CATEGORIES_PREVIEW.map((cat, idx) => {
+                            const isSelected = idx === selectedExpenseCatIdx;
+                            return (
+                              <button
+                                key={cat.name}
+                                type="button"
+                                onClick={() => setSelectedExpenseCatIdx(idx)}
+                                style={{
+                                  padding: '0.3rem 0.72rem',
+                                  borderRadius: '100px',
+                                  fontSize: '0.73rem',
+                                  fontWeight: 500,
+                                  backgroundColor: isSelected ? 'var(--wl-brand-100)' : '#FFFFFF',
+                                  color: isSelected ? '#FFFFFF' : 'var(--wl-grey-100)',
+                                  border: isSelected ? '1px solid var(--wl-brand-100)' : '1px solid var(--wl-grey-20)',
+                                  cursor: 'pointer',
+                                  transition: 'all 0.2s ease'
+                                }}
+                              >
+                                {cat.name}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <div className="d-flex align-items-center justify-content-between pt-2" style={{ borderTop: '1px solid #ECECE9', fontSize: '0.8rem' }}>
+                          <span style={{ color: 'var(--wl-grey-80)' }}>{activeExpenseCat.sample}</span>
+                          <strong className="font-tabular" style={{ color: '#171417' }}>{activeExpenseCat.nominal}</strong>
+                        </div>
+                      </div>
+
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span style={{ fontSize: '0.74rem', color: '#D9532F', fontWeight: 500 }}>
+                          &#9888; Deteksi transaksi duplikat aktif
+                        </span>
+                        <Link
+                          to={isAuthenticated ? '/pemasukan' : '/login'}
+                          style={{
+                            padding: '0.45rem 1.25rem',
+                            borderRadius: '100px',
+                            backgroundColor: 'var(--wl-brand-100)',
+                            color: '#FFFFFF',
+                            fontSize: '0.82rem',
+                            fontWeight: 600,
+                            textDecoration: 'none'
+                          }}
+                        >
+                          Simpan
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Orange User Avatar Pointer Badge at Bottom-Right */}
+                    <div className="wl-step-avatar-pointer" aria-hidden="true">
+                      <Sparkle size={20} weight="fill" />
                     </div>
                   </div>
                 </div>
@@ -1023,7 +1305,7 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 4: STEP 2 DEEP DIVE (Interactive 7-Day Trend & Net Profit Signal)
+            SECTION 4: STEP 2 DEEP DIVE (Blue-to-Purple Gradient Stage - Screenshot 2)
             ==================================================================== */}
         <section className="wl-section">
           <div className="wl-padding-global">
@@ -1031,65 +1313,77 @@ export default function LandingPage() {
               <div className="wl-spacer-xxlarge" />
 
               <div className="wl-grid-2">
-                {/* Left Interactive Layered Card Column */}
-                <div className="wl-signal-canvas order-2 order-lg-1">
-                  <div className="wl-signal-glow" />
-
-                  {/* Top Floating Pill showing Selected Day's Net Profit */}
-                  <div className="d-flex justify-content-end w-100 mb-2" style={{ maxWidth: '490px', zIndex: 4 }}>
-                    <div
-                      className="wl-floating-pill"
-                      style={{ animation: 'wlGentleFloat 5.8s ease-in-out infinite', cursor: 'default' }}
-                    >
-                      <div className="d-flex align-items-center gap-2">
-                        <Trophy size={19} style={{ color: '#171417' }} />
-                        <span style={{ fontSize: '0.88rem', fontWeight: 500 }}>
-                          Laba Bersih ({activeTrendDay.label})
-                        </span>
-                      </div>
-                      <span className="wl-pill-badge wl-pill-badge-mint font-tabular">
-                        +{activeTrendDay.netVal}
+                {/* Left Column: Blue-to-Purple Gradient Stage */}
+                <div className="wl-step-gradient-stage variant-purple order-2 order-lg-1">
+                  {/* Top-Left Notification Cluster */}
+                  <div className="wl-step-notif-cluster">
+                    <div className="wl-step-app-tile">
+                      <span className="wl-step-notif-dot">7</span>
+                      <RajashMark size={34} />
+                    </div>
+                    <div className="wl-step-notif-banner">
+                      <RajashMark size={30} tile={true} />
+                      <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#171417' }}>
+                        Laba Bersih ({activeTrendDay.label}): +{activeTrendDay.netVal}
                       </span>
                     </div>
                   </div>
 
-                  {/* Main Interactive Chart Card */}
-                  <div className="wl-signal-main-card">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="d-flex align-items-center gap-3">
-                        <span className="wl-signal-sparkle-badge">
-                          <ChartBar size={20} weight="fill" />
-                        </span>
-                        <div>
-                          <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                            Klik Batang Grafik Harian
-                          </div>
-                          <h3 className="wl-signal-title" style={{ fontSize: '1.35rem' }}>
-                            Tren Kas &amp; Keuntungan Bersih
-                          </h3>
+                  {/* Curved Orange Loop Arrow SVG */}
+                  <svg
+                    className="wl-step-curved-arrow"
+                    viewBox="0 0 90 130"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M 42 8 C 68 8, 72 34, 48 34 C 20 34, 6 68, 28 112"
+                      stroke="#FA7249"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 18 106 L 29 114 L 32 100"
+                      stroke="#FA7249"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+
+                  {/* Translucent Frosted Glass Frame */}
+                  <div className="wl-step-glass-frame">
+                    <div className="wl-step-glass-top-bubble d-flex align-items-center justify-content-between gap-2">
+                      <div>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                          Rekapitulasi Arus Kas Bersih
+                        </div>
+                        <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#171417' }}>
+                          Keuntungan Bersih = Kas Masuk Aktual - Pengeluaran
                         </div>
                       </div>
                       <span className="wl-pill-badge wl-pill-badge-mint font-tabular">Rp 1.085.000</span>
                     </div>
 
-                    <div className="wl-signal-divider" />
-
-                    {/* Interactive 7-Day Bar Chart */}
-                    <div
-                      className="p-3 rounded-4"
-                      style={{
-                        backgroundColor: 'var(--wl-soft-20)',
-                        border: '1px solid var(--wl-grey-20)'
-                      }}
-                    >
-                      <div className="d-flex justify-content-between align-items-center mb-2" style={{ fontSize: '0.76rem' }}>
-                        <span className="fw-semibold">Tanggal {activeTrendDay.label} 2026</span>
+                    <div className="wl-step-glass-inner-card">
+                      <div className="d-flex justify-content-between align-items-center mb-2" style={{ fontSize: '0.78rem' }}>
+                        <span className="fw-semibold" style={{ color: '#171417' }}>
+                          Klik Grafik Harian ({activeTrendDay.label} 2026)
+                        </span>
                         <span className="font-tabular" style={{ color: 'var(--wl-brand-100)', fontWeight: 600 }}>
                           Masuk: {activeTrendDay.inVal} · Beban: {activeTrendDay.outVal}
                         </span>
                       </div>
 
-                      <div className="d-flex align-items-end justify-content-between gap-2 pt-2" style={{ height: '104px' }}>
+                      <div
+                        className="d-flex align-items-end justify-content-between gap-2 p-3 rounded-3"
+                        style={{
+                          height: '112px',
+                          backgroundColor: '#FAFAFA',
+                          border: '1px solid var(--wl-grey-20)'
+                        }}
+                      >
                         {DAILY_TREND_DATA.map((d, idx) => {
                           const isSelected = idx === activeTrendDayIdx;
                           return (
@@ -1101,15 +1395,15 @@ export default function LandingPage() {
                               className="d-flex flex-column align-items-center flex-grow-1 h-100 justify-content-end border-0 bg-transparent p-1"
                               style={{
                                 cursor: 'pointer',
-                                borderRadius: '10px',
-                                backgroundColor: isSelected ? 'rgba(37, 69, 255, 0.08)' : 'transparent',
+                                borderRadius: '8px',
+                                backgroundColor: isSelected ? 'rgba(37, 69, 255, 0.09)' : 'transparent',
                                 transition: 'all 0.2s ease'
                               }}
                             >
                               <div className="d-flex align-items-end gap-1 w-100 justify-content-center h-100">
                                 <div
                                   style={{
-                                    width: '10px',
+                                    width: '9px',
                                     height: d.inH,
                                     backgroundColor: isSelected ? 'var(--wl-brand-100)' : '#7C92FF',
                                     borderRadius: '4px 4px 0 0',
@@ -1118,9 +1412,9 @@ export default function LandingPage() {
                                 />
                                 <div
                                   style={{
-                                    width: '10px',
+                                    width: '9px',
                                     height: d.outH,
-                                    backgroundColor: isSelected ? '#F28107' : '#CBD5E1',
+                                    backgroundColor: isSelected ? '#FA7249' : '#CBD5E1',
                                     borderRadius: '4px 4px 0 0',
                                     transition: 'all 0.25s ease'
                                   }}
@@ -1128,10 +1422,10 @@ export default function LandingPage() {
                               </div>
                               <span
                                 style={{
-                                  fontSize: '0.66rem',
+                                  fontSize: '0.64rem',
                                   fontWeight: isSelected ? 700 : 500,
                                   color: isSelected ? 'var(--wl-brand-100)' : 'var(--wl-grey-60)',
-                                  marginTop: '5px'
+                                  marginTop: '4px'
                                 }}
                               >
                                 {d.label}
@@ -1141,18 +1435,9 @@ export default function LandingPage() {
                         })}
                       </div>
                     </div>
-                  </div>
 
-                  {/* Bottom Staggered Pill */}
-                  <div className="wl-signal-bottom-stack">
-                    <div className="wl-floating-pill wl-floating-pill-bottom-right" style={{ cursor: 'default' }}>
-                      <div className="d-flex align-items-center gap-2">
-                        <Target size={20} style={{ color: '#171417' }} />
-                        <span style={{ fontSize: '0.86rem', color: '#171417' }}>
-                          Rumus: <strong>Kas Masuk Aktual - Pengeluaran</strong>
-                        </span>
-                      </div>
-                      <span className="wl-pill-badge wl-pill-badge-blue">Otomatis</span>
+                    <div className="wl-step-avatar-pointer" aria-hidden="true">
+                      <ChartBar size={20} weight="fill" />
                     </div>
                   </div>
                 </div>
@@ -1208,7 +1493,7 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 5: STEP 3 DEEP DIVE (Interactive Receivables Status Toggle)
+            SECTION 5: STEP 3 DEEP DIVE (Blue-to-Purple Gradient Stage - Screenshot 2)
             ==================================================================== */}
         <section className="wl-section">
           <div className="wl-padding-global">
@@ -1260,48 +1545,54 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                {/* Right Interactive Layered Receivables Composition */}
-                <div className="wl-signal-canvas">
-                  <div className="wl-signal-glow" />
-
-                  {/* Top Floating Pill with Live Remaining Receivables */}
-                  <div className="d-flex justify-content-end w-100 mb-2" style={{ maxWidth: '490px', zIndex: 4 }}>
-                    <div
-                      className="wl-floating-pill"
-                      style={{ animation: 'wlGentleFloat 5.6s ease-in-out infinite', cursor: 'default' }}
-                    >
-                      <div className="d-flex align-items-center gap-2">
-                        <Notebook size={19} style={{ color: '#171417' }} />
-                        <span style={{ fontSize: '0.88rem', fontWeight: 500 }}>
-                          Sisa Piutang Simulasi
-                        </span>
-                      </div>
-                      <span
-                        className={`font-tabular ${
-                          unpaidReceivablesCount === 0
-                            ? 'wl-pill-badge wl-pill-badge-mint'
-                            : 'wl-pill-badge wl-pill-badge-peach'
-                        }`}
-                      >
-                        Rp {unpaidReceivablesTotal.toLocaleString('id-ID')}
+                {/* Right Column: Blue-to-Purple Gradient Stage */}
+                <div className="wl-step-gradient-stage variant-indigo">
+                  {/* Top-Left Notification Cluster */}
+                  <div className="wl-step-notif-cluster">
+                    <div className="wl-step-app-tile">
+                      <span className="wl-step-notif-dot">{unpaidReceivablesCount}</span>
+                      <RajashMark size={34} />
+                    </div>
+                    <div className="wl-step-notif-banner">
+                      <RajashMark size={30} tile={true} />
+                      <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#171417' }}>
+                        Waktunya tindak lanjuti piutang!
                       </span>
                     </div>
                   </div>
 
-                  {/* Main Interactive Receivables Card */}
-                  <div className="wl-signal-main-card">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="d-flex align-items-center gap-3">
-                        <span className="wl-signal-sparkle-badge">
-                          <BellRinging size={20} weight="fill" />
-                        </span>
-                        <div>
-                          <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                            Klik Status Untuk Simulasi Pelunasan
-                          </div>
-                          <h3 className="wl-signal-title" style={{ fontSize: '1.35rem' }}>
-                            Daftar Piutang Pelanggan
-                          </h3>
+                  {/* Curved Orange Loop Arrow SVG */}
+                  <svg
+                    className="wl-step-curved-arrow"
+                    viewBox="0 0 90 130"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M 42 8 C 68 8, 72 34, 48 34 C 20 34, 6 68, 28 112"
+                      stroke="#FA7249"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 18 106 L 29 114 L 32 100"
+                      stroke="#FA7249"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+
+                  {/* Translucent Frosted Glass Frame */}
+                  <div className="wl-step-glass-frame">
+                    <div className="wl-step-glass-top-bubble d-flex align-items-center justify-content-between gap-2">
+                      <div>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                          Klik Baris Untuk Ubah Status
+                        </div>
+                        <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#171417' }}>
+                          Sisa Piutang Simulasi: Rp {unpaidReceivablesTotal.toLocaleString('id-ID')}
                         </div>
                       </div>
                       <span
@@ -1315,52 +1606,56 @@ export default function LandingPage() {
                       </span>
                     </div>
 
-                    <div className="wl-signal-divider" />
-
-                    <div className="d-flex flex-column gap-2">
-                      {demoReceivables.map((r) => (
-                        <div
-                          key={r.id}
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => toggleDemoReceivable(r.id)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault();
-                              toggleDemoReceivable(r.id);
-                            }
-                          }}
-                          className="p-3 rounded-4 d-flex align-items-center justify-content-between gap-2"
-                          style={{
-                            backgroundColor: r.paid ? '#F8FAF9' : 'var(--wl-soft-20)',
-                            border: r.paid ? '1px solid var(--wl-success-60)' : '1px solid var(--wl-grey-20)',
-                            cursor: 'pointer',
-                            transition: 'all 0.22s ease'
-                          }}
-                          title="Klik untuk mengubah status Lunas / Belum Lunas"
-                        >
-                          <div>
-                            <div className="fw-semibold" style={{ fontSize: '0.86rem', color: '#171417' }}>
-                              {r.name}
-                            </div>
-                            <div style={{ fontSize: '0.73rem', color: 'var(--wl-grey-60)' }}>{r.meta}</div>
-                          </div>
-                          <div className="d-flex align-items-center gap-2">
-                            <span className="font-tabular fw-bold" style={{ fontSize: '0.86rem' }}>
-                              {r.amount}
-                            </span>
-                            <span
-                              className={
-                                r.paid
-                                  ? 'wl-pill-badge wl-pill-badge-mint'
-                                  : 'wl-pill-badge wl-pill-badge-peach'
+                    <div className="wl-step-glass-inner-card">
+                      <div className="d-flex flex-column gap-2">
+                        {demoReceivables.map((r) => (
+                          <div
+                            key={r.id}
+                            role="button"
+                            tabIndex={0}
+                            onClick={() => toggleDemoReceivable(r.id)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                toggleDemoReceivable(r.id);
                               }
-                            >
-                              {r.paid ? 'Lunas' : 'Belum Lunas'}
-                            </span>
+                            }}
+                            className="p-2 px-3 rounded-3 d-flex align-items-center justify-content-between gap-2"
+                            style={{
+                              backgroundColor: r.paid ? '#F8FAF9' : '#FAFAFA',
+                              border: r.paid ? '1px solid var(--wl-success-60)' : '1px solid var(--wl-grey-20)',
+                              cursor: 'pointer',
+                              transition: 'all 0.22s ease'
+                            }}
+                            title="Klik untuk mengubah status Lunas / Belum Lunas"
+                          >
+                            <div>
+                              <div className="fw-semibold" style={{ fontSize: '0.84rem', color: '#171417' }}>
+                                {r.name}
+                              </div>
+                              <div style={{ fontSize: '0.71rem', color: 'var(--wl-grey-60)' }}>{r.meta}</div>
+                            </div>
+                            <div className="d-flex align-items-center gap-2">
+                              <span className="font-tabular fw-bold" style={{ fontSize: '0.84rem' }}>
+                                {r.amount}
+                              </span>
+                              <span
+                                className={
+                                  r.paid
+                                    ? 'wl-pill-badge wl-pill-badge-mint'
+                                    : 'wl-pill-badge wl-pill-badge-peach'
+                                }
+                              >
+                                {r.paid ? 'Lunas' : 'Belum Lunas'}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="wl-step-avatar-pointer" aria-hidden="true">
+                      <Check size={20} weight="bold" />
                     </div>
                   </div>
                 </div>
@@ -1372,7 +1667,7 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 6: BENEFIT SECTION (Floating Pill Cards Composition)
+            SECTION 6: BENEFIT SECTION (Blue-to-Purple Gradient Stage)
             ==================================================================== */}
         <section className="wl-section">
           <div className="wl-padding-global">
@@ -1380,74 +1675,88 @@ export default function LandingPage() {
               <div className="wl-spacer-xxlarge" />
 
               <div className="wl-grid-2">
-                {/* Left Visual Composition */}
-                <div className="wl-signal-canvas order-2 order-lg-1">
-                  <div className="wl-signal-glow" />
-                  <div className="d-flex flex-column gap-3 w-100" style={{ maxWidth: '490px', zIndex: 3 }}>
-                    {[
-                      {
-                        num: '01',
-                        title: 'Mengurangi risiko pencatatan terlewat atau ganda',
-                        desc: 'Transaksi tersimpan rapi berdasarkan tanggal dan memiliki deteksi kemiripan transaksi.',
-                        badge: 'Terstruktur',
-                        tone: 'blue'
-                      },
-                      {
-                        num: '02',
-                        title: 'Mempermudah perhitungan keuntungan bersih',
-                        desc: 'Keuntungan bersih dihitung otomatis dari kas masuk aktual dikurangi total pengeluaran.',
-                        badge: 'Otomatis',
-                        tone: 'mint'
-                      },
-                      {
-                        num: '03',
-                        title: 'Membantu memantau transaksi kredit pelanggan',
-                        desc: 'Tagihan kredit tercatat terpisah sebagai piutang sampai pelanggan melunasinya.',
-                        badge: 'Pantauan Kredit',
-                        tone: 'peach'
-                      },
-                      {
-                        num: '04',
-                        title: 'Mempercepat pembuatan rekap harian dan bulanan',
-                        desc: 'Laporan siap dilihat, dicetak, atau diekspor kapan saja tanpa rekap manual.',
-                        badge: 'Praktis',
-                        tone: 'blue'
-                      }
-                    ].map((b, idx) => (
-                      <div
-                        key={b.num}
-                        className="wl-floating-pill w-100 p-3 align-items-start"
-                        style={{
-                          cursor: 'default',
-                          animation: `wlGentleFloat ${5.4 + idx * 0.4}s ease-in-out ${idx * 0.5}s infinite`
-                        }}
-                      >
-                        <div className="d-flex align-items-start gap-3">
-                          <span
-                            className="font-tabular fw-bold d-inline-flex align-items-center justify-content-center flex-shrink-0"
-                            style={{
-                              width: '36px',
-                              height: '36px',
-                              borderRadius: '50%',
-                              backgroundColor: 'var(--wl-brand-100)',
-                              color: '#FFFFFF',
-                              fontSize: '0.82rem'
-                            }}
-                          >
-                            {b.num}
-                          </span>
-                          <div>
-                            <div style={{ fontFamily: 'var(--wl-display-font)', fontWeight: 600, fontSize: '0.94rem', color: '#171417' }}>
-                              {b.title}
-                            </div>
-                            <div style={{ fontSize: '0.8rem', color: 'var(--wl-grey-80)', marginTop: '3px', lineHeight: 1.45 }}>
-                              {b.desc}
+                {/* Left Visual Composition inside Blue-to-Purple Gradient Stage */}
+                <div className="wl-step-gradient-stage order-2 order-lg-1">
+                  <div className="wl-step-notif-cluster">
+                    <div className="wl-step-app-tile">
+                      <span className="wl-step-notif-dot">4</span>
+                      <RajashMark size={34} />
+                    </div>
+                    <div className="wl-step-notif-banner">
+                      <RajashMark size={30} tile={true} />
+                      <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#171417' }}>
+                        4 Manfaat Utama Sistem RAJASH
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="wl-step-glass-frame" style={{ marginLeft: 0 }}>
+                    <div className="d-flex flex-column gap-2">
+                      {[
+                        {
+                          num: '01',
+                          title: 'Mengurangi risiko pencatatan terlewat atau ganda',
+                          desc: 'Deteksi kemiripan transaksi pada tanggal dan nominal yang sama.',
+                          badge: 'Terstruktur',
+                          tone: 'blue'
+                        },
+                        {
+                          num: '02',
+                          title: 'Mempermudah perhitungan keuntungan bersih',
+                          desc: 'Otomatis dihitung dari kas masuk aktual dikurangi pengeluaran.',
+                          badge: 'Otomatis',
+                          tone: 'mint'
+                        },
+                        {
+                          num: '03',
+                          title: 'Membantu memantau transaksi kredit pelanggan',
+                          desc: 'Tagihan kredit dipantau terpisah hingga pelanggan melunasinya.',
+                          badge: 'Piutang',
+                          tone: 'peach'
+                        },
+                        {
+                          num: '04',
+                          title: 'Mempercepat pembuatan rekap harian dan bulanan',
+                          desc: 'Laporan siap dilihat, dicetak, atau diekspor kapan saja.',
+                          badge: 'Praktis',
+                          tone: 'blue'
+                        }
+                      ].map((b) => (
+                        <div
+                          key={b.num}
+                          className="p-2 px-3 rounded-3 d-flex align-items-center justify-content-between gap-2"
+                          style={{
+                            backgroundColor: '#FFFFFF',
+                            boxShadow: '0 6px 16px rgba(12, 23, 84, 0.08)'
+                          }}
+                        >
+                          <div className="d-flex align-items-center gap-2">
+                            <span
+                              className="font-tabular fw-bold d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                              style={{
+                                width: '30px',
+                                height: '30px',
+                                borderRadius: '50%',
+                                backgroundColor: 'var(--wl-brand-100)',
+                                color: '#FFFFFF',
+                                fontSize: '0.75rem'
+                              }}
+                            >
+                              {b.num}
+                            </span>
+                            <div>
+                              <div style={{ fontWeight: 600, fontSize: '0.84rem', color: '#171417' }}>
+                                {b.title}
+                              </div>
+                              <div style={{ fontSize: '0.73rem', color: 'var(--wl-grey-80)' }}>
+                                {b.desc}
+                              </div>
                             </div>
                           </div>
+                          <span className={getBadgeClass(b.tone)}>{b.badge}</span>
                         </div>
-                        <span className={getBadgeClass(b.tone)}>{b.badge}</span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -1493,71 +1802,40 @@ export default function LandingPage() {
               <div className="wl-spacer-xhuge" />
 
               <div className="wl-grid-2">
-                {/* Left Column: Concentric Orbit Circle Graphic (.u-logo-rotation-container) */}
-                <div className="d-flex flex-column align-items-center">
-                  <div className="wl-orbit-stage" aria-label="Diagram kategori pencatatan RAJASH">
-                    <div className="wl-orbit-ring ring-outer" />
-                    <div className="wl-orbit-ring ring-inner" />
-
-                    <div className="wl-orbit-center">
-                      <Drop size={28} weight="fill" />
-                      <span
-                        style={{
-                          fontFamily: 'var(--wl-display-font)',
-                          fontWeight: 700,
-                          fontSize: '0.88rem',
-                          letterSpacing: '-0.02em',
-                          marginTop: '2px'
-                        }}
-                      >
-                        RAJASH
-                      </span>
+                {/* Left Column: Workleap Integrations Orbit Animation (#orbit-wrapper / .orbit-logo) */}
+                <div className="wl-orbit-column">
+                  <div className="wl-orbit-wrapper" aria-label="Orbit kategori operasional RAJASH">
+                    {/* Center Emblem (#center-logo-display) using official RAJASH Water Droplet & Financial Bars mark */}
+                    <div className="wl-orbit-center-logo">
+                      <RajashMark size={76} />
                     </div>
 
                     {ORBIT_NODES.map((node, idx) => {
-                      const Icon = node.icon;
                       const isActive = idx === activeOrbitIdx;
                       return (
                         <button
-                          key={node.label}
+                          key={node.id}
+                          ref={(el) => {
+                            orbitNodeRefs.current[idx] = el;
+                          }}
                           type="button"
+                          title={`${node.label} — ${node.desc}`}
+                          aria-label={node.label}
                           onClick={() => setActiveOrbitIdx(idx)}
                           onMouseEnter={() => setActiveOrbitIdx(idx)}
-                          className={`wl-orbit-node ${isActive ? 'is-active' : ''}`}
-                          style={{
-                            top: node.top,
-                            left: node.left,
-                            transform: node.transform
-                          }}
+                          className={`wl-orbit-logo ${isActive ? 'is-active' : ''}`}
                         >
-                          <Icon size={20} weight="duotone" style={{ color: 'var(--wl-brand-100)' }} />
-                          <span
-                            style={{
-                              fontSize: '0.64rem',
-                              fontWeight: 600,
-                              color: 'var(--wl-grey-100)',
-                              lineHeight: 1.15,
-                              marginTop: '4px'
+                          <div
+                            ref={(el) => {
+                              orbitGlyphRefs.current[idx] = el;
                             }}
+                            className="wl-orbit-logo-glyph"
                           >
-                            {node.label}
-                          </span>
+                            {node.renderGlyph()}
+                          </div>
                         </button>
                       );
                     })}
-                  </div>
-
-                  {/* Interactive Floating Detail Pill below the Orbit */}
-                  <div className="wl-floating-pill mt-4 w-100" style={{ maxWidth: '430px', cursor: 'default' }}>
-                    <div>
-                      <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--wl-brand-100)' }}>
-                        {activeOrbitNode.label}
-                      </div>
-                      <div style={{ fontSize: '0.82rem', color: 'var(--wl-grey-80)' }}>
-                        {activeOrbitNode.desc}
-                      </div>
-                    </div>
-                    <span className="wl-pill-badge wl-pill-badge-blue">Aktif</span>
                   </div>
                 </div>
 
@@ -1591,215 +1869,131 @@ export default function LandingPage() {
         </section>
 
         {/* ====================================================================
-            SECTION 8: CREDIBILITY / OPERATIONAL CONTEXT (Mirrors Workleap Section 8 .trust-carousel)
+            SECTION 8: TESTIMONIALS / TRUST CAROUSEL (Exact match to Workleap .trust-carousel)
             ==================================================================== */}
         <section id="tentang-sistem" className="wl-section">
+          <div id="modul" />
           <div className="wl-padding-global">
             <div className="wl-container">
               <div className="wl-spacer-xxlarge" />
 
-              <div style={{ maxWidth: '54rem', marginBottom: '3.5rem' }}>
-                <div className="wl-eyebrow mb-3">Konteks Operasional Usaha</div>
-                <h2 className="wl-heading-h1">
-                  Dirancang untuk Membantu Pengelolaan Keuangan{' '}
-                  <span className="wl-highlight">RAJASH</span>.
-                </h2>
+              <h2 className="wl-heading-h1" style={{ maxWidth: '56rem' }}>
+                Pembukuan usaha hari ini sering mengandalkan buku manual.{' '}
+                <span className="wl-highlight">Seharusnya tidak</span>.
+              </h2>
+
+              <div className="wl-spacer-large" />
+
+              {/* Workleap 3-Column Swiper Carousel (.trust-carousel) */}
+              <div className="wl-trust-carousel-grid">
+                {visibleTestimonials.map((item, idx) => (
+                  <div
+                    key={item.id}
+                    className={`wl-trust-card ${idx === 0 ? 'is-first-visible' : ''}`}
+                  >
+                    <div className="wl-trust-logo-badge">
+                      <RajashMark size={22} />
+                      <span>{item.brandWordmark}</span>
+                    </div>
+
+                    <div className="wl-trust-quote-row">
+                      <div className="wl-trust-quote-mark" aria-hidden="true">
+                        &ldquo;
+                      </div>
+                      <div className="wl-trust-quote-body">
+                        <div className="wl-trust-quote-text">{item.quote}</div>
+                        <div className="wl-trust-author-name">{item.author}</div>
+                        <div className="wl-trust-author-role">{item.role}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
 
-              {/* 3-Column Vertical-Border Grid (Mirrors Workleap's .trust-carousel) */}
-              <div className="wl-grid-3">
-                <div className="wl-trust-card">
-                  <div>
-                    <div className="wl-eyebrow mb-3" style={{ color: 'var(--wl-brand-100)' }}>
-                      Latar Belakang Usaha
-                    </div>
-                    <div className="wl-trust-quote-mark" aria-hidden="true">01</div>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--wl-grey-100)', lineHeight: 1.6 }}>
-                      RAJASH merupakan usaha depot air minum isi ulang yang beroperasi sejak tahun
-                      2016 di Ulee Kareng, Banda Aceh dan melayani pembelian tunai maupun kredit.
-                    </p>
-                  </div>
-                  <div className="pt-3 mt-3" style={{ borderTop: '1px solid var(--wl-grey-20)' }}>
-                    <div className="fw-bold" style={{ fontSize: '0.85rem' }}>
-                      Depot Air Minum Isi Ulang RAJASH
-                    </div>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--wl-grey-60)' }}>
-                      Ulee Kareng, Banda Aceh (Sejak 2016)
-                    </div>
-                  </div>
-                </div>
-
-                <div className="wl-trust-card">
-                  <div>
-                    <div className="wl-eyebrow mb-3" style={{ color: 'var(--wl-brand-100)' }}>
-                      Solusi Atas Buku Manual
-                    </div>
-                    <div className="wl-trust-quote-mark" aria-hidden="true">02</div>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--wl-grey-100)', lineHeight: 1.6 }}>
-                      Menggantikan pencatatan buku manual yang berisiko terlewat atau tercatat dua
-                      kali, sehingga informasi pemasukan, pengeluaran, dan piutang tersusun secara
-                      terpusat.
-                    </p>
-                  </div>
-                  <div className="pt-3 mt-3" style={{ borderTop: '1px solid var(--wl-grey-20)' }}>
-                    <div className="fw-bold" style={{ fontSize: '0.85rem' }}>
-                      Pencatatan Keuangan Terpusat
-                    </div>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--wl-grey-60)' }}>
-                      Pemasukan, Pengeluaran, Piutang &amp; Rekapitulasi
-                    </div>
-                  </div>
-                </div>
-
-                <div className="wl-trust-card">
-                  <div>
-                    <div className="wl-eyebrow mb-3" style={{ color: 'var(--wl-brand-100)' }}>
-                      Pengguna Utama Sistem
-                    </div>
-                    <div className="wl-trust-quote-mark" aria-hidden="true">03</div>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--wl-grey-100)', lineHeight: 1.6 }}>
-                      Difokuskan untuk membantu pemilik usaha memantau pelanggan yang masih memiliki
-                      utang serta menghitung keuntungan bersih harian dan bulanan secara praktis.
-                    </p>
-                  </div>
-                  <div className="pt-3 mt-3" style={{ borderTop: '1px solid var(--wl-grey-20)' }}>
-                    <div className="fw-bold" style={{ fontSize: '0.85rem' }}>
-                      Dedy Darmansyah
-                    </div>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--wl-grey-60)' }}>
-                      Pemilik Usaha (Owner) RAJASH
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="wl-spacer-xxlarge" />
-            </div>
-          </div>
-        </section>
-
-        {/* ====================================================================
-            SECTION 9: PRODUCT SHOWCASE / CAPABILITIES CARDS (Mirrors Workleap Section 9)
-            ==================================================================== */}
-        <section id="modul" className="wl-section">
-          <div className="wl-padding-global">
-            <div className="wl-container">
-              <div className="wl-spacer-xxlarge" />
-
-              <div className="d-flex flex-column align-items-center text-center mb-4">
-                <div className="wl-eyebrow mb-2">Pratinjau Modul &amp; Kapabilitas</div>
-                <h2 className="wl-heading-h2 mb-3">
-                  Ubah pembukuan harian menjadi{' '}
-                  <span className="wl-serif-italic">lebih terarah</span>
-                </h2>
-
-                {/* Interactive Filter Pills */}
-                <div
-                  className="d-flex flex-wrap justify-content-center gap-2 mt-2"
-                  role="tablist"
-                  aria-label="Filter modul sistem RAJASH"
+              {/* Bottom-Right Swiper Controls: Left Arrow + Circular Autoplay Progress + Right Arrow */}
+              <div className="wl-trust-controls">
+                <button
+                  type="button"
+                  onClick={handlePrevTestimonial}
+                  className="wl-swiper-rounded-arrow is-left"
+                  aria-label="Testimoni sebelumnya"
                 >
-                  {[
-                    { id: 'all', label: 'Semua Modul' },
-                    { id: 'dashboard', label: 'Dashboard' },
-                    { id: 'pemasukan', label: 'Pemasukan' },
-                    { id: 'pengeluaran', label: 'Pengeluaran' },
-                    { id: 'piutang', label: 'Piutang' },
-                    { id: 'rekapitulasi', label: 'Rekapitulasi' }
-                  ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={selectedCapabilityFilter === tab.id}
-                      onClick={() => setSelectedCapabilityFilter(tab.id)}
-                      className={
-                        selectedCapabilityFilter === tab.id
-                          ? 'wl-button is-small'
-                          : 'wl-button is-secondary is-small'
-                      }
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M16.3652 24.7688C16.6682 25.0771 17.1594 25.0771 17.4624 24.7688C17.7654 24.4605 17.7654 23.9606 17.4624 23.6523L14.649 20.7895H26.2241C26.6526 20.7895 27 20.436 27 20C27 19.564 26.6526 19.2105 26.2241 19.2105H14.649L17.4624 16.3477C17.7654 16.0394 17.7654 15.5395 17.4624 15.2312C17.1594 14.9229 16.6682 14.9229 16.3652 15.2312L12.2272 19.4418C12.0757 19.5959 12 19.798 12 20C12 20.107 12.0209 20.2091 12.0589 20.3022C12.0967 20.3953 12.1529 20.4826 12.2272 20.5582L16.3652 24.7688Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
 
-              {/* Workleap .capabilities-card.cc-hoverable Grid */}
-              <div className="wl-grid-3 mt-4">
-                {visibleCapabilities.map((card) => {
-                  const Icon = card.icon;
-                  return (
-                    <Link
-                      key={card.id}
-                      to={isAuthenticated ? '/dashboard' : '/login'}
-                      className="wl-capabilities-card"
-                    >
-                      <div className="wl-capabilities-card-visual">
-                        <div
-                          className="p-3"
-                          style={{
-                            backgroundColor: 'var(--wl-true-white)',
-                            border: '1px solid var(--wl-grey-20)',
-                            borderRadius: '16px',
-                            boxShadow: '0 8px 20px rgba(12, 23, 84, 0.05)'
-                          }}
-                        >
-                          <div className="d-flex align-items-center justify-content-between mb-2">
-                            <span
-                              style={{
-                                fontSize: '0.7rem',
-                                fontWeight: 600,
-                                color: 'var(--wl-grey-60)',
-                                textTransform: 'uppercase'
-                              }}
-                            >
-                              Sinyal Modul
-                            </span>
-                            <span className="wl-pill-badge wl-pill-badge-blue">{card.badge}</span>
-                          </div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--wl-grey-80)' }}>
-                            {card.metricLabel}
-                          </div>
-                          <div
-                            className="font-tabular fw-bold my-1"
-                            style={{ fontSize: '1.1rem', color: 'var(--wl-grey-100)' }}
-                          >
-                            {card.metricValue}
-                          </div>
-                          <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)' }}>
-                            {card.subText}
-                          </div>
-                        </div>
-                      </div>
+                <button
+                  type="button"
+                  onClick={() => setTestimonialPlaying((prev) => !prev)}
+                  className="wl-autoplay-progress"
+                  aria-label={testimonialPlaying ? 'Jeda putar otomatis' : 'Mulai putar otomatis'}
+                >
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="19.2857" stroke="#E6E6E4" strokeWidth="1" />
+                    <circle
+                      cx="20"
+                      cy="20"
+                      r="19.2857"
+                      stroke="#2545FF"
+                      strokeWidth="2"
+                      strokeDasharray="121.2"
+                      strokeDashoffset={121.2 * (1 - testimonialProgress)}
+                      style={{
+                        transform: 'rotate(-90deg)',
+                        transformOrigin: 'center',
+                        transition: 'stroke-dashoffset 50ms linear'
+                      }}
+                    />
+                    {testimonialPlaying ? (
+                      <g>
+                        <path
+                          d="M16 14V26"
+                          stroke="#2545FF"
+                          strokeWidth="2.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M24 14V26"
+                          stroke="#2545FF"
+                          strokeWidth="2.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
+                    ) : (
+                      <path
+                        d="M17.5 14V26L26 20L17.5 14Z"
+                        fill="#2545FF"
+                        stroke="#2545FF"
+                        strokeWidth="2"
+                        strokeLinejoin="round"
+                      />
+                    )}
+                  </svg>
+                </button>
 
-                      <div className="wl-capabilities-card-content">
-                        <div className="d-flex align-items-center justify-content-between gap-2">
-                          <div className="d-flex align-items-center gap-2">
-                            <span
-                              className="d-inline-flex align-items-center justify-content-center"
-                              style={{
-                                width: '32px',
-                                height: '32px',
-                                borderRadius: '8px',
-                                backgroundColor: 'rgba(37, 69, 255, 0.1)',
-                                color: 'var(--wl-brand-100)'
-                              }}
-                            >
-                              <Icon size={18} weight="bold" />
-                            </span>
-                            <h5 className="wl-heading-h5">{card.title}</h5>
-                          </div>
-                          <ArrowUpRight size={18} weight="bold" />
-                        </div>
-
-                        <div style={{ fontSize: '0.9rem', color: 'var(--wl-grey-80)', lineHeight: 1.5 }}>
-                          {card.description}
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+                <button
+                  type="button"
+                  onClick={handleNextTestimonial}
+                  className="wl-swiper-rounded-arrow is-right"
+                  aria-label="Testimoni berikutnya"
+                >
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M23.6348 15.2312C23.3318 14.9229 22.8406 14.9229 22.5376 15.2312C22.2346 15.5395 22.2346 16.0394 22.5376 16.3477L25.351 19.2105H13.7759C13.3474 19.2105 13 19.564 13 20C13 20.436 13.3474 20.7895 13.7759 20.7895H25.351L22.5376 23.6523C22.2346 23.9606 22.2346 24.4605 22.5376 24.7688C22.8406 25.0771 23.3318 25.0771 23.6348 24.7688L27.7728 20.5582C27.9243 20.4041 28 20.202 28 20C28 19.893 27.9791 19.7909 27.9411 19.6978C27.9033 19.6047 27.8471 19.5174 27.7728 19.4418L23.6348 15.2312Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
               </div>
 
               <div className="wl-spacer-xxlarge" />
@@ -1816,14 +2010,64 @@ export default function LandingPage() {
               <div className="wl-spacer-xxlarge" />
 
               <div className="wl-cta-card">
-                <div style={{ maxWidth: '54rem' }}>
+                {/* Multi-layered Flowing Wave Ribbons at Bottom (Matching Screenshot 3) */}
+                <svg
+                  className="wl-cta-waves-svg"
+                  viewBox="0 0 1280 280"
+                  preserveAspectRatio="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <linearGradient id="ctaWaveLeftWhite" x1="0%" y1="0%" x2="80%" y2="100%">
+                      <stop offset="0%" stopColor="#94A8FF" stopOpacity="0.72" />
+                      <stop offset="48%" stopColor="#5D73E8" stopOpacity="0.48" />
+                      <stop offset="100%" stopColor="#141F6E" stopOpacity="0.1" />
+                    </linearGradient>
+                    <linearGradient id="ctaWaveViolet" x1="20%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#3D266E" stopOpacity="0.55" />
+                      <stop offset="55%" stopColor="#4F2B68" stopOpacity="0.62" />
+                      <stop offset="100%" stopColor="#28154A" stopOpacity="0.45" />
+                    </linearGradient>
+                    <linearGradient id="ctaWaveElectric" x1="0%" y1="100%" x2="100%" y2="20%">
+                      <stop offset="0%" stopColor="#122499" stopOpacity="0.85" />
+                      <stop offset="50%" stopColor="#2545FF" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#091352" stopOpacity="0.9" />
+                    </linearGradient>
+                  </defs>
+                  {/* Warm plum/violet diagonal ribbon sweeping up to the right */}
+                  <path
+                    d="M 380 280 C 620 225, 920 120, 1280 18 L 1280 280 Z"
+                    fill="url(#ctaWaveViolet)"
+                  />
+                  {/* Soft periwinkle/white wave sweeping from bottom-left */}
+                  <path
+                    d="M 0 38 C 165 55, 315 165, 560 225 C 760 272, 960 275, 1180 280 L 0 280 Z"
+                    fill="url(#ctaWaveLeftWhite)"
+                  />
+                  {/* Deep cobalt lower wave */}
+                  <path
+                    d="M 0 195 C 240 190, 460 245, 740 280 L 0 280 Z"
+                    fill="rgba(16, 33, 148, 0.72)"
+                  />
+                  {/* Bright electric blue wave rising on the bottom-right */}
+                  <path
+                    d="M 740 280 C 910 215, 1085 155, 1280 135 L 1280 280 Z"
+                    fill="url(#ctaWaveElectric)"
+                  />
+                </svg>
+
+                <div style={{ maxWidth: '54rem', position: 'relative', zIndex: 2 }}>
                   <h2 className="wl-heading-h0" style={{ color: '#FFFFFF' }}>
                     Mulai Kelola Keuangan Usaha{' '}
-                    <span className="wl-highlight-inverted">dengan Lebih Teratur</span>.
+                    <span className="wl-highlight-inverted" style={{ textDecoration: 'none', fontStyle: 'italic' }}>
+                      dengan Lebih Teratur
+                    </span>
+                    .
                   </h2>
                 </div>
 
-                <div className="wl-button-group justify-content-center">
+                <div className="wl-button-group justify-content-center" style={{ position: 'relative', zIndex: 2 }}>
                   <Link
                     to={isAuthenticated ? '/dashboard' : '/login'}
                     className="wl-button is-alternate"
