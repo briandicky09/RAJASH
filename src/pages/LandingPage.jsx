@@ -175,12 +175,22 @@ const ORBIT_NODES = [
     desc: 'Kebutuhan pendukung depot seperti tutup galon, tisu, dan listrik.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Notion-style isometric tilted cube */}
-        <g transform="rotate(-7 24 24)">
-          <rect x="9" y="9" width="30" height="30" rx="6" fill="#FFFFFF" stroke="#2F2F2F" strokeWidth="2.8" />
-          <path d="M9 15H39" stroke="#2F2F2F" strokeWidth="2.2" />
-          <path d="M18 21V33L29 21V33" stroke="#2F2F2F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-        </g>
+        {/* Nota / struk biaya operasional depot + aksen kilat listrik */}
+        <path
+          d="M12 8C12 6.89543 12.8954 6 14 6H34C35.1046 6 36 6.89543 36 8V40L32 37.5L28 40L24 37.5L20 40L16 37.5L12 40V8Z"
+          fill="#EEF2FF"
+          stroke="#4F46E5"
+          strokeWidth="2.4"
+          strokeLinejoin="round"
+        />
+        <path d="M17 14H28M17 20H25M17 26H22" stroke="#818CF8" strokeWidth="2.6" strokeLinecap="round" />
+        <path
+          d="M31.5 18L26.5 25.5H30.5L29 32L35 24H30.8L31.5 18Z"
+          fill="#F59E0B"
+          stroke="#FFFFFF"
+          strokeWidth="1"
+          strokeLinejoin="round"
+        />
       </svg>
     )
   },
@@ -190,9 +200,20 @@ const ORBIT_NODES = [
     desc: 'Pembelian pasokan air baku tangki untuk kebutuhan isi ulang depot.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Workday-style orange sun arc over blue wave mark */}
-        <path d="M13 22C15.5 15.5 21 12 24 12C27 12 32.5 15.5 35 22" stroke="#F59E0B" strokeWidth="3.6" strokeLinecap="round" />
-        <path d="M12 27L16.5 36L24 26L31.5 36L36 27" stroke="#2563EB" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
+        {/* Galon air isi ulang + tetesan air murni */}
+        <rect x="20" y="6" width="8" height="4.5" rx="1.5" fill="#0284C7" />
+        <path
+          d="M17.5 12.5H30.5L34 18V38.5C34 40.433 32.433 42 30.5 42H17.5C15.567 42 14 40.433 14 38.5V18L17.5 12.5Z"
+          fill="#BAE6FD"
+          stroke="#0284C7"
+          strokeWidth="2.4"
+          strokeLinejoin="round"
+        />
+        <path d="M14 23H34M14 31H34" stroke="#38BDF8" strokeWidth="2" />
+        <path
+          d="M24 21C24 21 19.5 26.2 19.5 29.2C19.5 31.6853 21.5147 33.7 24 33.7C26.4853 33.7 28.5 31.6853 28.5 29.2C28.5 26.2 24 21 24 21Z"
+          fill="#0284C7"
+        />
       </svg>
     )
   },
@@ -202,9 +223,20 @@ const ORBIT_NODES = [
     desc: 'Penggantian oli berkala agar armada becak pengantaran tetap prima.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Rotational geometric knot */}
-        <circle cx="24" cy="24" r="13" stroke="#0F766E" strokeWidth="3.2" strokeDasharray="10 5" />
-        <circle cx="24" cy="24" r="6" fill="#14B8A6" />
+        {/* Botol pelumas oli mesin becak + tetesan oli emas */}
+        <rect x="19" y="7" width="8" height="4" rx="1.5" fill="#D97706" />
+        <path
+          d="M17 12H29L33 19V37.5C33 39.433 31.433 41 29.5 41H16.5C14.567 41 13 39.433 13 37.5V22L17 12Z"
+          fill="#FDE68A"
+          stroke="#D97706"
+          strokeWidth="2.4"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M23 22C23 22 19.2 26.6 19.2 29.3C19.2 31.3987 20.9013 33.1 23 33.1C25.0987 33.1 26.8 31.3987 26.8 29.3C26.8 26.6 23 22 23 22Z"
+          fill="#F59E0B"
+        />
+        <path d="M35.5 29C35.5 29 33 32.2 33 34C33 35.3807 34.1193 36.5 35.5 36.5C36.8807 36.5 38 35.3807 38 34C38 32.2 35.5 29 35.5 29Z" fill="#D97706" />
       </svg>
     )
   },
@@ -214,10 +246,13 @@ const ORBIT_NODES = [
     desc: 'Pemasukan penjualan galon tunai yang langsung berstatus Lunas.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Emerald green organic leaf & stem mark */}
-        <path d="M16 35C16 24 23 14 34 13C34 24 27 33 16 35Z" fill="#65A30D" />
-        <path d="M16 35C14 27 17 19 24 15" stroke="#84CC16" strokeWidth="3.4" strokeLinecap="round" />
-        <circle cx="16" cy="35" r="2.5" fill="#4D7C0F" />
+        {/* Dompet kas masuk + lencana centang Lunas hijau zamrud */}
+        <rect x="8" y="13" width="30" height="23" rx="5" fill="#A7F3D0" stroke="#059669" strokeWidth="2.4" />
+        <path d="M12 13V10.5C12 9.11929 13.1193 8 14.5 8H31.5C32.8807 8 34 9.11929 34 10.5V13" stroke="#059669" strokeWidth="2.4" />
+        <rect x="27" y="21" width="12" height="7" rx="3" fill="#059669" />
+        <circle cx="31" cy="24.5" r="1.5" fill="#FFFFFF" />
+        <circle cx="17" cy="33" r="6.5" fill="#10B981" stroke="#FFFFFF" strokeWidth="2" />
+        <path d="M14.2 33L16.2 35L20 31.2" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     )
   },
@@ -227,9 +262,17 @@ const ORBIT_NODES = [
     desc: 'Peringatan otomatis di dalam aplikasi untuk piutang yang belum lunas.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Terracotta sunburst / spark */}
-        <path d="M24 9V39M9 24H39M13.4 13.4L34.6 34.6M34.6 13.4L13.4 34.6" stroke="#D97757" strokeWidth="3.6" strokeLinecap="round" />
-        <circle cx="24" cy="24" r="4.5" fill="#D97757" />
+        {/* Lonceng pengingat tagihan piutang */}
+        <path
+          d="M24 8C17.9249 8 13 12.9249 13 19V27.5L9.5 32.5H38.5L35 27.5V19C35 12.9249 30.0751 8 24 8Z"
+          fill="#FFEDD5"
+          stroke="#EA580C"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+        <path d="M20 33C20.5 35.5 22.1 37 24 37C25.9 37 27.5 35.5 28 33" stroke="#EA580C" strokeWidth="2.5" strokeLinecap="round" />
+        <circle cx="34" cy="13" r="6" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
+        <path d="M34 10.5V13.5M34 15.6H34.01" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
       </svg>
     )
   },
@@ -239,10 +282,11 @@ const ORBIT_NODES = [
     desc: 'Pengeluaran tambal atau ganti ban kendaraan pengantaran galon.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* UKG-style teal smile arc with dual dots */}
-        <circle cx="18.5" cy="17.5" r="2.6" fill="#0D9488" />
-        <circle cx="29.5" cy="17.5" r="2.6" fill="#0D9488" />
-        <path d="M14.5 24C14.5 29.8 18.7 34 24 34C29.3 34 33.5 29.8 33.5 24" stroke="#0D9488" strokeWidth="4.2" strokeLinecap="round" />
+        {/* Roda & ban becak pengantaran */}
+        <circle cx="24" cy="24" r="15.5" fill="#99F6E4" stroke="#0F766E" strokeWidth="3.2" />
+        <circle cx="24" cy="24" r="8.5" fill="#FFFFFF" stroke="#14B8A6" strokeWidth="2.4" />
+        <circle cx="24" cy="24" r="3" fill="#0F766E" />
+        <path d="M24 8.5V15.5M24 32.5V39.5M8.5 24H15.5M32.5 24H39.5" stroke="#0F766E" strokeWidth="2.4" strokeLinecap="round" />
       </svg>
     )
   },
@@ -252,10 +296,12 @@ const ORBIT_NODES = [
     desc: 'Laporan ringkasan pemasukan, pengeluaran, piutang, dan kas bersih.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Jira-style triple cascading blue chevrons */}
-        <path d="M24 11H35V22L24 11Z" fill="#2563EB" />
-        <path d="M18.5 18.5H29.5V29.5L18.5 18.5Z" fill="#3B82F6" />
-        <path d="M13 26H24V37L13 26Z" fill="#60A5FA" />
+        {/* Grafik batang rekapitulasi keuangan meningkat */}
+        <rect x="9" y="25" width="7" height="14" rx="2" fill="#93C5FD" />
+        <rect x="20.5" y="18" width="7" height="21" rx="2" fill="#3B82F6" />
+        <rect x="32" y="11" width="7" height="28" rx="2" fill="#1D4ED8" />
+        <path d="M10 19L20 13L27 16L36 8" stroke="#1E3A8A" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M31 8H36V13" stroke="#1E3A8A" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     )
   },
@@ -265,13 +311,12 @@ const ORBIT_NODES = [
     desc: 'Penjualan galon kredit pelanggan yang dipantau hingga berstatus Lunas.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Teams-style purple/indigo people & badge */}
-        <circle cx="29" cy="15" r="4.2" fill="#7C83EB" />
-        <circle cx="21" cy="13.5" r="5" fill="#5059C9" />
-        <rect x="23" y="21" width="15" height="14" rx="4" fill="#7C83EB" />
-        <rect x="15" y="20" width="16" height="17" rx="4.5" fill="#4B53BC" />
-        <rect x="9" y="18" width="15" height="15" rx="3.8" fill="#3B429F" />
-        <path d="M13.5 22.5H19.5M16.5 22.5V28.5" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" />
+        {/* Buku catatan piutang kredit pelanggan */}
+        <rect x="12" y="8" width="26" height="32" rx="4" fill="#C7D2FE" stroke="#4338CA" strokeWidth="2.4" />
+        <path d="M9 15H14M9 24H14M9 33H14" stroke="#4338CA" strokeWidth="2.6" strokeLinecap="round" />
+        <path d="M19 16H32M19 23H32M19 30H26" stroke="#4338CA" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="33.5" cy="31.5" r="5.5" fill="#6366F1" stroke="#FFFFFF" strokeWidth="1.8" />
+        <path d="M31.5 31.5H35.5" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
       </svg>
     )
   },
@@ -281,11 +326,12 @@ const ORBIT_NODES = [
     desc: 'Pencatatan biaya bahan bakar becak pengantaran galon harian.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* HiBob-style vibrant coral-red speech tile */}
-        <path d="M10 16C10 11.5817 13.5817 8 18 8H30C34.4183 8 38 11.5817 38 16V28C38 32.4183 34.4183 36 30 36H26L21 41V36H18C13.5817 36 10 32.4183 10 28V16Z" fill="#E11D48" />
-        <path d="M17 17V27M24 17V27M17 22H24" stroke="#FFFFFF" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M30.5 20.5V27" stroke="#FFFFFF" strokeWidth="3.2" strokeLinecap="round" />
-        <circle cx="30.5" cy="16.2" r="1.9" fill="#FFFFFF" />
+        {/* Pompa dispenser BBM becak */}
+        <rect x="10" y="9" width="20" height="30" rx="4" fill="#FECDD3" stroke="#E11D48" strokeWidth="2.4" />
+        <rect x="14" y="13.5" width="12" height="8" rx="2" fill="#FFFFFF" stroke="#F43F5E" strokeWidth="1.8" />
+        <path d="M30 16H34C35.6569 16 37 17.3431 37 19V31.5C37 33.433 35.433 35 33.5 35C31.567 35 30 33.433 30 31.5" stroke="#E11D48" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M34 11L38.5 15.5V21" stroke="#E11D48" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7.5 39H32.5" stroke="#E11D48" strokeWidth="2.6" strokeLinecap="round" />
       </svg>
     )
   },
@@ -295,15 +341,17 @@ const ORBIT_NODES = [
     desc: 'Biaya perawatan rutin mesin kendaraan operasional pengantaran.',
     renderGlyph: () => (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Slack-style 4-color pinwheel (cyan, emerald, rose, amber) */}
-        <rect x="18" y="9" width="5" height="12" rx="2.5" fill="#36C5F0" />
-        <circle cx="14" cy="18.5" r="2.5" fill="#36C5F0" />
-        <rect x="27" y="18" width="12" height="5" rx="2.5" fill="#2EB67D" />
-        <circle cx="29.5" cy="14" r="2.5" fill="#2EB67D" />
-        <rect x="25" y="27" width="5" height="12" rx="2.5" fill="#E01E5A" />
-        <circle cx="34" cy="29.5" r="2.5" fill="#E01E5A" />
-        <rect x="9" y="25" width="12" height="5" rx="2.5" fill="#ECB22E" />
-        <circle cx="18.5" cy="34" r="2.5" fill="#ECB22E" />
+        {/* Kunci pas bengkel & roda gigi perawatan mesin becak */}
+        <circle cx="31" cy="30" r="8" fill="#BFDBFE" stroke="#2563EB" strokeWidth="2.4" />
+        <circle cx="31" cy="30" r="3" fill="#2563EB" />
+        <path
+          d="M27.6 12.2C25.3 10.6 22.2 10.6 19.9 12.2L22.8 15.1L20.1 17.8L17.2 14.9C15.6 17.2 15.6 20.3 17.2 22.6C18.9 24.9 21.8 25.8 24.4 25L33.5 34.1C34.5 35.1 36.1 35.1 37.1 34.1C38.1 33.1 38.1 31.5 37.1 30.5L28 21.4C28.8 18.8 27.9 14.5 27.6 12.2Z"
+          transform="translate(-5 -2)"
+          fill="#F59E0B"
+          stroke="#B45309"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
       </svg>
     )
   }
