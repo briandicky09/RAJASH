@@ -13,7 +13,7 @@ export default function LandingFooter() {
         <div className="wl-container">
           <div className="wl-footer-top">
             {/* Column 1: Inverted Brand Logo + Workleap-style Action Box */}
-            <div>
+            <div data-reveal="fade-up">
               <div className="mb-4">
                 <BrandLogo size={40} showSubtitle={true} inverted={true} />
               </div>
@@ -63,7 +63,7 @@ export default function LandingFooter() {
             </div>
 
             {/* Column 2: Modul Produk */}
-            <div>
+            <div data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
               <div className="wl-footer-heading">Modul Produk</div>
               <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
                 <li>
@@ -85,7 +85,7 @@ export default function LandingFooter() {
             </div>
 
             {/* Column 3: Kapabilitas Sistem */}
-            <div>
+            <div data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
               <div className="wl-footer-heading">Kapabilitas</div>
               <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
                 <li>
@@ -107,7 +107,7 @@ export default function LandingFooter() {
             </div>
 
             {/* Column 4: Informasi Usaha */}
-            <div>
+            <div data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
               <div className="wl-footer-heading">Identitas Usaha</div>
               <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
                 <li className="wl-footer-link">Depot Air Minum Isi Ulang RAJASH</li>
@@ -122,7 +122,7 @@ export default function LandingFooter() {
           </div>
 
           {/* Bottom Bar (.footer_bottom-wrapper) */}
-          <div className="wl-footer-bottom">
+          <div className="wl-footer-bottom" data-reveal="fade-in" style={{ '--reveal-delay': '180ms' }}>
             <div>
               &copy; 2026 RAJASH · Sistem Pengelolaan Keuangan dan Piutang UMKM. Hak cipta dilindungi.
             </div>

@@ -110,6 +110,7 @@
 
   /* Motion */
   --wl-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --wl-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --rj-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --rj-transition-fast: 180ms var(--wl-ease);
   --rj-transition-base: 300ms var(--wl-ease);
@@ -319,7 +320,13 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition:
+    background-color 0.25s var(--wl-ease),
+    border-color 0.25s var(--wl-ease),
+    color 0.25s var(--wl-ease),
+    border-radius 0.3s var(--wl-ease),
+    transform 0.24s var(--wl-ease-out),
+    box-shadow 0.25s var(--wl-ease);
 }
 
 .wl-button:hover {
@@ -327,6 +334,12 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--wl-brand-hover);
   border-color: var(--wl-brand-hover);
   color: var(--wl-true-white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(37, 69, 255, 0.35);
+}
+
+.wl-button:active {
+  transform: translateY(0);
 }
 
 .wl-button.is-secondary {
@@ -339,6 +352,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 0.5rem;
   background-color: rgba(37, 69, 255, 0.06);
   color: var(--wl-brand-hover);
+  box-shadow: 0 6px 16px -6px rgba(37, 69, 255, 0.16);
 }
 
 .wl-button.is-secondary.is-dark {
@@ -477,6 +491,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .wl-nav-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -489,14 +504,33 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   text-decoration: none;
   border-radius: 6px;
-  transition: color 0.2s ease;
+  transition: color 0.22s ease;
+}
+
+.wl-nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.25rem;
+  height: 1.5px;
+  background-color: var(--wl-brand-100);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.24s var(--wl-ease-out);
+  pointer-events: none;
 }
 
 .wl-nav-link:hover {
   color: var(--wl-brand-100);
 }
 
+.wl-nav-link:hover::after {
+  transform: scaleX(1);
+}
+
 .wl-nav-login-link {
+  position: relative;
   color: var(--wl-grey-100);
   font-family: var(--wl-body-font);
   font-size: 0.95rem;
@@ -507,11 +541,29 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.5rem 0.85rem;
   display: inline-flex;
   align-items: center;
-  transition: color 0.2s ease;
+  transition: color 0.22s ease;
+}
+
+.wl-nav-login-link::after {
+  content: '';
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.25rem;
+  height: 1.5px;
+  background-color: var(--wl-brand-100);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.24s var(--wl-ease-out);
+  pointer-events: none;
 }
 
 .wl-nav-login-link:hover {
   color: var(--wl-brand-100);
+}
+
+.wl-nav-login-link:hover::after {
+  transform: scaleX(1);
 }
 
 .wl-button.is-nav-pill {
@@ -610,11 +662,23 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   text-align: left;
-  transition: transform 0.35s var(--wl-ease);
+  transition: transform 0.35s var(--wl-ease-out);
 }
 
-.wl-how-step-visual:hover {
+.wl-how-step-card {
+  transition: transform 0.32s var(--wl-ease-out);
+}
+
+.wl-how-step-card:hover .wl-how-step-visual {
   transform: translateY(-4px);
+}
+
+.wl-how-step-icon-badge {
+  transition: transform 0.28s var(--wl-ease-out);
+}
+
+.wl-how-step-card:hover .wl-how-step-icon-badge {
+  transform: scale(1.06);
 }
 
 /* ==========================================================================
@@ -1424,46 +1488,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
-   WORKLEAP SECTION 9: CAPABILITIES CARDS (.capabilities-card.cc-hoverable)
-   ========================================================================== */
-.wl-capabilities-card {
-  border: 1px solid var(--wl-grey-20);
-  background-color: var(--wl-card-gray);
-  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0) 62%, rgba(37, 69, 255, 0.16) 100%);
-  border-radius: 24px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(37, 69, 255, 0.08);
-  transition: all 0.3s var(--wl-ease);
-  text-decoration: none;
-  color: var(--wl-grey-100);
-}
-
-.wl-capabilities-card:hover {
-  color: var(--wl-brand-100);
-  border-color: rgba(37, 69, 255, 0.35);
-  box-shadow: 2px 2px 16px rgba(37, 69, 255, 0.12), 0 12px 24px rgba(37, 58, 177, 0.08);
-  transform: translateY(-3px);
-}
-
-.wl-capabilities-card-visual {
-  width: 100%;
-  padding: 1.25rem 1.25rem 0.5rem;
-}
-
-.wl-capabilities-card-content {
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1.35rem 1.5rem 1.6rem;
-  flex: 1;
-}
-
-/* ==========================================================================
    WORKLEAP SECTION 10: CLOSING CTA CARD (.cta_card - Matching Screenshot 3)
    ========================================================================== */
 .wl-cta-card {
@@ -1551,6 +1575,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .wl-faq-question:hover {
   color: var(--wl-brand-100);
+}
+
+.wl-faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 320ms var(--wl-ease-out), opacity 260ms ease;
+}
+
+.wl-faq-panel.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.wl-faq-panel-inner {
+  overflow: hidden;
 }
 
 .wl-faq-answer {
@@ -2177,6 +2217,168 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ==========================================================================
+   ENTERPRISE SAAS LANDING ANIMATIONS & MICRO-INTERACTIONS
+   ========================================================================== */
+@keyframes wlHeroFadeUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes wlHeroFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes wlHeroScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes wlTrustSlideIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes wlSoftSwap {
+  from {
+    opacity: 0.45;
+    transform: translate3d(0, 4px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Initial Hero Entrance Sequence */
+.wl-hero-anim-eyebrow {
+  animation: wlHeroFadeIn 620ms var(--wl-ease-out) 40ms both;
+}
+
+.wl-hero-anim-heading {
+  animation: wlHeroFadeUp 740ms var(--wl-ease-out) 120ms both;
+}
+
+.wl-hero-anim-lead {
+  animation: wlHeroFadeUp 700ms var(--wl-ease-out) 210ms both;
+}
+
+.wl-hero-anim-cta {
+  animation: wlHeroFadeUp 660ms var(--wl-ease-out) 300ms both;
+}
+
+.wl-hero-anim-marquee {
+  animation: wlHeroFadeIn 680ms var(--wl-ease-out) 390ms both;
+}
+
+.wl-hero-anim-signal {
+  animation: wlHeroScaleIn 780ms var(--wl-ease-out) 160ms both;
+}
+
+.wl-signal-swap {
+  animation: wlSoftSwap 300ms var(--wl-ease-out) both;
+}
+
+/* Scroll-Triggered Reveals (Safe fallback: visible unless JS enables observer) */
+[data-reveal-ready="true"] [data-reveal] {
+  transition:
+    opacity 700ms var(--wl-ease-out) var(--reveal-delay, 0ms),
+    transform 700ms var(--wl-ease-out) var(--reveal-delay, 0ms);
+}
+
+[data-reveal-ready="true"] [data-reveal]:not([data-reveal-state="visible"]) {
+  will-change: opacity, transform;
+}
+
+[data-reveal-ready="true"] [data-reveal="fade-up"]:not([data-reveal-state="visible"]) {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+}
+
+[data-reveal-ready="true"] [data-reveal="fade-in"]:not([data-reveal-state="visible"]) {
+  opacity: 0;
+  transition-duration: 640ms;
+}
+
+[data-reveal-ready="true"] [data-reveal="scale"]:not([data-reveal-state="visible"]) {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+[data-reveal-ready="true"] [data-reveal][data-reveal-state="visible"] {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* Section 4: Chart Bars Grow Upward on Viewport Entry */
+.wl-trend-bar-fill {
+  transform-origin: bottom center;
+  transform: scaleY(1);
+  transition:
+    transform 680ms var(--wl-ease-out) var(--bar-delay, 0ms),
+    background-color 220ms ease;
+}
+
+[data-reveal-ready="true"] .wl-trend-chart-wrap:not([data-reveal-state="visible"]) .wl-trend-bar-fill {
+  transform: scaleY(0);
+}
+
+/* Section 5: Interactive Receivable Rows */
+.wl-receivable-row {
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms var(--wl-ease-out),
+    box-shadow 220ms ease;
+}
+
+.wl-receivable-row:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(12, 23, 84, 0.06);
+}
+
+/* Section 6: Frosted / Benefit Item Cards */
+.wl-benefit-card {
+  transition:
+    transform 260ms var(--wl-ease-out),
+    box-shadow 260ms var(--wl-ease-out),
+    border-color 220ms ease;
+}
+
+.wl-benefit-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -6px rgba(12, 23, 84, 0.14) !important;
+}
+
+/* Section 8: Testimonial Slide Smooth Entrance */
+.wl-trust-card.is-entering {
+  animation: wlTrustSlideIn 440ms var(--wl-ease-out) var(--slide-delay, 0ms) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2185,5 +2387,29 @@ h1, h2, h3, h4, h5, h6 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  [data-reveal],
+  .wl-hero-anim-eyebrow,
+  .wl-hero-anim-heading,
+  .wl-hero-anim-lead,
+  .wl-hero-anim-cta,
+  .wl-hero-anim-marquee,
+  .wl-hero-anim-signal,
+  .wl-trust-card.is-entering {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .wl-trend-bar-fill {
+    transform: scaleY(1) !important;
+  }
+
+  .wl-floating-pill-top,
+  .wl-signal-main-card,
+  .wl-step-notif-cluster,
+  .wl-marquee-track {
+    animation: none !important;
   }
 }

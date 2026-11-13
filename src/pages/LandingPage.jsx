@@ -26,6 +26,7 @@ import LandingFooter from '../components/layout/LandingFooter';
 import { RajashMark } from '../components/layout/BrandLogo';
 import Accordion from '../components/common/Accordion';
 import { useAuth } from '../context/AuthContext';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const HERO_MARQUEE_ITEMS = [
   'PENCATATAN PEMASUKAN',
@@ -443,6 +444,8 @@ const FAQ_ITEMS = [
 
 export default function LandingPage() {
   const { isAuthenticated } = useAuth();
+  const landingRootRef = useRef(null);
+  useScrollReveal(landingRootRef);
   const [activeSignalIdx, setActiveSignalIdx] = useState(0);
   const [step1PaymentType, setStep1PaymentType] = useState('Kredit');
   const [selectedExpenseCatIdx, setSelectedExpenseCatIdx] = useState(4);
@@ -574,7 +577,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div style={{ backgroundColor: 'var(--wl-true-white)', minHeight: '100dvh' }}>
+    <div ref={landingRootRef} style={{ backgroundColor: 'var(--wl-true-white)', minHeight: '100dvh' }}>
       {/* NAVBAR (.navbar_component) */}
       <LandingNavbar />
 
@@ -591,23 +594,23 @@ export default function LandingPage() {
               <div className="wl-grid-2 is-hero">
                 {/* Left Column: Eyebrow + H1 + Lead + CTA + Marquee */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1.5rem' }}>
-                  <div className="wl-eyebrow">
+                  <div className="wl-eyebrow wl-hero-anim-eyebrow">
                     Sistem Pengelolaan Keuangan &amp; Piutang UMKM
                   </div>
 
-                  <h1 className="wl-heading-h1">
+                  <h1 className="wl-heading-h1 wl-hero-anim-heading">
                     Kelola keuangan usaha dengan lebih mudah,{' '}
                     <span className="wl-serif-italic">kini terpusat di RAJASH</span>
                   </h1>
 
-                  <div style={{ maxWidth: '36rem' }}>
+                  <div className="wl-hero-anim-lead" style={{ maxWidth: '36rem' }}>
                     <p className="wl-body-lead mb-0">
                       Catat pemasukan, pantau pengeluaran, kelola piutang pelanggan, dan lihat
                       laporan keuangan usaha dalam satu tempat.
                     </p>
                   </div>
 
-                  <div className="wl-button-group mt-1">
+                  <div className="wl-button-group mt-1 wl-hero-anim-cta">
                     <Link
                       to={isAuthenticated ? '/dashboard' : '/login'}
                       className="wl-button"
@@ -620,7 +623,7 @@ export default function LandingPage() {
                   </div>
 
                   {/* Workleap Hero Bottom Masked Marquee Strip (.logos_slider-wrapper) */}
-                  <div className="mt-3 pt-2 w-100">
+                  <div className="mt-3 pt-2 w-100 wl-hero-anim-marquee">
                     <div
                       style={{
                         fontSize: '0.75rem',
@@ -653,7 +656,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Right Column: Exact Workleap Floating Signal & Pill Composition (Team-health.avif) */}
-                <div className="wl-signal-canvas">
+                <div className="wl-signal-canvas wl-hero-anim-signal">
                   <div className="wl-signal-glow" />
 
                   {/* Top SVG Trend Curve + Top Floating Pill Card */}
@@ -757,24 +760,26 @@ export default function LandingPage() {
 
                   {/* Center Main Signal Card (Mirrors Workleap "Team Performance signal" card) */}
                   <div className="wl-signal-main-card">
-                    <div className="d-flex align-items-center gap-3">
-                      <span className="wl-signal-sparkle-badge">
-                        <Sparkle size={22} weight="fill" />
-                      </span>
-                      <h2 className="wl-signal-title">{activeSignal.title}</h2>
+                    <div key={activeSignal.id} className="wl-signal-swap">
+                      <div className="d-flex align-items-center gap-3">
+                        <span className="wl-signal-sparkle-badge">
+                          <Sparkle size={22} weight="fill" />
+                        </span>
+                        <h2 className="wl-signal-title">{activeSignal.title}</h2>
+                      </div>
+
+                      <div className="wl-signal-divider" />
+
+                      <p className="wl-signal-copy">{activeSignal.copy}</p>
+
+                      <Link
+                        to={isAuthenticated ? activeSignal.ctaLink : '/login'}
+                        className="wl-signal-action"
+                      >
+                        <span>{activeSignal.ctaLabel}</span>
+                        <ArrowRight size={18} weight="regular" />
+                      </Link>
                     </div>
-
-                    <div className="wl-signal-divider" />
-
-                    <p className="wl-signal-copy">{activeSignal.copy}</p>
-
-                    <Link
-                      to={isAuthenticated ? activeSignal.ctaLink : '/login'}
-                      className="wl-signal-action"
-                    >
-                      <span>{activeSignal.ctaLabel}</span>
-                      <ArrowRight size={18} weight="regular" />
-                    </Link>
                   </div>
 
                   {/* Bottom Staggered Overlapping Pill Cards (Mirrors "Completed task" & "Quarterly goals") */}
@@ -876,17 +881,17 @@ export default function LandingPage() {
             <div className="wl-container">
               <div className="wl-spacer-xxlarge" />
 
-              <div className="wl-capability-container">
+              <div className="wl-capability-container" data-reveal="fade-in">
                 <div
                   className="d-flex flex-column align-items-center text-center mx-auto"
                   style={{ maxWidth: '46rem', marginBottom: '3rem' }}
                 >
-                  <div className="wl-eyebrow mb-3">Cara Kerja Sistem</div>
-                  <h2 className="wl-heading-h2 mb-3">
+                  <div className="wl-eyebrow mb-3" data-reveal="fade-up">Cara Kerja Sistem</div>
+                  <h2 className="wl-heading-h2 mb-3" data-reveal="fade-up" style={{ '--reveal-delay': '85ms' }}>
                     Catatan terstruktur. Piutang terpantau. Laporan lebih praktis dalam{' '}
                     <span className="wl-serif-italic">3 langkah mudah.</span>
                   </h2>
-                  <p className="wl-body-lead mb-0">
+                  <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '170ms' }}>
                     RAJASH dirancang khusus untuk menggantikan pencatatan buku manual di depot air
                     minum isi ulang; mudah digunakan setiap hari, memisahkan transaksi tunai dan
                     kredit, serta menghitung keuntungan bersih secara otomatis.
@@ -896,7 +901,11 @@ export default function LandingPage() {
                 {/* 3-Column Illustrated Step Cards (Matching Screenshot 1 Visuals) */}
                 <div className="wl-grid-3 text-center">
                   {/* Card 1: Circular Gauge + Trend Curve (Mirrors "Engagement 7.5 VERY GOOD") */}
-                  <div className="d-flex flex-column align-items-center">
+                  <div
+                    className="d-flex flex-column align-items-center wl-how-step-card"
+                    data-reveal="fade-up"
+                    style={{ '--reveal-delay': '0ms' }}
+                  >
                     <div className="wl-how-step-visual">
                       {/* Background SVG Trend Curve */}
                       <svg
@@ -931,7 +940,10 @@ export default function LandingPage() {
                         }}
                       >
                         {/* Circular Ring Gauge */}
-                        <div className="position-relative d-flex align-items-center justify-content-center" style={{ width: '68px', height: '68px' }}>
+                        <div
+                          className="position-relative d-flex align-items-center justify-content-center wl-how-step-icon-badge"
+                          style={{ width: '68px', height: '68px' }}
+                        >
                           <svg viewBox="0 0 72 72" style={{ width: '68px', height: '68px', transform: 'rotate(-90deg)' }}>
                             <circle cx="36" cy="36" r="29" stroke="#E8EEFF" strokeWidth="7" fill="none" />
                             <circle
@@ -988,11 +1000,16 @@ export default function LandingPage() {
                   </div>
 
                   {/* Card 2: Floating Signal Card + Top-Right Notification Tile (Mirrors "Growth signal") */}
-                  <div className="d-flex flex-column align-items-center">
+                  <div
+                    className="d-flex flex-column align-items-center wl-how-step-card"
+                    data-reveal="fade-up"
+                    style={{ '--reveal-delay': '100ms' }}
+                  >
                     <div className="wl-how-step-visual">
                       <div className="position-relative" style={{ width: '100%', maxWidth: '285px' }}>
                         {/* Top-Right Floating Notification Tile */}
                         <div
+                          className="wl-how-step-icon-badge"
                           style={{
                             position: 'absolute',
                             top: '-18px',
@@ -1062,11 +1079,15 @@ export default function LandingPage() {
                   </div>
 
                   {/* Card 3: Sparkle Header + 3 Staggered Checklist Pills (Mirrors "Act with an AI coach") */}
-                  <div className="d-flex flex-column align-items-center">
+                  <div
+                    className="d-flex flex-column align-items-center wl-how-step-card"
+                    data-reveal="fade-up"
+                    style={{ '--reveal-delay': '200ms' }}
+                  >
                     <div className="wl-how-step-visual">
                       <div className="d-flex flex-column gap-2 w-100" style={{ maxWidth: '290px' }}>
                         <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
-                          <Sparkle size={15} weight="fill" style={{ color: '#2545FF' }} />
+                          <Sparkle size={15} weight="fill" className="wl-how-step-icon-badge" style={{ color: '#2545FF' }} />
                           <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#171417' }}>
                             Rekapitulasi telah siap.
                           </span>
@@ -1122,18 +1143,18 @@ export default function LandingPage() {
               <div className="wl-grid-2">
                 {/* Left Text Column */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow">Tahap 1 · Catat Transaksi</div>
-                  <h2 className="wl-heading-h2">
+                  <div className="wl-eyebrow" data-reveal="fade-up">Tahap 1 · Catat Transaksi</div>
+                  <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
                     Catat Pemasukan dan Pengeluaran{' '}
                     <span className="wl-serif-italic">Tanpa Ribet</span>
                   </h2>
-                  <p className="wl-body-lead mb-0">
+                  <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
                     Pencatatan transaksi harian baik pembayaran tunai maupun kredit, serta
                     pengeluaran operasional usaha dalam satu formulir terstruktur yang mencegah
                     pencatatan terlewat atau ganda.
                   </p>
 
-                  <ul className="wl-checkmarks-list">
+                  <ul className="wl-checkmarks-list" data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
                     <li>
                       <span className="wl-check-icon">
                         <Check size={13} weight="bold" />
@@ -1165,7 +1186,7 @@ export default function LandingPage() {
                     </li>
                   </ul>
 
-                  <div className="wl-button-group pt-2">
+                  <div className="wl-button-group pt-2" data-reveal="fade-up" style={{ '--reveal-delay': '310ms' }}>
                     <Link
                       to={isAuthenticated ? '/pemasukan' : '/login'}
                       className="wl-button"
@@ -1179,7 +1200,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Right Column: Blue-to-Purple Gradient Stage (Matching Screenshot 2) */}
-                <div className="wl-step-gradient-stage">
+                <div className="wl-step-gradient-stage" data-reveal="scale" style={{ '--reveal-delay': '120ms' }}>
                   {/* Top-Left Notification Tile + Overlapping Banner */}
                   <div className="wl-step-notif-cluster">
                     <div className="wl-step-app-tile">
@@ -1270,7 +1291,7 @@ export default function LandingPage() {
                           >
                             <Check size={14} weight="bold" />
                           </span>
-                          <span style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--wl-grey-80)' }}>
+                          <span key={step1PaymentType} className="wl-signal-swap" style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--wl-grey-80)' }}>
                             Status Otomatis: {step1PaymentType === 'Tunai' ? 'Lunas (Kas)' : 'Belum Lunas (Piutang)'}
                           </span>
                         </div>
@@ -1312,7 +1333,11 @@ export default function LandingPage() {
                             );
                           })}
                         </div>
-                        <div className="d-flex align-items-center justify-content-between pt-2" style={{ borderTop: '1px solid #ECECE9', fontSize: '0.8rem' }}>
+                        <div
+                          key={activeExpenseCat.name}
+                          className="d-flex align-items-center justify-content-between pt-2 wl-signal-swap"
+                          style={{ borderTop: '1px solid #ECECE9', fontSize: '0.8rem' }}
+                        >
                           <span style={{ color: 'var(--wl-grey-80)' }}>{activeExpenseCat.sample}</span>
                           <strong className="font-tabular" style={{ color: '#171417' }}>{activeExpenseCat.nominal}</strong>
                         </div>
@@ -1362,7 +1387,7 @@ export default function LandingPage() {
 
               <div className="wl-grid-2">
                 {/* Left Column: Blue-to-Purple Gradient Stage */}
-                <div className="wl-step-gradient-stage variant-purple order-2 order-lg-1">
+                <div className="wl-step-gradient-stage variant-purple order-2 order-lg-1" data-reveal="scale" style={{ '--reveal-delay': '100ms' }}>
                   {/* Top-Left Notification Cluster */}
                   <div className="wl-step-notif-cluster">
                     <div className="wl-step-app-tile">
@@ -1425,7 +1450,8 @@ export default function LandingPage() {
                       </div>
 
                       <div
-                        className="d-flex align-items-end justify-content-between gap-2 p-3 rounded-3"
+                        className="d-flex align-items-end justify-content-between gap-2 p-3 rounded-3 wl-trend-chart-wrap"
+                        data-reveal="fade-in"
                         style={{
                           height: '112px',
                           backgroundColor: '#FAFAFA',
@@ -1445,26 +1471,28 @@ export default function LandingPage() {
                                 cursor: 'pointer',
                                 borderRadius: '8px',
                                 backgroundColor: isSelected ? 'rgba(37, 69, 255, 0.09)' : 'transparent',
-                                transition: 'all 0.2s ease'
+                                transition: 'background-color 0.2s ease'
                               }}
                             >
                               <div className="d-flex align-items-end gap-1 w-100 justify-content-center h-100">
                                 <div
+                                  className="wl-trend-bar-fill"
                                   style={{
                                     width: '9px',
                                     height: d.inH,
                                     backgroundColor: isSelected ? 'var(--wl-brand-100)' : '#7C92FF',
                                     borderRadius: '4px 4px 0 0',
-                                    transition: 'all 0.25s ease'
+                                    '--bar-delay': `${idx * 55}ms`
                                   }}
                                 />
                                 <div
+                                  className="wl-trend-bar-fill"
                                   style={{
                                     width: '9px',
                                     height: d.outH,
                                     backgroundColor: isSelected ? '#FA7249' : '#CBD5E1',
                                     borderRadius: '4px 4px 0 0',
-                                    transition: 'all 0.25s ease'
+                                    '--bar-delay': `${idx * 55 + 65}ms`
                                   }}
                                 />
                               </div>
@@ -1492,18 +1520,18 @@ export default function LandingPage() {
 
                 {/* Right Text Column */}
                 <div className="d-flex flex-column align-items-start order-1 order-lg-2" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow">Tahap 2 · Pantau Keuangan</div>
-                  <h2 className="wl-heading-h2">
+                  <div className="wl-eyebrow" data-reveal="fade-up">Tahap 2 · Pantau Keuangan</div>
+                  <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
                     Lihat Kondisi Keuangan Usaha{' '}
                     <span className="wl-serif-italic">Secara Jelas</span>
                   </h2>
-                  <p className="wl-body-lead mb-0">
+                  <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
                     Ringkasan pemasukan, pengeluaran, keuntungan bersih, dan grafik keuangan dalam
                     satu tampilan. Tidak perlu lagi menghitung buku besar secara manual untuk
                     mengetahui laba bersih depot.
                   </p>
 
-                  <ul className="wl-checkmarks-list">
+                  <ul className="wl-checkmarks-list" data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
                     <li>
                       <span className="wl-check-icon">
                         <Check size={13} weight="bold" />
@@ -1524,7 +1552,7 @@ export default function LandingPage() {
                     </li>
                   </ul>
 
-                  <div className="pt-2">
+                  <div className="pt-2" data-reveal="fade-up" style={{ '--reveal-delay': '310ms' }}>
                     <Link
                       to={isAuthenticated ? '/rekapitulasi' : '/login'}
                       className="wl-button"
@@ -1551,18 +1579,18 @@ export default function LandingPage() {
               <div className="wl-grid-2">
                 {/* Left Text Column */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow">Tahap 3 · Kelola Piutang</div>
-                  <h2 className="wl-heading-h2">
+                  <div className="wl-eyebrow" data-reveal="fade-up">Tahap 3 · Kelola Piutang</div>
+                  <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
                     Pantau Pelanggan yang Masih{' '}
                     <span className="wl-serif-italic">Memiliki Utang</span>
                   </h2>
-                  <p className="wl-body-lead mb-0">
+                  <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
                     Daftar piutang pelanggan, status pembayaran lunas dan belum lunas, serta
                     pengingat piutang di dalam aplikasi memudahkan pemilik menindaklanjuti tagihan
                     kredit tepat waktu.
                   </p>
 
-                  <ul className="wl-checkmarks-list">
+                  <ul className="wl-checkmarks-list" data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
                     <li>
                       <span className="wl-check-icon">
                         <Check size={13} weight="bold" />
@@ -1583,7 +1611,7 @@ export default function LandingPage() {
                     </li>
                   </ul>
 
-                  <div className="pt-2">
+                  <div className="pt-2" data-reveal="fade-up" style={{ '--reveal-delay': '310ms' }}>
                     <Link
                       to={isAuthenticated ? '/piutang' : '/login'}
                       className="wl-button"
@@ -1594,7 +1622,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Right Column: Blue-to-Purple Gradient Stage */}
-                <div className="wl-step-gradient-stage variant-indigo">
+                <div className="wl-step-gradient-stage variant-indigo" data-reveal="scale" style={{ '--reveal-delay': '120ms' }}>
                   {/* Top-Left Notification Cluster */}
                   <div className="wl-step-notif-cluster">
                     <div className="wl-step-app-tile">
@@ -1656,46 +1684,51 @@ export default function LandingPage() {
 
                     <div className="wl-step-glass-inner-card">
                       <div className="d-flex flex-column gap-2">
-                        {demoReceivables.map((r) => (
+                        {demoReceivables.map((r, idx) => (
                           <div
                             key={r.id}
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => toggleDemoReceivable(r.id)}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                toggleDemoReceivable(r.id);
-                              }
-                            }}
-                            className="p-2 px-3 rounded-3 d-flex align-items-center justify-content-between gap-2"
-                            style={{
-                              backgroundColor: r.paid ? '#F8FAF9' : '#FAFAFA',
-                              border: r.paid ? '1px solid var(--wl-success-60)' : '1px solid var(--wl-grey-20)',
-                              cursor: 'pointer',
-                              transition: 'all 0.22s ease'
-                            }}
-                            title="Klik untuk mengubah status Lunas / Belum Lunas"
+                            data-reveal="fade-up"
+                            style={{ '--reveal-delay': `${180 + idx * 80}ms` }}
                           >
-                            <div>
-                              <div className="fw-semibold" style={{ fontSize: '0.84rem', color: '#171417' }}>
-                                {r.name}
-                              </div>
-                              <div style={{ fontSize: '0.71rem', color: 'var(--wl-grey-60)' }}>{r.meta}</div>
-                            </div>
-                            <div className="d-flex align-items-center gap-2">
-                              <span className="font-tabular fw-bold" style={{ fontSize: '0.84rem' }}>
-                                {r.amount}
-                              </span>
-                              <span
-                                className={
-                                  r.paid
-                                    ? 'wl-pill-badge wl-pill-badge-mint'
-                                    : 'wl-pill-badge wl-pill-badge-peach'
+                            <div
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => toggleDemoReceivable(r.id)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  toggleDemoReceivable(r.id);
                                 }
-                              >
-                                {r.paid ? 'Lunas' : 'Belum Lunas'}
-                              </span>
+                              }}
+                              className="p-2 px-3 rounded-3 d-flex align-items-center justify-content-between gap-2 wl-receivable-row"
+                              style={{
+                                backgroundColor: r.paid ? '#F8FAF9' : '#FAFAFA',
+                                border: r.paid ? '1px solid var(--wl-success-60)' : '1px solid var(--wl-grey-20)',
+                                cursor: 'pointer'
+                              }}
+                              title="Klik untuk mengubah status Lunas / Belum Lunas"
+                            >
+                              <div>
+                                <div className="fw-semibold" style={{ fontSize: '0.84rem', color: '#171417' }}>
+                                  {r.name}
+                                </div>
+                                <div style={{ fontSize: '0.71rem', color: 'var(--wl-grey-60)' }}>{r.meta}</div>
+                              </div>
+                              <div className="d-flex align-items-center gap-2">
+                                <span className="font-tabular fw-bold" style={{ fontSize: '0.84rem' }}>
+                                  {r.amount}
+                                </span>
+                                <span
+                                  className={
+                                    r.paid
+                                      ? 'wl-pill-badge wl-pill-badge-mint'
+                                      : 'wl-pill-badge wl-pill-badge-peach'
+                                  }
+                                  style={{ transition: 'background-color 220ms ease, color 220ms ease' }}
+                                >
+                                  {r.paid ? 'Lunas' : 'Belum Lunas'}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         ))}
@@ -1724,7 +1757,7 @@ export default function LandingPage() {
 
               <div className="wl-grid-2">
                 {/* Left Visual Composition inside Blue-to-Purple Gradient Stage */}
-                <div className="wl-step-gradient-stage order-2 order-lg-1">
+                <div className="wl-step-gradient-stage order-2 order-lg-1" data-reveal="scale" style={{ '--reveal-delay': '100ms' }}>
                   <div className="wl-step-notif-cluster">
                     <div className="wl-step-app-tile">
                       <span className="wl-step-notif-dot">4</span>
@@ -1769,39 +1802,44 @@ export default function LandingPage() {
                           badge: 'Praktis',
                           tone: 'blue'
                         }
-                      ].map((b) => (
+                      ].map((b, idx) => (
                         <div
                           key={b.num}
-                          className="p-2 px-3 rounded-3 d-flex align-items-center justify-content-between gap-2"
-                          style={{
-                            backgroundColor: '#FFFFFF',
-                            boxShadow: '0 6px 16px rgba(12, 23, 84, 0.08)'
-                          }}
+                          data-reveal="fade-up"
+                          style={{ '--reveal-delay': `${180 + idx * 85}ms` }}
                         >
-                          <div className="d-flex align-items-center gap-2">
-                            <span
-                              className="font-tabular fw-bold d-inline-flex align-items-center justify-content-center flex-shrink-0"
-                              style={{
-                                width: '30px',
-                                height: '30px',
-                                borderRadius: '50%',
-                                backgroundColor: 'var(--wl-brand-100)',
-                                color: '#FFFFFF',
-                                fontSize: '0.75rem'
-                              }}
-                            >
-                              {b.num}
-                            </span>
-                            <div>
-                              <div style={{ fontWeight: 600, fontSize: '0.84rem', color: '#171417' }}>
-                                {b.title}
-                              </div>
-                              <div style={{ fontSize: '0.73rem', color: 'var(--wl-grey-80)' }}>
-                                {b.desc}
+                          <div
+                            className="p-2 px-3 rounded-3 d-flex align-items-center justify-content-between gap-2 wl-benefit-card"
+                            style={{
+                              backgroundColor: '#FFFFFF',
+                              boxShadow: '0 6px 16px rgba(12, 23, 84, 0.08)'
+                            }}
+                          >
+                            <div className="d-flex align-items-center gap-2">
+                              <span
+                                className="font-tabular fw-bold d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                                style={{
+                                  width: '30px',
+                                  height: '30px',
+                                  borderRadius: '50%',
+                                  backgroundColor: 'var(--wl-brand-100)',
+                                  color: '#FFFFFF',
+                                  fontSize: '0.75rem'
+                                }}
+                              >
+                                {b.num}
+                              </span>
+                              <div>
+                                <div style={{ fontWeight: 600, fontSize: '0.84rem', color: '#171417' }}>
+                                  {b.title}
+                                </div>
+                                <div style={{ fontSize: '0.73rem', color: 'var(--wl-grey-80)' }}>
+                                  {b.desc}
+                                </div>
                               </div>
                             </div>
+                            <span className={getBadgeClass(b.tone)}>{b.badge}</span>
                           </div>
-                          <span className={getBadgeClass(b.tone)}>{b.badge}</span>
                         </div>
                       ))}
                     </div>
@@ -1810,22 +1848,22 @@ export default function LandingPage() {
 
                 {/* Right Editorial Copy */}
                 <div className="d-flex flex-column align-items-start order-1 order-lg-2" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow">Manfaat Utama Sistem</div>
-                  <h2 className="wl-heading-h2">
+                  <div className="wl-eyebrow" data-reveal="fade-up">Manfaat Utama Sistem</div>
+                  <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
                     Semua Catatan Keuangan dalam{' '}
                     <span className="wl-serif-italic">Satu Tempat</span>
                   </h2>
-                  <p className="wl-body-lead mb-0">
+                  <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
                     Menjaga ketertiban pencatatan setiap hari adalah kunci untuk mengetahui kondisi
                     kesehatan usaha depot air minum isi ulang secara akurat. Dengan menyatukan
                     catatan pemasukan, pengeluaran, dan piutang, pemilik usaha memiliki kendali
                     penuh atas arus kas harian.
                   </p>
-                  <p className="wl-body-lead mb-0">
+                  <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '230ms' }}>
                     Jadi catat setiap penjualan tunai. Pantau setiap pesanan kredit pelanggan.
                     Periksa rekapitulasi harian dan bulanan dengan tenang.
                   </p>
-                  <div className="pt-2">
+                  <div className="pt-2" data-reveal="fade-up" style={{ '--reveal-delay': '300ms' }}>
                     <Link
                       to={isAuthenticated ? '/dashboard' : '/login'}
                       className="wl-button is-secondary"
@@ -1851,7 +1889,7 @@ export default function LandingPage() {
 
               <div className="wl-grid-2">
                 {/* Left Column: Workleap Integrations Orbit Animation (#orbit-wrapper / .orbit-logo) */}
-                <div className="wl-orbit-column">
+                <div className="wl-orbit-column" data-reveal="scale" style={{ '--reveal-delay': '80ms' }}>
                   <div className="wl-orbit-wrapper" aria-label="Orbit kategori operasional RAJASH">
                     {/* Center Emblem (#center-logo-display) using official RAJASH Water Droplet & Financial Bars mark */}
                     <div className="wl-orbit-center-logo">
@@ -1889,18 +1927,18 @@ export default function LandingPage() {
 
                 {/* Right Column: Eyebrow + H2 + Copy + Button */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow">Struktur Kategori Operasional</div>
-                  <h2 className="wl-heading-h2">
+                  <div className="wl-eyebrow" data-reveal="fade-up">Struktur Kategori Operasional</div>
+                  <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
                     Selaras dengan aktivitas harian{' '}
                     <span className="wl-serif-italic">depot air minum</span>
                   </h2>
-                  <p className="wl-body-lead mb-0">
+                  <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
                     RAJASH tidak menggunakan akun akuntansi yang rumit. Seluruh kategori pemasukan
                     dan pengeluaran dirancang sesuai kegiatan operasional nyata usaha depot air
                     minum isi ulang, mulai dari pembelian pasokan air hingga perawatan becak
                     pengantaran.
                   </p>
-                  <div className="pt-2">
+                  <div className="pt-2" data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
                     <Link
                       to={isAuthenticated ? '/pengeluaran' : '/login'}
                       className="wl-button is-secondary"
@@ -1925,7 +1963,7 @@ export default function LandingPage() {
             <div className="wl-container">
               <div className="wl-spacer-xxlarge" />
 
-              <h2 className="wl-heading-h1" style={{ maxWidth: '56rem' }}>
+              <h2 className="wl-heading-h1" data-reveal="fade-up" style={{ maxWidth: '56rem' }}>
                 Pembukuan usaha hari ini sering mengandalkan buku manual.{' '}
                 <span className="wl-highlight">Seharusnya tidak</span>.
               </h2>
@@ -1933,9 +1971,13 @@ export default function LandingPage() {
               <div className="wl-spacer-large" />
 
               {/* Workleap 3-Column Swiper Carousel (.trust-carousel) */}
-              <div className="wl-trust-carousel-grid">
-                {visibleTestimonials.map((item) => (
-                  <div key={item.id} className="wl-trust-card">
+              <div className="wl-trust-carousel-grid" data-reveal="fade-in" style={{ '--reveal-delay': '100ms' }}>
+                {visibleTestimonials.map((item, idx) => (
+                  <div
+                    key={`${item.id}-${testimonialSlideIdx}`}
+                    className="wl-trust-card is-entering"
+                    style={{ '--slide-delay': `${idx * 65}ms` }}
+                  >
                     <div className="wl-trust-category-tag">{item.category}</div>
 
                     <div className="wl-trust-quote-row">
@@ -1955,7 +1997,7 @@ export default function LandingPage() {
               </div>
 
               {/* Bottom-Right Swiper Controls: Left Arrow + Circular Autoplay Progress + Right Arrow */}
-              <div className="wl-trust-controls">
+              <div className="wl-trust-controls" data-reveal="fade-in" style={{ '--reveal-delay': '160ms' }}>
                 <button
                   type="button"
                   onClick={handlePrevTestimonial}
@@ -2053,7 +2095,7 @@ export default function LandingPage() {
             <div className="wl-container">
               <div className="wl-spacer-xxlarge" />
 
-              <div className="wl-cta-card">
+              <div className="wl-cta-card" data-reveal="scale">
                 {/* Multi-layered Flowing Wave Ribbons at Bottom (Matching Screenshot 3) */}
                 <svg
                   className="wl-cta-waves-svg"
@@ -2101,7 +2143,7 @@ export default function LandingPage() {
                   />
                 </svg>
 
-                <div style={{ maxWidth: '54rem', position: 'relative', zIndex: 2 }}>
+                <div data-reveal="fade-up" style={{ maxWidth: '54rem', position: 'relative', zIndex: 2, '--reveal-delay': '120ms' }}>
                   <h2 className="wl-heading-h0" style={{ color: '#FFFFFF' }}>
                     Mulai Kelola Keuangan Usaha{' '}
                     <span className="wl-highlight-inverted" style={{ textDecoration: 'none', fontStyle: 'italic' }}>
@@ -2111,7 +2153,7 @@ export default function LandingPage() {
                   </h2>
                 </div>
 
-                <div className="wl-button-group justify-content-center" style={{ position: 'relative', zIndex: 2 }}>
+                <div className="wl-button-group justify-content-center" data-reveal="fade-up" style={{ position: 'relative', zIndex: 2, '--reveal-delay': '220ms' }}>
                   <Link
                     to={isAuthenticated ? '/dashboard' : '/login'}
                     className="wl-button is-alternate"
@@ -2137,8 +2179,8 @@ export default function LandingPage() {
               <div className="wl-grid-2 is-faq">
                 {/* Left Column: Eyebrow + H3 */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1rem' }}>
-                  <div className="wl-eyebrow">Pertanyaan Umum (FAQ)</div>
-                  <h3 className="wl-heading-h3">
+                  <div className="wl-eyebrow" data-reveal="fade-up">Pertanyaan Umum (FAQ)</div>
+                  <h3 className="wl-heading-h3" data-reveal="fade-up" style={{ '--reveal-delay': '90ms' }}>
                     <span
                       className="wl-serif-italic"
                       style={{ fontSize: '1.32em', display: 'block', marginBottom: '0.1em' }}
@@ -2151,7 +2193,7 @@ export default function LandingPage() {
 
                 {/* Right Column: Minimalist Horizontal Divider Accordion */}
                 <div>
-                  <Accordion items={FAQ_ITEMS} defaultOpenIndex={0} />
+                  <Accordion items={FAQ_ITEMS} defaultOpenIndex={0} animateItems={true} />
                 </div>
               </div>
 
