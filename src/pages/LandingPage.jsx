@@ -312,23 +312,23 @@ const ORBIT_NODES = [
 const TRUST_TESTIMONIALS = [
   {
     id: 't1',
-    brandWordmark: 'RAJASH · 2016',
+    category: 'Visibilitas Keuangan',
     quote:
-      'Tanpa pencatatan terpusat, pemasukan tunai dan tagihan kredit sulit dipisahkan. Dengan RAJASH, kami beralih dari buku catatan manual menuju visibilitas keuangan yang nyata.”',
+      'Tanpa pencatatan terpusat, pemasukan tunai dan tagihan kredit sulit dipisahkan. Kini beralih dari buku catatan manual menuju visibilitas keuangan yang nyata.”',
     author: 'Dedy Darmansyah',
-    role: 'Pemilik Usaha (Owner) Depot Air Minum RAJASH'
+    role: 'Pemilik Usaha (Owner) Depot Air Minum'
   },
   {
     id: 't2',
-    brandWordmark: 'ULEE KARENG',
+    category: 'Manajemen Piutang',
     quote:
-      'RAJASH sangat membantu dalam memantau pelanggan yang membeli secara kredit dan mengetahui tagihan mana yang masih berstatus Belum Lunas maupun yang sudah Lunas.”',
+      'Sangat membantu dalam memantau pelanggan yang membeli secara kredit dan mengetahui tagihan mana yang masih berstatus Belum Lunas maupun yang sudah Lunas.”',
     author: 'Operasional Pengantaran',
-    role: 'Manajemen Piutang & Tagihan Pelanggan'
+    role: 'Pemantauan Piutang & Tagihan Pelanggan'
   },
   {
     id: 't3',
-    brandWordmark: 'PEMBUKUAN KAS',
+    category: 'Rekapitulasi Kas',
     quote:
       'Begitu mulai mencatat rutin, perhitungan keuntungan bersih harian dan bulanan menjadi jauh lebih praktis karena seluruh kategori beban depot langsung terdata rapi.”',
     author: 'Evaluasi Keuangan Harian',
@@ -336,7 +336,7 @@ const TRUST_TESTIMONIALS = [
   },
   {
     id: 't4',
-    brandWordmark: 'ANTI-DUPLIKAT',
+    category: 'Validasi Transaksi',
     quote:
       'Peringatan transaksi duplikat membantu mencegah kesalahan pencatatan ganda pada tanggal dan nominal yang sama, sehingga buku kas depot tetap akurat.”',
     author: 'Kontrol Kualitas Data',
@@ -344,19 +344,19 @@ const TRUST_TESTIMONIALS = [
   },
   {
     id: 't5',
-    brandWordmark: '6 KATEGORI',
+    category: 'Beban Operasional',
     quote:
       'Seluruh pengeluaran mulai dari pembelian pasokan air, BBM becak, servis kendaraan, ganti oli, hingga perbaikan ban tercatat sesuai aktivitas nyata depot.”',
     author: 'Operasional Armada & Depot',
-    role: 'Struktur Kategori Beban Operasional'
+    role: 'Struktur 6 Kategori Beban Operasional'
   },
   {
     id: 't6',
-    brandWordmark: 'A26-CS148',
+    category: 'Akses Multi-Perangkat',
     quote:
-      'Dirancang khusus mengikuti alur kerja nyata UMKM Depot Air Minum Isi Ulang RAJASH agar pemilik usaha dapat mengelola keuangan dari perangkat apa saja.”',
+      'Dirancang khusus mengikuti alur kerja nyata UMKM depot air minum isi ulang agar pemilik usaha dapat memeriksa arus kas dan piutang dari perangkat apa saja.”',
     author: 'Tim Capstone A26-CS148',
-    role: 'Pengembang Sistem Pengelolaan Keuangan RAJASH'
+    role: 'Pengembang Sistem Pengelolaan Keuangan'
   }
 ];
 
@@ -1886,15 +1886,9 @@ export default function LandingPage() {
 
               {/* Workleap 3-Column Swiper Carousel (.trust-carousel) */}
               <div className="wl-trust-carousel-grid">
-                {visibleTestimonials.map((item, idx) => (
-                  <div
-                    key={item.id}
-                    className={`wl-trust-card ${idx === 0 ? 'is-first-visible' : ''}`}
-                  >
-                    <div className="wl-trust-logo-badge">
-                      <RajashMark size={22} />
-                      <span>{item.brandWordmark}</span>
-                    </div>
+                {visibleTestimonials.map((item) => (
+                  <div key={item.id} className="wl-trust-card">
+                    <div className="wl-trust-category-tag">{item.category}</div>
 
                     <div className="wl-trust-quote-row">
                       <div className="wl-trust-quote-mark" aria-hidden="true">
@@ -1902,8 +1896,10 @@ export default function LandingPage() {
                       </div>
                       <div className="wl-trust-quote-body">
                         <div className="wl-trust-quote-text">{item.quote}</div>
-                        <div className="wl-trust-author-name">{item.author}</div>
-                        <div className="wl-trust-author-role">{item.role}</div>
+                        <div className="wl-trust-author-meta">
+                          <div className="wl-trust-author-name">{item.author}</div>
+                          <div className="wl-trust-author-role">{item.role}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
