@@ -1476,6 +1476,10 @@ h1, h2, h3, h4, h5, h6 {
 /* ==========================================================================
    WORKLEAP SECTION 10: CLOSING CTA CARD (.cta_card - Matching Screenshot 3)
    ========================================================================== */
+.wl-cta-section {
+  padding-bottom: 3.75rem;
+}
+
 .wl-cta-card {
   border-radius: 24px;
   background-color: #070C33;
@@ -2164,40 +2168,165 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 0.75rem;
   }
 
+  .wl-spacer-large {
+    padding-top: 2.25rem;
+  }
+
   .wl-spacer-xxlarge {
-    padding-top: 2.75rem;
+    padding-top: 2rem;
   }
 
   .wl-spacer-xhuge {
-    padding-top: 3.25rem;
+    padding-top: 2.5rem;
   }
 
   .wl-capability-container {
-    padding: 2.25rem 1.25rem;
+    padding: 2rem 1.2rem;
     border-radius: 24px;
   }
 
+  .wl-grid-3 {
+    grid-row-gap: 2.25rem;
+  }
+
+  .wl-how-step-visual {
+    min-height: auto;
+    padding: 1.25rem 0.25rem 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .wl-how-checklist-pill {
+    transform: none !important;
+  }
+
+  .wl-grid-2.is-hero {
+    grid-row-gap: 2rem;
+  }
+
+  .wl-signal-canvas {
+    padding: 0.25rem 0 0.75rem;
+    gap: 0.65rem;
+  }
+
+  .wl-signal-top-track {
+    height: auto;
+    max-width: 100%;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wl-signal-svg {
+    display: none;
+  }
+
+  .wl-floating-pill {
+    padding: 0.7rem 0.9rem;
+    border-radius: 14px;
+  }
+
   .wl-floating-pill-top {
-    right: 2%;
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
     min-width: 0;
-    max-width: calc(100% - 10px);
-    padding: 0.55rem 0.75rem;
+    max-width: 100%;
+    padding: 0.7rem 0.9rem;
+    animation: none;
   }
 
   .wl-signal-main-card {
-    padding: 1.35rem 1.2rem 1.5rem;
+    max-width: 100%;
+    padding: 1.35rem 1.25rem;
+    border-radius: 20px;
+    animation: none;
+  }
+
+  .wl-signal-sparkle-badge {
+    width: 38px;
+    height: 38px;
+  }
+
+  .wl-signal-divider {
+    margin: 0.95rem 0;
+  }
+
+  .wl-signal-copy {
+    margin-bottom: 1rem;
+  }
+
+  .wl-signal-bottom-stack {
+    max-width: 100%;
+    margin-top: 0;
+    gap: 0.65rem;
   }
 
   .wl-floating-pill-bottom-right,
   .wl-floating-pill-bottom-left {
     min-width: 0;
     width: 100%;
+    max-width: 100%;
     margin-left: 0;
+    align-self: stretch;
+    animation: none;
+  }
+
+  .wl-signal-switcher {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+    padding: 0.3rem;
+    border-radius: 16px;
+  }
+
+  .wl-signal-switch-btn {
+    flex: 1 1 auto;
+    text-align: center;
+    padding: 0.42rem 0.65rem;
+    border-radius: 12px;
+    font-size: 0.76rem;
   }
 
   .wl-step-gradient-stage {
-    padding: 1.35rem 1rem 1.5rem;
+    padding: 1.35rem 1rem 1.45rem;
     border-radius: 22px;
+  }
+
+  .wl-step-notif-cluster {
+    padding-left: 0;
+    margin-bottom: 1rem;
+    animation: none;
+  }
+
+  .wl-step-app-tile {
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+  }
+
+  .wl-step-notif-dot {
+    width: 20px;
+    height: 20px;
+    font-size: 0.68rem;
+    top: -6px;
+    left: -6px;
+  }
+
+  .wl-step-notif-banner {
+    margin-left: -8px;
+    margin-top: 10px;
+    padding: 0.5rem 0.8rem;
+    max-width: calc(100% - 40px);
+    border-radius: 12px;
+  }
+
+  .wl-step-notif-banner span {
+    font-size: 0.82rem !important;
+    line-height: 1.3;
   }
 
   .wl-step-glass-frame {
@@ -2210,17 +2339,32 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.9rem;
   }
 
-  .wl-step-curved-arrow {
+  .wl-step-curved-arrow,
+  .wl-step-avatar-pointer {
     display: none;
   }
 
   .wl-trust-category-tag {
-    padding-left: 1.25rem;
+    padding-left: 1.95rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .wl-trust-quote-text {
+    margin-bottom: 1rem;
+  }
+
+  .wl-trust-controls {
+    justify-content: center;
+    margin-top: 1.75rem;
+  }
+
+  .wl-cta-section {
+    padding-bottom: 1.25rem;
   }
 
   .wl-cta-card {
-    padding: 3.25rem 1.35rem 3.75rem;
-    gap: 1.6rem;
+    padding: 3rem 1.35rem 3.35rem;
+    gap: 1.5rem;
   }
 
   .wl-footer {
@@ -2244,6 +2388,24 @@ h1, h2, h3, h4, h5, h6 {
   .wl-navbar {
     min-height: 4rem;
     padding: 0.45rem 0.9rem;
+  }
+
+  .wl-section .wl-grid-2 .wl-button-group,
+  .wl-section .wl-grid-2 > div > .pt-2,
+  .wl-cta-card .wl-button-group {
+    width: 100%;
+    gap: 0.7rem;
+  }
+
+  .wl-section .wl-grid-2 .wl-button,
+  .wl-cta-card .wl-button,
+  .wl-footer .wl-button {
+    width: 100%;
+    padding: 0.78em 1.25em;
+  }
+
+  .wl-footer-meta-sep {
+    display: none;
   }
 
   .wl-orbit-column {
@@ -2280,6 +2442,18 @@ h1, h2, h3, h4, h5, h6 {
   .wl-button.is-nav-pill {
     padding: 0.48rem 0.85rem;
     font-size: 0.82rem;
+  }
+
+  .wl-receivable-row > div:last-child {
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 0 !important;
+    padding-top: 0.35rem;
+    border-top: 1px dashed rgba(23, 20, 23, 0.08);
+  }
+
+  .wl-benefit-card .wl-pill-badge {
+    margin-left: 38px;
   }
 
   .wl-faq-question {

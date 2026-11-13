@@ -127,12 +127,12 @@ export default function LandingFooter() {
               &copy; 2026 RAJASH · Aplikasi Catatan Keuangan &amp; Piutang Depot Air Minum.
             </div>
 
-            <div className="d-flex flex-wrap align-items-center gap-3">
+            <div className="d-flex flex-wrap align-items-center gap-2 gap-sm-3">
               <span className="d-inline-flex align-items-center gap-1">
                 <ShieldCheck size={16} />
                 <span>Tim Capstone A26-CS148 (Asah 2026)</span>
               </span>
-              <span style={{ opacity: 0.35 }}>|</span>
+              <span className="wl-footer-meta-sep" style={{ opacity: 0.35 }}>|</span>
               <span className="d-inline-flex align-items-center gap-1">
                 <Globe size={16} />
                 <span>Bahasa Indonesia</span>

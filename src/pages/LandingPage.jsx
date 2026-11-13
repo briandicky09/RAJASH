@@ -1080,7 +1080,7 @@ export default function LandingPage() {
                         ].map((item) => (
                           <div
                             key={item.text}
-                            className="d-flex align-items-center gap-2 py-2 px-3"
+                            className="d-flex align-items-center gap-2 py-2 px-3 wl-how-checklist-pill"
                             style={{
                               backgroundColor: '#FFFFFF',
                               borderRadius: '12px',
@@ -1315,7 +1315,7 @@ export default function LandingPage() {
                         </div>
                         <div
                           key={activeExpenseCat.name}
-                          className="d-flex align-items-center justify-content-between pt-2 wl-signal-swap"
+                          className="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2 wl-signal-swap"
                           style={{ borderTop: '1px solid #ECECE9', fontSize: '0.8rem' }}
                         >
                           <span style={{ color: 'var(--wl-grey-80)' }}>{activeExpenseCat.sample}</span>
@@ -1323,7 +1323,7 @@ export default function LandingPage() {
                         </div>
                       </div>
 
-                      <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
                         <span style={{ fontSize: '0.74rem', color: '#D9532F', fontWeight: 500 }}>
                           &#9888; Peringatan transaksi ganda aktif
                         </span>
@@ -2068,7 +2068,7 @@ export default function LandingPage() {
         {/* ====================================================================
             SECTION 10: CLOSING CTA CARD (Mirrors Workleap Section 10 .lp-cta-section & .cta_card)
             ==================================================================== */}
-        <section className="wl-section" style={{ paddingBottom: '3.75rem' }}>
+        <section className="wl-section wl-cta-section">
           <div className="wl-padding-global">
             <div className="wl-container">
               <div className="wl-spacer-xxlarge" />
