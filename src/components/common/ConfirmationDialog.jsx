@@ -57,7 +57,7 @@ export default function ConfirmationDialog({
         >
           <Warning size={20} weight="fill" />
         </div>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, minWidth: 0, overflowWrap: 'break-word' }}>
           <p className="mb-2" style={{ fontSize: '0.9rem', color: 'var(--rj-text-primary)' }}>
             {message}
           </p>

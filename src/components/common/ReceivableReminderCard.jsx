@@ -65,9 +65,9 @@ export default function ReceivableReminderCard({
       style={{ borderColor: 'var(--rj-primary-border)', backgroundColor: 'var(--rj-white)' }}
     >
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-start align-items-sm-center gap-2" style={{ flex: '1 1 240px', minWidth: 0 }}>
           <span
-            className="d-inline-flex align-items-center justify-content-center"
+            className="d-inline-flex align-items-center justify-content-center flex-shrink-0"
             style={{
               width: '34px',
               height: '34px',
@@ -78,7 +78,7 @@ export default function ReceivableReminderCard({
           >
             <BellRinging size={18} weight="fill" />
           </span>
-          <div>
+          <div style={{ minWidth: 0 }}>
             <h3 className="mb-0" style={{ fontSize: '0.95rem', fontWeight: 600 }}>
               Pengingat Pemeriksaan Piutang Harian
             </h3>
@@ -141,7 +141,7 @@ export default function ReceivableReminderCard({
                 borderRadius: '8px'
               }}
             >
-              <div style={{ minWidth: '180px' }}>
+              <div style={{ flex: '1 1 180px', minWidth: 0 }}>
                 <div className="fw-semibold" style={{ fontSize: '0.85rem', color: 'var(--rj-text-primary)' }}>
                   {rcv.customer_name}
                 </div>
@@ -153,8 +153,8 @@ export default function ReceivableReminderCard({
                 </div>
               </div>
 
-              <div className="d-flex align-items-center gap-3 ms-auto">
-                <div className="text-end">
+              <div className="d-flex flex-wrap align-items-center justify-content-between justify-content-sm-end gap-2 gap-sm-3 ms-auto">
+                <div className="text-sm-end">
                   <div style={{ fontSize: '0.72rem', color: 'var(--rj-text-secondary)' }}>
                     Sisa Tagihan
                   </div>

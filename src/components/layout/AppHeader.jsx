@@ -15,20 +15,20 @@ export default function AppHeader({
 
   return (
     <header className="rj-app-header">
-      <div className="d-flex align-items-center gap-2 gap-md-3 min-w-0">
+      <div className="d-flex align-items-center gap-2 gap-md-3 flex-grow-1" style={{ minWidth: 0 }}>
         <button
           type="button"
           onClick={onOpenMobileMenu}
-          className="btn-rj-secondary p-2 d-lg-none"
+          className="btn-rj-secondary p-2 d-lg-none flex-shrink-0"
           aria-label="Buka menu navigasi"
         >
           <List size={19} />
         </button>
 
-        <div className="min-w-0">
+        <div className="flex-grow-1" style={{ minWidth: 0 }}>
           <h1
             className="mb-0 text-truncate"
-            style={{ fontSize: 'clamp(1rem, 1.8vw, 1.15rem)', fontWeight: 700 }}
+            style={{ fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)', fontWeight: 700 }}
           >
             {title}
           </h1>
@@ -37,12 +37,12 @@ export default function AppHeader({
             style={{ fontSize: '0.75rem', color: 'var(--rj-text-secondary)' }}
           >
             <CalendarBlank size={13} />
-            <span>{periodLabel}</span>
+            <span className="text-truncate">{periodLabel}</span>
           </div>
         </div>
       </div>
 
-      <div className="d-flex align-items-center gap-2">
+      <div className="d-flex align-items-center gap-1 gap-sm-2 flex-shrink-0">
         {/* Penanda Jelas Mode Data Simulasi vs API Live (Bagian 9 & 13 Master Prompt) */}
         <button
           type="button"

@@ -86,11 +86,11 @@ export default function LoginPage() {
     >
       {/* Top Bar */}
       <div className="wl-padding-global">
-        <div className="wl-container d-flex align-items-center justify-content-between">
+        <div className="wl-container d-flex flex-wrap align-items-center justify-content-between gap-2">
           <Link to="/" className="text-decoration-none">
-            <BrandLogo size={36} showSubtitle={true} />
+            <BrandLogo size={34} showSubtitle={true} />
           </Link>
-          <Link to="/" className="wl-button is-secondary is-small">
+          <Link to="/" className="wl-button is-secondary is-small text-nowrap">
             <ArrowLeft size={15} weight="bold" />
             <span>Kembali ke Beranda</span>
           </Link>
@@ -139,12 +139,12 @@ export default function LoginPage() {
             {/* Right Column: Login Card */}
             <div>
               <div
-                className="mx-auto p-4 p-sm-5"
+                className="mx-auto p-3 p-sm-5"
                 style={{
                   maxWidth: '480px',
                   backgroundColor: 'var(--wl-true-white)',
                   border: '1px solid var(--wl-grey-20)',
-                  borderRadius: '28px',
+                  borderRadius: '24px',
                   boxShadow: '0 24px 48px -12px rgba(12, 23, 84, 0.09)'
                 }}
               >

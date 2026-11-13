@@ -15,7 +15,7 @@ export default function DateFilter({
 
   return (
     <div className="d-flex flex-wrap align-items-end gap-2">
-      <div>
+      <div style={{ flex: '1 1 135px', minWidth: 0 }}>
         <label
           htmlFor="filter-start-date"
           style={{
@@ -34,11 +34,11 @@ export default function DateFilter({
           value={startDate}
           onChange={(e) => onStartDateChange(e.target.value)}
           className="rj-form-control"
-          style={{ fontSize: '0.85rem', width: 'auto' }}
+          style={{ fontSize: '0.85rem' }}
         />
       </div>
 
-      <div>
+      <div style={{ flex: '1 1 135px', minWidth: 0 }}>
         <label
           htmlFor="filter-end-date"
           style={{
@@ -57,7 +57,7 @@ export default function DateFilter({
           value={endDate}
           onChange={(e) => onEndDateChange(e.target.value)}
           className="rj-form-control"
-          style={{ fontSize: '0.85rem', width: 'auto' }}
+          style={{ fontSize: '0.85rem' }}
         />
       </div>
 

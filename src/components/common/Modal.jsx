@@ -45,11 +45,11 @@ export default function Modal({
     >
       <div className="rj-modal-dialog" style={{ maxWidth }}>
         <div className="rj-modal-header">
-          <div>
+          <div style={{ minWidth: 0, flex: 1 }}>
             <h2
               id="rj-modal-title"
               className="mb-0"
-              style={{ fontSize: '1.05rem', fontWeight: 600 }}
+              style={{ fontSize: '1.05rem', fontWeight: 600, overflowWrap: 'break-word' }}
             >
               {title}
             </h2>
@@ -65,7 +65,7 @@ export default function Modal({
           <button
             type="button"
             onClick={onClose}
-            className="btn-rj-ghost p-1"
+            className="btn-rj-ghost p-1 flex-shrink-0"
             aria-label="Tutup dialog"
           >
             <X size={18} />

@@ -31,14 +31,15 @@ export function ToastProvider({ children }) {
         aria-atomic="true"
         style={{
           position: 'fixed',
-          bottom: '20px',
-          right: '20px',
+          bottom: '1rem',
+          left: '1rem',
+          right: '1rem',
+          marginLeft: 'auto',
           zIndex: 1090,
           display: 'flex',
           flexDirection: 'column',
           gap: '10px',
           maxWidth: '380px',
-          width: 'calc(100vw - 40px)',
           pointerEvents: 'none'
         }}
       >

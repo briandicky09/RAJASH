@@ -28,48 +28,37 @@ import Accordion from '../components/common/Accordion';
 import { useAuth } from '../context/AuthContext';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
-const HERO_MARQUEE_ITEMS = [
-  'PENCATATAN PEMASUKAN',
-  'PENGELUARAN OPERASIONAL',
-  'MANAJEMEN PIUTANG',
-  'STATUS LUNAS & BELUM LUNAS',
-  'REKAP HARIAN & BULANAN',
-  'KEUNTUNGAN BERSIH',
-  'DETEKSI TRANSAKSI DUPLIKAT',
-  'PENGINGAT PIUTANG APLIKASI'
-];
-
 const HERO_SIGNALS = [
   {
     id: 'piutang',
-    tabLabel: 'Sinyal Piutang',
+    tabLabel: 'Tagihan Pelanggan',
     dotX: 194,
     dotY: 30,
     topPill: {
       icon: Trophy,
-      label: 'Piutang Pelanggan',
-      badge: '↓ 4 Tagihan',
+      label: 'Tagihan Belum Lunas',
+      badge: '4 Pelanggan',
       badgeTone: 'peach'
     },
-    title: 'Sinyal Keuangan & Piutang',
-    copy: 'Terdapat 4 tagihan kredit pelanggan yang belum lunas, memengaruhi arus kas bersih depot minggu ini.',
-    ctaLabel: 'Periksa piutang',
+    title: 'Pantau Tagihan Pelanggan',
+    copy: 'Ada 4 pelanggan kredit yang belum melunasi pembayaran minggu ini, sehingga belum dihitung sebagai uang masuk.',
+    ctaLabel: 'Lihat daftar piutang',
     ctaLink: '/piutang',
     bottomRightPill: {
-      label: 'Tagihan kredit berjalan',
+      label: 'Total tagihan berjalan',
       badge: 'Rp 505.000',
       badgeTone: 'peach'
     },
     bottomLeftPill: {
-      prefix: '2 tagihan > 5 hari ',
-      boldText: 'perlu ditindaklanjuti.',
+      prefix: '2 tagihan lewat 5 hari ',
+      boldText: 'perlu segera ditagih.',
       badge: 'Belum Lunas',
       badgeTone: 'peach'
     }
   },
   {
     id: 'kas',
-    tabLabel: 'Sinyal Kas Bersih',
+    tabLabel: 'Keuntungan Usaha',
     dotX: 274,
     dotY: 50,
     topPill: {
@@ -78,35 +67,35 @@ const HERO_SIGNALS = [
       badge: '↑ Rp 1,08 Jt',
       badgeTone: 'mint'
     },
-    title: 'Sinyal Arus Kas Bersih',
-    copy: 'Pemasukan kas tunai dan pelunasan piutang minggu ini menjaga saldo keuntungan bersih depot tetap positif.',
-    ctaLabel: 'Lihat rekapitulasi',
+    title: 'Ringkasan Keuntungan Usaha',
+    copy: 'Uang dari penjualan tunai dan cicilan pelanggan minggu ini menjaga keuntungan bersih depot tetap positif.',
+    ctaLabel: 'Lihat rekap keuangan',
     ctaLink: '/rekapitulasi',
     bottomRightPill: {
-      label: 'Pemasukan kas diterima',
+      label: 'Uang masuk diterima',
       badge: 'Rp 1.880.000',
       badgeTone: 'mint'
     },
     bottomLeftPill: {
-      prefix: 'Keuntungan bersih depot ',
-      boldText: 'terhitung otomatis.',
-      badge: 'Kas Positif',
+      prefix: 'Keuntungan bersih usaha ',
+      boldText: 'dihitung otomatis.',
+      badge: 'Uang Masuk',
       badgeTone: 'mint'
     }
   },
   {
     id: 'pengeluaran',
-    tabLabel: 'Sinyal Beban Depot',
+    tabLabel: 'Biaya Operasional',
     dotX: 118,
     dotY: 44,
     topPill: {
       icon: GasPump,
-      label: 'Beban Operasional',
+      label: 'Biaya Operasional',
       badge: '6 Kategori',
       badgeTone: 'blue'
     },
-    title: 'Sinyal Pengeluaran & Duplikasi',
-    copy: 'Pengeluaran pembelian pasokan air dan BBM becak tercatat rapi dengan pemeriksaan transaksi ganda otomatis.',
+    title: 'Catatan Pengeluaran Depot',
+    copy: 'Biaya beli pasokan air dan BBM becak tercatat rapi dengan peringatan otomatis jika ada input ganda.',
     ctaLabel: 'Catat pengeluaran',
     ctaLink: '/pengeluaran',
     bottomRightPill: {
@@ -115,9 +104,9 @@ const HERO_SIGNALS = [
       badgeTone: 'blue'
     },
     bottomLeftPill: {
-      prefix: 'Pemeriksaan duplikasi ',
-      boldText: 'aktif melindungi buku.',
-      badge: 'Terlindungi',
+      prefix: 'Peringatan input ganda ',
+      boldText: 'aktif menjaga catatan.',
+      badge: 'Terjaga',
       badgeTone: 'blue'
     }
   }
@@ -361,51 +350,51 @@ const ORBIT_NODES = [
 const TRUST_TESTIMONIALS = [
   {
     id: 't1',
-    category: 'Visibilitas Keuangan',
+    category: 'Catatan Terpusat',
     quote:
-      'Tanpa pencatatan terpusat, pemasukan tunai dan tagihan kredit sulit dipisahkan. Kini beralih dari buku catatan manual menuju visibilitas keuangan yang nyata.”',
+      'Sebelumnya penjualan tunai dan tagihan kredit sering tercampur di buku tulis. Dengan RAJASH, uang masuk dan utang pelanggan langsung terpisah rapi.”',
     author: 'Dedy Darmansyah',
-    role: 'Pemilik Usaha (Owner) Depot Air Minum'
+    role: 'Pemilik Depot Air Minum RAJASH'
   },
   {
     id: 't2',
-    category: 'Manajemen Piutang',
+    category: 'Pantau Piutang',
     quote:
-      'Sangat membantu dalam memantau pelanggan yang membeli secara kredit dan mengetahui tagihan mana yang masih berstatus Belum Lunas maupun yang sudah Lunas.”',
-    author: 'Operasional Pengantaran',
-    role: 'Pemantauan Piutang & Tagihan Pelanggan'
+      'Pemilik usaha bisa langsung melihat pelanggan yang masih punya tagihan, mencatat cicilan, dan membedakan status Belum Lunas atau Lunas.”',
+    author: 'Catatan Tagihan Kredit',
+    role: 'Pemantauan Piutang Pelanggan'
   },
   {
     id: 't3',
-    category: 'Rekapitulasi Kas',
+    category: 'Hitung Keuntungan',
     quote:
-      'Begitu mulai mencatat rutin, perhitungan keuntungan bersih harian dan bulanan menjadi jauh lebih praktis karena seluruh kategori beban depot langsung terdata rapi.”',
-    author: 'Evaluasi Keuangan Harian',
-    role: 'Rekapitulasi Pemasukan & Pengeluaran Depot'
+      'Keuntungan bersih harian dan bulanan langsung terhitung otomatis karena seluruh pemasukan tunai dan 6 kategori biaya depot tercatat teratur.”',
+    author: 'Ringkasan Usaha Harian',
+    role: 'Rekap Uang Masuk & Keluar Depot'
   },
   {
     id: 't4',
-    category: 'Validasi Transaksi',
+    category: 'Cegah Salah Catat',
     quote:
-      'Peringatan transaksi duplikat membantu mencegah kesalahan pencatatan ganda pada tanggal dan nominal yang sama, sehingga buku kas depot tetap akurat.”',
-    author: 'Kontrol Kualitas Data',
-    role: 'Perlindungan Catatan Transaksi Harian'
+      'Saat ada transaksi yang tanggal, pelanggan, dan jumlah rupiahnya sama persis, aplikasi langsung memberi peringatan agar catatan tidak ganda.”',
+    author: 'Pemeriksaan Catatan',
+    role: 'Peringatan Transaksi Ganda'
   },
   {
     id: 't5',
-    category: 'Beban Operasional',
+    category: 'Biaya Operasional',
     quote:
-      'Seluruh pengeluaran mulai dari pembelian pasokan air, BBM becak, servis kendaraan, ganti oli, hingga perbaikan ban tercatat sesuai aktivitas nyata depot.”',
-    author: 'Operasional Armada & Depot',
-    role: 'Struktur 6 Kategori Beban Operasional'
+      'Pengeluaran harian mulai dari beli air tangki, BBM becak, servis kendaraan, ganti oli, sampai perbaikan ban punya kategorinya masing-masing.”',
+    author: 'Catatan Biaya Depot',
+    role: '6 Kategori Pengeluaran Harian'
   },
   {
     id: 't6',
-    category: 'Akses Multi-Perangkat',
+    category: 'Mudah Diakses',
     quote:
-      'Dirancang khusus mengikuti alur kerja nyata UMKM depot air minum isi ulang agar pemilik usaha dapat memeriksa arus kas dan piutang dari perangkat apa saja.”',
-    author: 'Tim Capstone A26-CS148',
-    role: 'Pengembang Sistem Pengelolaan Keuangan'
+      'Dibuat menyesuaikan kebiasaan kerja depot air minum isi ulang agar pemilik usaha bisa mengecek catatan keuangan lewat HP maupun komputer.”',
+    author: 'Tim Pengembang A26-CS148',
+    role: 'Aplikasi Catatan Keuangan RAJASH'
   }
 ];
 
@@ -413,32 +402,32 @@ const FAQ_ITEMS = [
   {
     question: 'Apa itu RAJASH?',
     answer:
-      'RAJASH adalah sistem pengelolaan keuangan dan piutang berbasis web yang dirancang untuk membantu pemilik usaha Depot Air Minum Isi Ulang RAJASH di Ulee Kareng, Banda Aceh dalam mencatat pemasukan, pengeluaran operasional, piutang pelanggan, serta melihat laporan rekapitulasi keuangan.'
+      'RAJASH adalah aplikasi web untuk membantu pemilik Depot Air Minum Isi Ulang RAJASH di Ulee Kareng, Banda Aceh mencatat pemasukan, pengeluaran, piutang pelanggan, dan melihat rekap keuangan harian maupun bulanan.'
   },
   {
-    question: 'Apa saja yang dapat dicatat melalui RAJASH?',
+    question: 'Apa saja yang bisa dicatat di RAJASH?',
     answer:
-      'Melalui RAJASH, pemilik usaha dapat mencatat transaksi pemasukan penjualan air minum isi ulang (tunai maupun kredit), mencatat pengeluaran operasional (BBM Becak, Servis Kendaraan, Penggantian Oli, Perbaikan Ban, Pembelian Pasokan Air, dan Lainnya), serta memperbarui pembayaran piutang pelanggan.'
+      'Anda dapat mencatat penjualan air mineral dan air RO (baik tunai maupun kredit), mencatat 6 kategori pengeluaran depot (BBM Becak, Servis Kendaraan, Penggantian Oli, Perbaikan Ban, Pembelian Pasokan Air, dan Lainnya), serta mencatat cicilan atau pelunasan piutang pelanggan.'
   },
   {
-    question: 'Apakah RAJASH dapat mencatat transaksi kredit?',
+    question: 'Apakah penjualan kredit atau bayar nanti bisa dicatat?',
     answer:
-      'Ya. Saat mencatat pemasukan, pemilik dapat memilih jenis pembayaran Kredit. Transaksi kredit otomatis diberi status Belum Lunas dan masuk ke daftar piutang pelanggan tanpa langsung dihitung sebagai kas masuk sebelum dilunasi.'
+      'Bisa. Saat mencatat pemasukan, cukup pilih pembayaran Kredit. Transaksi otomatis berstatus Belum Lunas dan masuk ke daftar piutang pelanggan tanpa langsung dihitung sebagai uang kas sampai pelanggan melunasinya.'
   },
   {
-    question: 'Bagaimana cara memantau piutang pelanggan?',
+    question: 'Bagaimana cara melihat pelanggan yang masih berutang?',
     answer:
-      'Pemilik dapat membuka halaman Piutang atau melihat ringkasan pada Dashboard. Sistem menampilkan nama pelanggan, tanggal transaksi, nominal tagihan, sisa piutang, status Lunas/Belum Lunas, serta pengingat piutang di dalam aplikasi.'
+      'Anda bisa membuka menu Piutang atau melihat ringkasan di Dashboard. Aplikasi menampilkan nama pelanggan, tanggal transaksi, jumlah tagihan, sisa pembayaran, status Lunas atau Belum Lunas, serta pengingat tagihan.'
   },
   {
-    question: 'Apakah RAJASH menyediakan rekapitulasi keuangan?',
+    question: 'Apakah keuntungan usaha dan rekap keuangan dihitung otomatis?',
     answer:
-      'Ya. Halaman Rekapitulasi menyediakan ringkasan keuangan berdasarkan periode harian dan bulanan yang mencakup total pemasukan kas, total pengeluaran per kategori, daftar piutang, serta perhitungan keuntungan bersih.'
+      'Ya. Di halaman Rekapitulasi, Anda cukup memilih tanggal atau bulan untuk melihat total uang kas diterima, pengeluaran per kategori, rincian penjualan air, daftar piutang, dan keuntungan bersih secara otomatis.'
   },
   {
-    question: 'Apakah RAJASH dapat digunakan melalui perangkat mobile?',
+    question: 'Apakah RAJASH bisa dibuka lewat HP?',
     answer:
-      'Ya. Seluruh halaman RAJASH dirancang dengan tata letak responsif sehingga dapat digunakan dengan nyaman melalui desktop, laptop, tablet, maupun smartphone.'
+      'Bisa. Tampilan RAJASH menyesuaikan ukuran layar sehingga tetap nyaman dibuka lewat HP, tablet, laptop, maupun komputer.'
   }
 ];
 
@@ -455,6 +444,8 @@ export default function LandingPage() {
   const [testimonialSlideIdx, setTestimonialSlideIdx] = useState(0);
   const [testimonialPlaying, setTestimonialPlaying] = useState(true);
   const [testimonialProgress, setTestimonialProgress] = useState(0);
+  const orbitColumnRef = useRef(null);
+  const orbitWrapperRef = useRef(null);
   const orbitNodeRefs = useRef([]);
   const orbitGlyphRefs = useRef([]);
 
@@ -517,9 +508,28 @@ export default function LandingPage() {
       if (!startTime) startTime = ts;
       const elapsed = ts - startTime;
 
-      const r = Math.min(R_PCT * Math.min(window.innerWidth, window.innerHeight), R_MAX);
-      const cx = 170;
-      const cy = 170;
+      const colEl = orbitColumnRef.current;
+      const wrapEl = orbitWrapperRef.current;
+      const colW = colEl ? colEl.clientWidth : window.innerWidth;
+      const wrapW = wrapEl ? wrapEl.clientWidth : 340;
+      const cx = wrapW / 2;
+      const cy = wrapW / 2;
+
+      const desiredR = Math.min(R_PCT * Math.min(window.innerWidth, window.innerHeight), R_MAX);
+      const maxHorizontalReach = Math.max(96, colW / 2 - 8);
+      const maxVerticalReach = colEl ? Math.max(120, colEl.clientHeight / 2 - 8) : maxHorizontalReach;
+      const maxReach = Math.min(maxHorizontalReach, maxVerticalReach);
+      const scaleFactor =
+        desiredR + SIZE_MAX / 2 > maxReach
+          ? maxReach / (desiredR + SIZE_MAX / 2)
+          : 1;
+
+      const r = desiredR * scaleFactor;
+      const nodeScaleCap = Math.max(0.56, scaleFactor);
+      const nodeMax = SIZE_MAX * nodeScaleCap;
+      const nodeMin = SIZE_MIN * nodeScaleCap;
+      const imgMax = IMG_MAX * nodeScaleCap;
+      const imgMin = IMG_MIN * nodeScaleCap;
 
       orbitNodeRefs.current.forEach((el, i) => {
         if (!el) return;
@@ -529,8 +539,8 @@ export default function LandingPage() {
         const y = cy + r * Math.sin(angle);
 
         const t = easeSize(angle % (Math.PI * 2));
-        const size = SIZE_MIN + (SIZE_MAX - SIZE_MIN) * t;
-        const imgSize = IMG_MIN + (IMG_MAX - IMG_MIN) * t;
+        const size = nodeMin + (nodeMax - nodeMin) * t;
+        const imgSize = imgMin + (imgMax - imgMin) * t;
 
         const s = size / SIZE_MAX;
         el.style.transform = `translate(${x - SIZE_MAX / 2}px, ${y - SIZE_MAX / 2}px) scale(${s})`;
@@ -589,24 +599,24 @@ export default function LandingPage() {
           <section id="beranda" className="wl-section">
           <div className="wl-padding-global">
             <div className="wl-container">
-              <div className="wl-spacer-xxlarge" />
+              <div className="wl-hero-spacer" />
 
               <div className="wl-grid-2 is-hero">
                 {/* Left Column: Eyebrow + H1 + Lead + CTA + Marquee */}
-                <div className="d-flex flex-column align-items-start" style={{ gap: '1.5rem' }}>
+                <div className="d-flex flex-column align-items-start" style={{ gap: '1.25rem' }}>
                   <div className="wl-eyebrow wl-hero-anim-eyebrow">
-                    Sistem Pengelolaan Keuangan &amp; Piutang UMKM
+                    Aplikasi Catatan Keuangan Depot Air
                   </div>
 
                   <h1 className="wl-heading-h1 wl-hero-anim-heading">
-                    Kelola keuangan usaha dengan lebih mudah,{' '}
-                    <span className="wl-serif-italic">kini terpusat di RAJASH</span>
+                    Catat keuangan depot air lebih mudah{' '}
+                    <span className="wl-serif-italic">dengan RAJASH</span>
                   </h1>
 
                   <div className="wl-hero-anim-lead" style={{ maxWidth: '36rem' }}>
                     <p className="wl-body-lead mb-0">
-                      Catat pemasukan, pantau pengeluaran, kelola piutang pelanggan, dan lihat
-                      laporan keuangan usaha dalam satu tempat.
+                      Catat pemasukan, pengeluaran, dan tagihan pelanggan dalam satu aplikasi.
+                      Tidak perlu repot menghitung semuanya secara manual.
                     </p>
                   </div>
 
@@ -617,41 +627,9 @@ export default function LandingPage() {
                     >
                       Masuk ke Dashboard
                     </Link>
-                    <a href="#fitur" className="wl-button is-secondary">
-                      Pelajari Fitur
+                    <a href="#cara-kerja" className="wl-button is-secondary">
+                      Pelajari Cara Kerja
                     </a>
-                  </div>
-
-                  {/* Workleap Hero Bottom Masked Marquee Strip (.logos_slider-wrapper) */}
-                  <div className="mt-3 pt-2 w-100 wl-hero-anim-marquee">
-                    <div
-                      style={{
-                        fontSize: '0.75rem',
-                        color: 'var(--wl-grey-60)',
-                        marginBottom: '0.65rem',
-                        letterSpacing: '0.02em'
-                      }}
-                    >
-                      3 Nilai Utama: Pencatatan lebih terstruktur · Pemantauan piutang lebih mudah · Rekap keuangan lebih praktis
-                    </div>
-                    <div className="wl-marquee-mask" aria-label="Fitur utama sistem RAJASH">
-                      <div className="wl-marquee-track">
-                        {[...HERO_MARQUEE_ITEMS, ...HERO_MARQUEE_ITEMS].map((item, idx) => (
-                          <span key={`${item}-${idx}`} className="wl-marquee-item">
-                            <span
-                              style={{
-                                width: '6px',
-                                height: '6px',
-                                borderRadius: '50%',
-                                backgroundColor: 'var(--wl-brand-100)',
-                                display: 'inline-block'
-                              }}
-                            />
-                            <span>{item}</span>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 </div>
 
@@ -738,15 +716,16 @@ export default function LandingPage() {
                         }
                       }}
                       className="wl-floating-pill wl-floating-pill-top"
-                      title="Klik untuk mengganti sinyal keuangan"
+                      title="Klik untuk melihat contoh ringkasan lain"
                     >
-                      <div className="d-flex align-items-center gap-2">
-                        <TopPillIcon size={20} weight="regular" style={{ color: '#171417' }} />
+                      <div className="d-flex align-items-center gap-2" style={{ minWidth: 0, flex: '1 1 auto' }}>
+                        <TopPillIcon size={20} weight="regular" style={{ color: '#171417', flexShrink: 0 }} />
                         <span
                           style={{
                             fontSize: '0.92rem',
                             fontWeight: 500,
-                            color: '#171417'
+                            color: '#171417',
+                            minWidth: 0
                           }}
                         >
                           {activeSignal.topPill.label}
@@ -797,9 +776,9 @@ export default function LandingPage() {
                       }}
                       className="wl-floating-pill wl-floating-pill-bottom-right"
                     >
-                      <div className="d-flex align-items-center gap-2">
+                      <div className="d-flex align-items-center gap-2" style={{ minWidth: 0, flex: '1 1 160px' }}>
                         <span
-                          className="d-inline-flex align-items-center justify-content-center"
+                          className="d-inline-flex align-items-center justify-content-center flex-shrink-0"
                           style={{
                             width: '34px',
                             height: '34px',
@@ -814,7 +793,8 @@ export default function LandingPage() {
                           style={{
                             fontSize: '0.92rem',
                             fontWeight: 500,
-                            color: '#171417'
+                            color: '#171417',
+                            minWidth: 0
                           }}
                         >
                           {activeSignal.bottomRightPill.label}
@@ -838,9 +818,9 @@ export default function LandingPage() {
                       }}
                       className="wl-floating-pill wl-floating-pill-bottom-left"
                     >
-                      <div className="d-flex align-items-center gap-2">
+                      <div className="d-flex align-items-center gap-2" style={{ minWidth: 0, flex: '1 1 170px' }}>
                         <Target size={22} weight="regular" style={{ color: '#171417', flexShrink: 0 }} />
-                        <span style={{ fontSize: '0.9rem', color: '#171417' }}>
+                        <span style={{ fontSize: '0.9rem', color: '#171417', minWidth: 0 }}>
                           {activeSignal.bottomLeftPill.prefix}
                           <strong style={{ fontWeight: 700 }}>{activeSignal.bottomLeftPill.boldText}</strong>
                         </span>
@@ -852,7 +832,7 @@ export default function LandingPage() {
                   </div>
 
                   {/* Interactive Signal Switcher Pills */}
-                  <div className="wl-signal-switcher" role="tablist" aria-label="Pilih simulasi sinyal keuangan">
+                  <div className="wl-signal-switcher" role="tablist" aria-label="Pilih contoh ringkasan keuangan">
                     {HERO_SIGNALS.map((sig, idx) => (
                       <button
                         key={sig.id}
@@ -886,15 +866,15 @@ export default function LandingPage() {
                   className="d-flex flex-column align-items-center text-center mx-auto"
                   style={{ maxWidth: '46rem', marginBottom: '3rem' }}
                 >
-                  <div className="wl-eyebrow mb-3" data-reveal="fade-up">Cara Kerja Sistem</div>
+                  <div className="wl-eyebrow mb-3" data-reveal="fade-up">Cara Kerja</div>
                   <h2 className="wl-heading-h2 mb-3" data-reveal="fade-up" style={{ '--reveal-delay': '85ms' }}>
-                    Catatan terstruktur. Piutang terpantau. Laporan lebih praktis dalam{' '}
+                    Catatan rapi. Tagihan terpantau. Rekap lebih cepat dalam{' '}
                     <span className="wl-serif-italic">3 langkah mudah.</span>
                   </h2>
                   <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '170ms' }}>
-                    RAJASH dirancang khusus untuk menggantikan pencatatan buku manual di depot air
-                    minum isi ulang; mudah digunakan setiap hari, memisahkan transaksi tunai dan
-                    kredit, serta menghitung keuntungan bersih secara otomatis.
+                    RAJASH membantu pemilik depot air minum mengganti buku catatan manual agar
+                    pemasukan tunai, penjualan kredit, dan keuntungan usaha bisa dipantau setiap hari
+                    tanpa repot.
                   </p>
                 </div>
 
@@ -988,14 +968,14 @@ export default function LandingPage() {
                               textTransform: 'uppercase'
                             }}
                           >
-                            TERSTRUKTUR
+                            TERCATAT RAPI
                           </span>
                         </div>
                       </div>
                     </div>
-                    <h5 className="wl-heading-h5">Pencatatan lebih terstruktur</h5>
+                    <h5 className="wl-heading-h5">Catat lebih teratur</h5>
                     <p className="mt-1 mb-0" style={{ fontSize: '0.88rem', color: 'var(--wl-grey-80)' }}>
-                      Catat pemasukan tunai, penjualan kredit, dan 6 kategori pengeluaran depot.
+                      Catat penjualan tunai, pesanan kredit, dan 6 jenis pengeluaran depot.
                     </p>
                   </div>
 
@@ -1060,21 +1040,21 @@ export default function LandingPage() {
                           <div className="d-flex align-items-center gap-2 pb-2 mb-2" style={{ borderBottom: '1px solid #ECECE9' }}>
                             <RajashMark size={24} tile={true} />
                             <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#171417' }}>
-                              Sinyal Piutang
+                              Pengingat Tagihan
                             </span>
                           </div>
                           <div style={{ fontSize: '0.75rem', color: 'var(--wl-grey-80)', lineHeight: 1.45, marginBottom: '0.55rem' }}>
-                            Terdapat 4 tagihan kredit pelanggan senilai Rp 505.000 belum lunas.
+                            Ada 4 tagihan kredit pelanggan sebesar Rp 505.000 yang belum lunas.
                           </div>
                           <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#2545FF' }}>
-                            Periksa piutang &rarr;
+                            Lihat piutang &rarr;
                           </div>
                         </div>
                       </div>
                     </div>
-                    <h5 className="wl-heading-h5">Pemantauan piutang lebih mudah</h5>
+                    <h5 className="wl-heading-h5">Pantau piutang lebih mudah</h5>
                     <p className="mt-1 mb-0" style={{ fontSize: '0.88rem', color: 'var(--wl-grey-80)' }}>
-                      Ketahui pelanggan yang masih berutang dan perbarui status saat lunas.
+                      Lihat pelanggan yang masih punya tagihan dan tandai lunas saat sudah dibayar.
                     </p>
                   </div>
 
@@ -1089,14 +1069,14 @@ export default function LandingPage() {
                         <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
                           <Sparkle size={15} weight="fill" className="wl-how-step-icon-badge" style={{ color: '#2545FF' }} />
                           <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#171417' }}>
-                            Rekapitulasi telah siap.
+                            Rekap keuangan siap dilihat.
                           </span>
                         </div>
 
                         {[
-                          { text: 'Pemasukan kas tunai telah direkap.', offset: '0px' },
-                          { text: 'Laba bersih Rp 1.085.000 terhitung.', offset: '-10px', bold: true },
-                          { text: 'Laporan harian & bulanan siap cetak.', offset: '8px' }
+                          { text: 'Uang masuk tunai sudah dirangkum.', offset: '0px' },
+                          { text: 'Keuntungan bersih Rp 1.085.000 terhitung.', offset: '-10px', bold: true },
+                          { text: 'Rekap harian & bulanan siap cetak.', offset: '8px' }
                         ].map((item) => (
                           <div
                             key={item.text}
@@ -1118,9 +1098,9 @@ export default function LandingPage() {
                         ))}
                       </div>
                     </div>
-                    <h5 className="wl-heading-h5">Rekap keuangan lebih praktis</h5>
+                    <h5 className="wl-heading-h5">Rekap keuangan lebih mudah</h5>
                     <p className="mt-1 mb-0" style={{ fontSize: '0.88rem', color: 'var(--wl-grey-80)' }}>
-                      Lihat laporan harian dan bulanan beserta keuntungan bersih tanpa hitung manual.
+                      Lihat ringkasan harian dan bulanan beserta keuntungan bersih tanpa hitung manual.
                     </p>
                   </div>
                 </div>
@@ -1143,15 +1123,15 @@ export default function LandingPage() {
               <div className="wl-grid-2">
                 {/* Left Text Column */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow" data-reveal="fade-up">Tahap 1 · Catat Transaksi</div>
+                  <div className="wl-eyebrow" data-reveal="fade-up">Langkah 1 · Catat Transaksi</div>
                   <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
                     Catat Pemasukan dan Pengeluaran{' '}
-                    <span className="wl-serif-italic">Tanpa Ribet</span>
+                    <span className="wl-serif-italic">Lebih Praktis</span>
                   </h2>
                   <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
-                    Pencatatan transaksi harian baik pembayaran tunai maupun kredit, serta
-                    pengeluaran operasional usaha dalam satu formulir terstruktur yang mencegah
-                    pencatatan terlewat atau ganda.
+                    Catat setiap penjualan air, baik pembayaran tunai maupun kredit. Jumlah transaksi
+                    akan dihitung otomatis, sementara biaya BBM, servis kendaraan, dan pembelian
+                    pasokan air ikut terpantau rapi.
                   </p>
 
                   <ul className="wl-checkmarks-list" data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
@@ -1160,8 +1140,8 @@ export default function LandingPage() {
                         <Check size={13} weight="bold" />
                       </span>
                       <div>
-                        Pencatatan pemasukan penjualan dengan jenis pembayaran{' '}
-                        <strong>Tunai (Lunas)</strong> maupun <strong>Kredit (Belum Lunas)</strong>
+                        Catat penjualan air galon dengan pilihan bayar{' '}
+                        <strong>Tunai (Lunas)</strong> atau <strong>Kredit (Belum Lunas)</strong>
                       </div>
                     </li>
                     <li>
@@ -1169,7 +1149,7 @@ export default function LandingPage() {
                         <Check size={13} weight="bold" />
                       </span>
                       <div>
-                        Enam kategori pengeluaran operasional: <strong>BBM Becak</strong>,{' '}
+                        Enam kategori biaya harian depot: <strong>BBM Becak</strong>,{' '}
                         <strong>Servis Kendaraan</strong>, <strong>Penggantian Oli</strong>,{' '}
                         <strong>Perbaikan Ban</strong>, <strong>Pembelian Pasokan Air</strong>, dan{' '}
                         <strong>Lainnya</strong>
@@ -1180,8 +1160,8 @@ export default function LandingPage() {
                         <Check size={13} weight="bold" />
                       </span>
                       <div>
-                        Peringatan kemungkinan transaksi duplikat saat rincian dan nominal serupa
-                        diinput pada tanggal yang sama
+                        Ada peringatan otomatis jika tanggal, pelanggan, dan jumlah transaksi yang
+                        sama terinput dua kali
                       </div>
                     </li>
                   </ul>
@@ -1194,7 +1174,7 @@ export default function LandingPage() {
                       Catat Transaksi
                     </Link>
                     <a href="#modul" className="wl-button is-secondary">
-                      Jelajahi Modul
+                      Lihat Ringkasan
                     </a>
                   </div>
                 </div>
@@ -1210,7 +1190,7 @@ export default function LandingPage() {
                     <div className="wl-step-notif-banner">
                       <RajashMark size={30} tile={true} />
                       <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#171417' }}>
-                        Waktunya catat transaksi harian!
+                        Jangan lupa catat transaksi hari ini!
                       </span>
                     </div>
                   </div>
@@ -1244,10 +1224,10 @@ export default function LandingPage() {
                     <div className="wl-step-glass-top-bubble d-flex align-items-center justify-content-between gap-2 flex-wrap">
                       <div>
                         <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                          Formulir Pencatatan Terpusat
+                          Contoh Form Pencatatan
                         </div>
                         <div style={{ fontSize: '0.96rem', fontWeight: 600, color: '#171417' }}>
-                          Pilih jenis pembayaran &amp; kategori beban operasional:
+                          Pilih cara bayar &amp; kategori biaya depot:
                         </div>
                       </div>
                       {/* Toggle Tunai / Kredit */}
@@ -1277,10 +1257,10 @@ export default function LandingPage() {
 
                     {/* White Inner Card */}
                     <div className="wl-step-glass-inner-card">
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <div className="d-flex align-items-center gap-2">
+                      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                        <div className="d-flex align-items-center gap-2" style={{ minWidth: 0, flex: '1 1 180px' }}>
                           <span
-                            className="d-inline-flex align-items-center justify-content-center"
+                            className="d-inline-flex align-items-center justify-content-center flex-shrink-0"
                             style={{
                               width: '28px',
                               height: '28px',
@@ -1291,8 +1271,8 @@ export default function LandingPage() {
                           >
                             <Check size={14} weight="bold" />
                           </span>
-                          <span key={step1PaymentType} className="wl-signal-swap" style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--wl-grey-80)' }}>
-                            Status Otomatis: {step1PaymentType === 'Tunai' ? 'Lunas (Kas)' : 'Belum Lunas (Piutang)'}
+                          <span key={step1PaymentType} className="wl-signal-swap" style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--wl-grey-80)', minWidth: 0 }}>
+                            Status Otomatis: {step1PaymentType === 'Tunai' ? 'Lunas (Masuk Kas)' : 'Belum Lunas (Masuk Piutang)'}
                           </span>
                         </div>
                         <span
@@ -1345,7 +1325,7 @@ export default function LandingPage() {
 
                       <div className="d-flex align-items-center justify-content-between">
                         <span style={{ fontSize: '0.74rem', color: '#D9532F', fontWeight: 500 }}>
-                          &#9888; Deteksi transaksi duplikat aktif
+                          &#9888; Peringatan transaksi ganda aktif
                         </span>
                         <Link
                           to={isAuthenticated ? '/pemasukan' : '/login'}
@@ -1397,7 +1377,7 @@ export default function LandingPage() {
                     <div className="wl-step-notif-banner">
                       <RajashMark size={30} tile={true} />
                       <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#171417' }}>
-                        Laba Bersih ({activeTrendDay.label}): +{activeTrendDay.netVal}
+                        Keuntungan Bersih ({activeTrendDay.label}): +{activeTrendDay.netVal}
                       </span>
                     </div>
                   </div>
@@ -1427,30 +1407,30 @@ export default function LandingPage() {
 
                   {/* Translucent Frosted Glass Frame */}
                   <div className="wl-step-glass-frame">
-                    <div className="wl-step-glass-top-bubble d-flex align-items-center justify-content-between gap-2">
-                      <div>
+                    <div className="wl-step-glass-top-bubble d-flex flex-wrap align-items-center justify-content-between gap-2">
+                      <div style={{ minWidth: 0, flex: '1 1 180px' }}>
                         <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                          Rekapitulasi Arus Kas Bersih
+                          Ringkasan Uang Masuk &amp; Keluar
                         </div>
                         <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#171417' }}>
-                          Keuntungan Bersih = Kas Masuk Aktual - Pengeluaran
+                          Keuntungan Bersih = Uang Diterima - Pengeluaran
                         </div>
                       </div>
                       <span className="wl-pill-badge wl-pill-badge-mint font-tabular">Rp 1.085.000</span>
                     </div>
 
                     <div className="wl-step-glass-inner-card">
-                      <div className="d-flex justify-content-between align-items-center mb-2" style={{ fontSize: '0.78rem' }}>
+                      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2" style={{ fontSize: '0.78rem' }}>
                         <span className="fw-semibold" style={{ color: '#171417' }}>
                           Klik Grafik Harian ({activeTrendDay.label} 2026)
                         </span>
                         <span className="font-tabular" style={{ color: 'var(--wl-brand-100)', fontWeight: 600 }}>
-                          Masuk: {activeTrendDay.inVal} · Beban: {activeTrendDay.outVal}
+                          Masuk: {activeTrendDay.inVal} · Keluar: {activeTrendDay.outVal}
                         </span>
                       </div>
 
                       <div
-                        className="d-flex align-items-end justify-content-between gap-2 p-3 rounded-3 wl-trend-chart-wrap"
+                        className="d-flex align-items-end justify-content-between gap-1 gap-sm-2 p-2 p-sm-3 rounded-3 wl-trend-chart-wrap"
                         data-reveal="fade-in"
                         style={{
                           height: '112px',
@@ -1468,6 +1448,7 @@ export default function LandingPage() {
                               onMouseEnter={() => setActiveTrendDayIdx(idx)}
                               className="d-flex flex-column align-items-center flex-grow-1 h-100 justify-content-end border-0 bg-transparent p-1"
                               style={{
+                                minWidth: 0,
                                 cursor: 'pointer',
                                 borderRadius: '8px',
                                 backgroundColor: isSelected ? 'rgba(37, 69, 255, 0.09)' : 'transparent',
@@ -1520,15 +1501,15 @@ export default function LandingPage() {
 
                 {/* Right Text Column */}
                 <div className="d-flex flex-column align-items-start order-1 order-lg-2" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow" data-reveal="fade-up">Tahap 2 · Pantau Keuangan</div>
+                  <div className="wl-eyebrow" data-reveal="fade-up">Langkah 2 · Rekap Keuangan</div>
                   <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
-                    Lihat Kondisi Keuangan Usaha{' '}
-                    <span className="wl-serif-italic">Secara Jelas</span>
+                    Lihat Keuntungan Usaha{' '}
+                    <span className="wl-serif-italic">Dengan Jelas</span>
                   </h2>
                   <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
-                    Ringkasan pemasukan, pengeluaran, keuntungan bersih, dan grafik keuangan dalam
-                    satu tampilan. Tidak perlu lagi menghitung buku besar secara manual untuk
-                    mengetahui laba bersih depot.
+                    Lihat ringkasan pemasukan, pengeluaran, dan keuntungan usaha berdasarkan
+                    tanggal yang Anda pilih. Tidak perlu lagi menjumlahkan catatan buku satu per
+                    satu.
                   </p>
 
                   <ul className="wl-checkmarks-list" data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
@@ -1537,8 +1518,8 @@ export default function LandingPage() {
                         <Check size={13} weight="bold" />
                       </span>
                       <div>
-                        Rekapitulasi keuangan harian dan bulanan yang memisahkan kas tunai diterima
-                        dan piutang pelanggan
+                        Rekap harian dan bulanan yang memisahkan uang tunai diterima dengan
+                        tagihan pelanggan yang belum dibayar
                       </div>
                     </li>
                     <li>
@@ -1546,8 +1527,8 @@ export default function LandingPage() {
                         <Check size={13} weight="bold" />
                       </span>
                       <div>
-                        Perhitungan keuntungan bersih otomatis berdasarkan aturan pencatatan yang
-                        disepakati
+                        Keuntungan bersih otomatis dihitung dari uang masuk nyata dikurangi
+                        pengeluaran depot
                       </div>
                     </li>
                   </ul>
@@ -1557,7 +1538,7 @@ export default function LandingPage() {
                       to={isAuthenticated ? '/rekapitulasi' : '/login'}
                       className="wl-button"
                     >
-                      Lihat Laporan Rekapitulasi
+                      Lihat Rekap Keuangan
                     </Link>
                   </div>
                 </div>
@@ -1579,15 +1560,14 @@ export default function LandingPage() {
               <div className="wl-grid-2">
                 {/* Left Text Column */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow" data-reveal="fade-up">Tahap 3 · Kelola Piutang</div>
+                  <div className="wl-eyebrow" data-reveal="fade-up">Langkah 3 · Kelola Piutang</div>
                   <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
-                    Pantau Pelanggan yang Masih{' '}
-                    <span className="wl-serif-italic">Memiliki Utang</span>
+                    Pantau Pelanggan yang Belum{' '}
+                    <span className="wl-serif-italic">Melunasi Pembayaran</span>
                   </h2>
                   <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
-                    Daftar piutang pelanggan, status pembayaran lunas dan belum lunas, serta
-                    pengingat piutang di dalam aplikasi memudahkan pemilik menindaklanjuti tagihan
-                    kredit tepat waktu.
+                    Lihat pelanggan yang belum melunasi pembayaran. Catat cicilan, pantau sisa
+                    tagihan, dan ubah status menjadi Lunas saat sudah dibayar.
                   </p>
 
                   <ul className="wl-checkmarks-list" data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
@@ -1596,8 +1576,8 @@ export default function LandingPage() {
                         <Check size={13} weight="bold" />
                       </span>
                       <div>
-                        Daftar piutang terpusat berisi nama pelanggan, tanggal transaksi, nominal
-                        piutang, dan status pembayaran
+                        Daftar piutang lengkap berisi nama pelanggan, tanggal pesan, jumlah tagihan,
+                        sisa bayar, dan statusnya
                       </div>
                     </li>
                     <li>
@@ -1605,8 +1585,8 @@ export default function LandingPage() {
                         <Check size={13} weight="bold" />
                       </span>
                       <div>
-                        Pengingat piutang di dalam aplikasi dan kemudahan mengubah status pembayaran
-                        dari <strong>Belum Lunas</strong> menjadi <strong>Lunas</strong>
+                        Pengingat piutang langsung di dalam aplikasi dan tombol cepat untuk ubah
+                        status dari <strong>Belum Lunas</strong> menjadi <strong>Lunas</strong>
                       </div>
                     </li>
                   </ul>
@@ -1616,7 +1596,7 @@ export default function LandingPage() {
                       to={isAuthenticated ? '/piutang' : '/login'}
                       className="wl-button"
                     >
-                      Kelola Piutang Pelanggan
+                      Lihat Daftar Piutang
                     </Link>
                   </div>
                 </div>
@@ -1632,7 +1612,7 @@ export default function LandingPage() {
                     <div className="wl-step-notif-banner">
                       <RajashMark size={30} tile={true} />
                       <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#171417' }}>
-                        Waktunya tindak lanjuti piutang!
+                        Ada tagihan pelanggan yang perlu dicek!
                       </span>
                     </div>
                   </div>
@@ -1662,13 +1642,13 @@ export default function LandingPage() {
 
                   {/* Translucent Frosted Glass Frame */}
                   <div className="wl-step-glass-frame">
-                    <div className="wl-step-glass-top-bubble d-flex align-items-center justify-content-between gap-2">
-                      <div>
+                    <div className="wl-step-glass-top-bubble d-flex flex-wrap align-items-center justify-content-between gap-2">
+                      <div style={{ minWidth: 0, flex: '1 1 180px' }}>
                         <div style={{ fontSize: '0.72rem', color: 'var(--wl-grey-60)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                           Klik Baris Untuk Ubah Status
                         </div>
                         <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#171417' }}>
-                          Sisa Piutang Simulasi: Rp {unpaidReceivablesTotal.toLocaleString('id-ID')}
+                          Sisa Piutang Contoh: Rp {unpaidReceivablesTotal.toLocaleString('id-ID')}
                         </div>
                       </div>
                       <span
@@ -1700,7 +1680,7 @@ export default function LandingPage() {
                                   toggleDemoReceivable(r.id);
                                 }
                               }}
-                              className="p-2 px-3 rounded-3 d-flex align-items-center justify-content-between gap-2 wl-receivable-row"
+                              className="p-2 px-3 rounded-3 d-flex flex-wrap align-items-center justify-content-between gap-2 wl-receivable-row"
                               style={{
                                 backgroundColor: r.paid ? '#F8FAF9' : '#FAFAFA',
                                 border: r.paid ? '1px solid var(--wl-success-60)' : '1px solid var(--wl-grey-20)',
@@ -1708,13 +1688,13 @@ export default function LandingPage() {
                               }}
                               title="Klik untuk mengubah status Lunas / Belum Lunas"
                             >
-                              <div>
+                              <div style={{ minWidth: 0, flex: '1 1 130px' }}>
                                 <div className="fw-semibold" style={{ fontSize: '0.84rem', color: '#171417' }}>
                                   {r.name}
                                 </div>
                                 <div style={{ fontSize: '0.71rem', color: 'var(--wl-grey-60)' }}>{r.meta}</div>
                               </div>
-                              <div className="d-flex align-items-center gap-2">
+                              <div className="d-flex flex-wrap align-items-center gap-2 ms-auto">
                                 <span className="font-tabular fw-bold" style={{ fontSize: '0.84rem' }}>
                                   {r.amount}
                                 </span>
@@ -1766,7 +1746,7 @@ export default function LandingPage() {
                     <div className="wl-step-notif-banner">
                       <RajashMark size={30} tile={true} />
                       <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#171417' }}>
-                        4 Manfaat Utama Sistem RAJASH
+                        4 Manfaat Pakai RAJASH
                       </span>
                     </div>
                   </div>
@@ -1776,29 +1756,29 @@ export default function LandingPage() {
                       {[
                         {
                           num: '01',
-                          title: 'Mengurangi risiko pencatatan terlewat atau ganda',
-                          desc: 'Deteksi kemiripan transaksi pada tanggal dan nominal yang sama.',
-                          badge: 'Terstruktur',
+                          title: 'Mencegah catatan lupa atau ganda',
+                          desc: 'Ada peringatan jika tanggal dan jumlah rupiah transaksi sama.',
+                          badge: 'Rapi',
                           tone: 'blue'
                         },
                         {
                           num: '02',
-                          title: 'Mempermudah perhitungan keuntungan bersih',
-                          desc: 'Otomatis dihitung dari kas masuk aktual dikurangi pengeluaran.',
+                          title: 'Mengetahui keuntungan usaha lebih cepat',
+                          desc: 'Otomatis dihitung dari uang masuk nyata dikurangi pengeluaran.',
                           badge: 'Otomatis',
                           tone: 'mint'
                         },
                         {
                           num: '03',
-                          title: 'Membantu memantau transaksi kredit pelanggan',
-                          desc: 'Tagihan kredit dipantau terpisah hingga pelanggan melunasinya.',
+                          title: 'Tagihan kredit pelanggan tidak terlupa',
+                          desc: 'Pesanan kredit dipantau terpisah sampai pelanggan melunasi.',
                           badge: 'Piutang',
                           tone: 'peach'
                         },
                         {
                           num: '04',
-                          title: 'Mempercepat pembuatan rekap harian dan bulanan',
-                          desc: 'Laporan siap dilihat, dicetak, atau diekspor kapan saja.',
+                          title: 'Rekap harian dan bulanan siap pakai',
+                          desc: 'Laporan siap dilihat dan dicetak kapan saja dibutuhkan.',
                           badge: 'Praktis',
                           tone: 'blue'
                         }
@@ -1809,13 +1789,13 @@ export default function LandingPage() {
                           style={{ '--reveal-delay': `${180 + idx * 85}ms` }}
                         >
                           <div
-                            className="p-2 px-3 rounded-3 d-flex align-items-center justify-content-between gap-2 wl-benefit-card"
+                            className="p-2 px-3 rounded-3 d-flex flex-wrap align-items-center justify-content-between gap-2 wl-benefit-card"
                             style={{
                               backgroundColor: '#FFFFFF',
                               boxShadow: '0 6px 16px rgba(12, 23, 84, 0.08)'
                             }}
                           >
-                            <div className="d-flex align-items-center gap-2">
+                            <div className="d-flex align-items-center gap-2" style={{ minWidth: 0, flex: '1 1 180px' }}>
                               <span
                                 className="font-tabular fw-bold d-inline-flex align-items-center justify-content-center flex-shrink-0"
                                 style={{
@@ -1829,7 +1809,7 @@ export default function LandingPage() {
                               >
                                 {b.num}
                               </span>
-                              <div>
+                              <div style={{ minWidth: 0 }}>
                                 <div style={{ fontWeight: 600, fontSize: '0.84rem', color: '#171417' }}>
                                   {b.title}
                                 </div>
@@ -1848,27 +1828,26 @@ export default function LandingPage() {
 
                 {/* Right Editorial Copy */}
                 <div className="d-flex flex-column align-items-start order-1 order-lg-2" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow" data-reveal="fade-up">Manfaat Utama Sistem</div>
+                  <div className="wl-eyebrow" data-reveal="fade-up">Manfaat untuk Usaha Anda</div>
                   <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
                     Semua Catatan Keuangan dalam{' '}
                     <span className="wl-serif-italic">Satu Tempat</span>
                   </h2>
                   <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
-                    Menjaga ketertiban pencatatan setiap hari adalah kunci untuk mengetahui kondisi
-                    kesehatan usaha depot air minum isi ulang secara akurat. Dengan menyatukan
-                    catatan pemasukan, pengeluaran, dan piutang, pemilik usaha memiliki kendali
-                    penuh atas arus kas harian.
+                    Mencatat pemasukan dan pengeluaran setiap hari membantu pemilik depot air
+                    mengetahui kondisi usahanya dengan pasti. Semua data penjualan, biaya armada, dan
+                    piutang tersimpan rapi dalam satu aplikasi.
                   </p>
                   <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '230ms' }}>
-                    Jadi catat setiap penjualan tunai. Pantau setiap pesanan kredit pelanggan.
-                    Periksa rekapitulasi harian dan bulanan dengan tenang.
+                    Penjualan tunai langsung masuk kas. Pesanan kredit tetap tercatat sebagai
+                    tagihan pelanggan. Rekap harian maupun bulanan bisa dicek dengan tenang.
                   </p>
                   <div className="pt-2" data-reveal="fade-up" style={{ '--reveal-delay': '300ms' }}>
                     <Link
                       to={isAuthenticated ? '/dashboard' : '/login'}
                       className="wl-button is-secondary"
                     >
-                      Buka Sistem RAJASH
+                      Buka Aplikasi RAJASH
                     </Link>
                   </div>
                 </div>
@@ -1889,8 +1868,8 @@ export default function LandingPage() {
 
               <div className="wl-grid-2">
                 {/* Left Column: Workleap Integrations Orbit Animation (#orbit-wrapper / .orbit-logo) */}
-                <div className="wl-orbit-column" data-reveal="scale" style={{ '--reveal-delay': '80ms' }}>
-                  <div className="wl-orbit-wrapper" aria-label="Orbit kategori operasional RAJASH">
+                <div ref={orbitColumnRef} className="wl-orbit-column" data-reveal="scale" style={{ '--reveal-delay': '80ms' }}>
+                  <div ref={orbitWrapperRef} className="wl-orbit-wrapper" aria-label="Orbit kategori operasional RAJASH">
                     {/* Center Emblem (#center-logo-display) using official RAJASH Water Droplet & Financial Bars mark */}
                     <div className="wl-orbit-center-logo">
                       <RajashMark size={76} />
@@ -1927,16 +1906,15 @@ export default function LandingPage() {
 
                 {/* Right Column: Eyebrow + H2 + Copy + Button */}
                 <div className="d-flex flex-column align-items-start" style={{ gap: '1.25rem' }}>
-                  <div className="wl-eyebrow" data-reveal="fade-up">Struktur Kategori Operasional</div>
+                  <div className="wl-eyebrow" data-reveal="fade-up">Kategori Sesuai Kebiasaan Depot</div>
                   <h2 className="wl-heading-h2" data-reveal="fade-up" style={{ '--reveal-delay': '80ms' }}>
-                    Selaras dengan aktivitas harian{' '}
+                    Dibuat khusus untuk kegiatan harian{' '}
                     <span className="wl-serif-italic">depot air minum</span>
                   </h2>
                   <p className="wl-body-lead mb-0" data-reveal="fade-up" style={{ '--reveal-delay': '160ms' }}>
-                    RAJASH tidak menggunakan akun akuntansi yang rumit. Seluruh kategori pemasukan
-                    dan pengeluaran dirancang sesuai kegiatan operasional nyata usaha depot air
-                    minum isi ulang, mulai dari pembelian pasokan air hingga perawatan becak
-                    pengantaran.
+                    Tidak perlu paham istilah akuntansi yang rumit. Semua kategori di RAJASH memakai
+                    nama kegiatan sehari-hari di depot, mulai dari beli pasokan air tangki, isi BBM
+                    becak, hingga servis kendaraan pengantaran.
                   </p>
                   <div className="pt-2" data-reveal="fade-up" style={{ '--reveal-delay': '240ms' }}>
                     <Link
@@ -1964,8 +1942,8 @@ export default function LandingPage() {
               <div className="wl-spacer-xxlarge" />
 
               <h2 className="wl-heading-h1" data-reveal="fade-up" style={{ maxWidth: '56rem' }}>
-                Pembukuan usaha hari ini sering mengandalkan buku manual.{' '}
-                <span className="wl-highlight">Seharusnya tidak</span>.
+                Mencatat keuangan usaha sering masih pakai buku manual.{' '}
+                <span className="wl-highlight">Kini tidak perlu lagi</span>.
               </h2>
 
               <div className="wl-spacer-large" />
@@ -2145,12 +2123,23 @@ export default function LandingPage() {
 
                 <div data-reveal="fade-up" style={{ maxWidth: '54rem', position: 'relative', zIndex: 2, '--reveal-delay': '120ms' }}>
                   <h2 className="wl-heading-h0" style={{ color: '#FFFFFF' }}>
-                    Mulai Kelola Keuangan Usaha{' '}
+                    Mulai kelola keuangan usaha{' '}
                     <span className="wl-highlight-inverted" style={{ textDecoration: 'none', fontStyle: 'italic' }}>
-                      dengan Lebih Teratur
+                      dengan lebih teratur
                     </span>
                     .
                   </h2>
+                  <p
+                    className="mt-3 mb-0 mx-auto"
+                    style={{
+                      maxWidth: '38rem',
+                      fontSize: 'clamp(0.95rem, 0.9rem + 0.25vw, 1.08rem)',
+                      lineHeight: 1.55,
+                      color: 'rgba(255, 255, 255, 0.84)'
+                    }}
+                  >
+                    Semua catatan pemasukan, pengeluaran, dan tagihan pelanggan dalam satu tempat.
+                  </p>
                 </div>
 
                 <div className="wl-button-group justify-content-center" data-reveal="fade-up" style={{ position: 'relative', zIndex: 2, '--reveal-delay': '220ms' }}>
@@ -2187,7 +2176,7 @@ export default function LandingPage() {
                     >
                       Semua
                     </span>{' '}
-                    yang perlu Anda ketahui tentang sistem pengelolaan keuangan RAJASH
+                    yang perlu Anda ketahui tentang cara memakai RAJASH
                   </h3>
                 </div>
 

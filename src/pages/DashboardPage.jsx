@@ -127,7 +127,13 @@ export default function DashboardPage() {
               onChange={(e) => setSelectedMonth(e.target.value || '2026-11')}
               aria-label="Pilih bulan ringkasan"
               className="rj-form-control"
-              style={{ width: 'auto', fontSize: '0.825rem', padding: '0.45rem 0.75rem' }}
+              style={{
+                width: 'auto',
+                maxWidth: '100%',
+                minWidth: 0,
+                fontSize: '0.825rem',
+                padding: '0.45rem 0.75rem'
+              }}
             />
           )}
 
@@ -231,8 +237,8 @@ export default function DashboardPage() {
             <div className="col-12 col-lg-5">
               <div className="rj-card h-100 p-3 p-md-4 d-flex flex-column justify-content-between">
                 <div>
-                  <div className="d-flex align-items-center justify-content-between gap-2 mb-3">
-                    <div>
+                  <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                    <div style={{ minWidth: 0, flex: '1 1 180px' }}>
                       <h3 className="mb-0" style={{ fontSize: '1.05rem', fontWeight: 700 }}>
                         Piutang Belum Lunas
                       </h3>
@@ -245,7 +251,7 @@ export default function DashboardPage() {
                     </div>
                     <Link
                       to="/piutang"
-                      className="btn-rj-secondary py-1 px-2 text-decoration-none"
+                      className="btn-rj-secondary py-1 px-2 text-decoration-none flex-shrink-0"
                       style={{ fontSize: '0.78rem' }}
                     >
                       <span>Kelola Piutang</span>
@@ -264,14 +270,14 @@ export default function DashboardPage() {
                       {data.outstandingReceivables.map((item) => (
                         <div
                           key={item.id}
-                          className="p-3 d-flex align-items-center justify-content-between gap-2"
+                          className="p-3 d-flex flex-wrap align-items-center justify-content-between gap-2"
                           style={{
                             backgroundColor: 'var(--rj-pale-blue)',
                             border: '1px solid var(--rj-border)',
                             borderRadius: '10px'
                           }}
                         >
-                          <div style={{ minWidth: 0 }}>
+                          <div style={{ minWidth: 0, flex: '1 1 140px' }}>
                             <div
                               className="fw-semibold text-truncate"
                               style={{ fontSize: '0.875rem', color: 'var(--rj-text-primary)' }}
@@ -288,7 +294,7 @@ export default function DashboardPage() {
                             </div>
                           </div>
 
-                          <div className="text-end flex-shrink-0">
+                          <div className="text-sm-end flex-shrink-0">
                             <div
                               className="font-tabular fw-bold"
                               style={{ fontSize: '0.885rem', color: 'var(--rj-text-primary)' }}
@@ -304,7 +310,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div
-                  className="mt-3 pt-3 d-flex align-items-center justify-content-between"
+                  className="mt-3 pt-3 d-flex flex-wrap align-items-center justify-content-between gap-2"
                   style={{ borderTop: '1px solid var(--rj-border)', fontSize: '0.82rem' }}
                 >
                   <span style={{ color: 'var(--rj-text-secondary)' }}>

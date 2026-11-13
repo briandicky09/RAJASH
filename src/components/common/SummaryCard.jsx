@@ -30,14 +30,15 @@ export default function SummaryCard({
             style={{
               fontSize: '0.8125rem',
               fontWeight: 600,
-              color: 'var(--rj-text-secondary)'
+              color: 'var(--rj-text-secondary)',
+              minWidth: 0
             }}
           >
             {label}
           </span>
           {Icon && (
             <span
-              className="d-inline-flex align-items-center justify-content-center"
+              className="d-inline-flex align-items-center justify-content-center flex-shrink-0"
               style={{
                 width: '32px',
                 height: '32px',
@@ -54,10 +55,11 @@ export default function SummaryCard({
         <div
           className="font-tabular"
           style={{
-            fontSize: 'clamp(1.25rem, 2.2vw, 1.55rem)',
+            fontSize: 'clamp(1.1rem, 0.95rem + 0.9vw, 1.5rem)',
             fontWeight: 700,
             color: 'var(--rj-text-primary)',
-            lineHeight: 1.25
+            lineHeight: 1.25,
+            overflowWrap: 'anywhere'
           }}
         >
           {isCurrency ? formatRupiah(amount) : amount}

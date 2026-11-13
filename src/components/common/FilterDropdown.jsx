@@ -9,7 +9,7 @@ export default function FilterDropdown({
   ariaLabel
 }) {
   return (
-    <div className="d-flex flex-column">
+    <div className="d-flex flex-column" style={{ flex: '1 1 150px', minWidth: 0 }}>
       {label && (
         <label
           htmlFor={id}
@@ -29,7 +29,7 @@ export default function FilterDropdown({
         onChange={(e) => onChange(e.target.value)}
         aria-label={ariaLabel || label || 'Filter data'}
         className="rj-form-select"
-        style={{ fontSize: '0.85rem', minWidth: '150px' }}
+        style={{ fontSize: '0.85rem' }}
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

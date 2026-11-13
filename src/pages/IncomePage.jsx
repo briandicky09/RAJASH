@@ -438,11 +438,11 @@ return (
           onEmptyAction={handleOpenAddModal}
           renderMobileCard={(row) => (
             <div>
-              <div className="d-flex justify-content-between align-items-start gap-2 mb-1">
+              <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-1">
                 <span style={{ fontSize: '0.75rem', color: 'var(--rj-text-secondary)' }}>
                   {formatTanggalIndonesia(row.date)}
                 </span>
-                <div className="d-flex gap-1">
+                <div className="d-flex flex-wrap gap-1 justify-content-end">
                   <StatusBadge status={row.payment_method} />
                   <StatusBadge
                     status={
@@ -538,7 +538,7 @@ return (
                 {WATER_TYPES.map((w) => {
                   const isSelected = formData.water_type.includes(w.id);
                   return (
-                    <div key={w.id} className="col-6">
+                    <div key={w.id} className="col-12 col-sm-6">
                       <button
                         type="button"
                         onClick={() => handleWaterTypeChange(w.id)}
@@ -565,7 +565,7 @@ return (
 
             {/* Kuantitas Galon dan Harga Satuan (FR-INC-01 & FR-INC-02) */}
             <div className="row g-2 mb-3">
-              <div className="col-6">
+              <div className="col-12 col-sm-6">
                 <label htmlFor="income-quantity" className="rj-form-label">
                   Kuantitas Galon <span style={{ color: 'var(--rj-primary)' }}>*</span>
                 </label>
@@ -578,7 +578,7 @@ return (
                   className={`rj-form-control font-tabular ${formErrors.quantity ? 'is-invalid' : ''}`}
                 />
                 {/* Shortcut Kuantitas Cepat */}
-                <div className="d-flex gap-1 mt-1">
+                <div className="d-flex flex-wrap gap-1 mt-1">
                   {[1, 5, 10, 15, 25].map((q) => (
                     <button
                       key={q}
@@ -593,7 +593,7 @@ return (
                 </div>
               </div>
 
-              <div className="col-6">
+              <div className="col-12 col-sm-6">
                 <label htmlFor="income-unit-price" className="rj-form-label">
                   Harga Satuan (Rp) <span style={{ color: 'var(--rj-primary)' }}>*</span>
                 </label>
@@ -611,14 +611,14 @@ return (
 
             {/* Total Terhitung Otomatis (FR-INC-02, BR-01) */}
             <div
-              className="p-3 mb-3 d-flex align-items-center justify-content-between"
+              className="p-3 mb-3 d-flex flex-wrap align-items-center justify-content-between gap-2"
               style={{
                 backgroundColor: 'var(--rj-bg)',
                 border: '1px solid var(--rj-border)',
                 borderRadius: '8px'
               }}
             >
-              <div>
+              <div style={{ minWidth: 0, flex: '1 1 160px' }}>
                 <div className="fw-semibold" style={{ fontSize: '0.825rem' }}>
                   Total Transaksi ({formData.quantity} × {formatRupiah(formData.unit_price)})
                 </div>
@@ -626,7 +626,7 @@ return (
                   Dihitung otomatis sesuai kuantitas & harga satuan
                 </div>
               </div>
-              <div className="font-tabular fw-bold" style={{ fontSize: '1.25rem', color: 'var(--rj-primary)' }}>
+              <div className="font-tabular fw-bold" style={{ fontSize: '1.2rem', color: 'var(--rj-primary)' }}>
                 {formatRupiah(formData.amount)}
               </div>
             </div>
@@ -640,7 +640,7 @@ return (
                 {['Tunai', 'Kredit'].map((method) => {
                   const isSelected = formData.payment_method === method;
                   return (
-                    <div key={method} className="col-6">
+                    <div key={method} className="col-12 col-sm-6">
                       <button
                         type="button"
                         onClick={() => {

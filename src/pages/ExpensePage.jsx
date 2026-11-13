@@ -363,7 +363,7 @@ export default function ExpensePage() {
             onEmptyAction={handleOpenAddModal}
             renderMobileCard={(row) => (
               <div>
-                <div className="d-flex justify-content-between align-items-start gap-2 mb-2">
+                <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
                   <span style={{ fontSize: '0.75rem', color: 'var(--rj-text-secondary)' }}>
                     {formatTanggalIndonesia(row.date)}
                   </span>

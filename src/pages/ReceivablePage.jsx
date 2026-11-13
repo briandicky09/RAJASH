@@ -396,21 +396,21 @@ export default function ReceivablePage() {
                     fontSize: '0.78rem'
                   }}
                 >
-                  <div className="col-4">
+                  <div className="col-6 col-sm-4">
                     <div style={{ color: 'var(--rj-text-secondary)' }}>Tagihan</div>
                     <div className="font-tabular fw-medium">{formatRupiah(row.total_amount)}</div>
                   </div>
-                  <div className="col-4">
+                  <div className="col-6 col-sm-4 text-end text-sm-start">
                     <div style={{ color: 'var(--rj-text-secondary)' }}>Dibayar</div>
                     <div className="font-tabular fw-medium">{formatRupiah(row.paid_amount)}</div>
                   </div>
-                  <div className="col-4 text-end">
-                    <div style={{ color: 'var(--rj-text-secondary)' }}>Sisa</div>
+                  <div className="col-12 col-sm-4 text-sm-end d-flex d-sm-block justify-content-between align-items-center pt-1 pt-sm-0">
+                    <div style={{ color: 'var(--rj-text-secondary)' }}>Sisa Tagihan</div>
                     <div className="font-tabular fw-bold">{formatRupiah(row.remaining_amount)}</div>
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-end gap-2 mt-2">
+                <div className="d-flex flex-wrap justify-content-end gap-2 mt-2">
                   <button
                     type="button"
                     onClick={() => setDetailTarget(row)}
@@ -480,34 +480,36 @@ export default function ReceivablePage() {
                 borderRadius: '8px'
               }}
             >
-              <div className="d-flex justify-content-between align-items-center mb-2">
+              <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
                 <span style={{ color: 'var(--rj-text-secondary)' }}>Status Tagihan</span>
                 <StatusBadge status={detailTarget.status} />
               </div>
-              <div className="d-flex justify-content-between py-1">
+              <div className="d-flex flex-wrap justify-content-between gap-2 py-1">
                 <span style={{ color: 'var(--rj-text-secondary)' }}>Tanggal Transaksi</span>
                 <span className="fw-medium">
                   {formatTanggalIndonesia(detailTarget.transaction_date)}
                 </span>
               </div>
-              <div className="d-flex justify-content-between py-1">
+              <div className="d-flex flex-wrap justify-content-between gap-2 py-1">
                 <span style={{ color: 'var(--rj-text-secondary)' }}>Keterangan Pesanan</span>
-                <span className="fw-medium text-end">{detailTarget.description}</span>
+                <span className="fw-medium text-sm-end" style={{ minWidth: 0 }}>
+                  {detailTarget.description}
+                </span>
               </div>
               <hr className="my-2" style={{ borderColor: 'var(--rj-border)' }} />
-              <div className="d-flex justify-content-between py-1">
+              <div className="d-flex flex-wrap justify-content-between gap-2 py-1">
                 <span style={{ color: 'var(--rj-text-secondary)' }}>Nominal Tagihan Awal</span>
                 <span className="font-tabular fw-semibold">
                   {formatRupiah(detailTarget.total_amount)}
                 </span>
               </div>
-              <div className="d-flex justify-content-between py-1">
+              <div className="d-flex flex-wrap justify-content-between gap-2 py-1">
                 <span style={{ color: 'var(--rj-text-secondary)' }}>Total Sudah Dibayar</span>
                 <span className="font-tabular fw-semibold" style={{ color: 'var(--rj-primary)' }}>
                   {formatRupiah(detailTarget.paid_amount)}
                 </span>
               </div>
-              <div className="d-flex justify-content-between py-1">
+              <div className="d-flex flex-wrap justify-content-between gap-2 py-1">
                 <span className="fw-semibold">Sisa Piutang Saat Ini</span>
                 <span className="font-tabular fw-bold" style={{ fontSize: '0.95rem' }}>
                   {formatRupiah(detailTarget.remaining_amount)}
@@ -536,14 +538,14 @@ export default function ReceivablePage() {
                   {detailTarget.payments.map((pay) => (
                     <div
                       key={pay.id}
-                      className="p-2 px-3 d-flex justify-content-between align-items-center"
+                      className="p-2 px-3 d-flex flex-wrap justify-content-between align-items-center gap-2"
                       style={{
                         backgroundColor: 'var(--rj-white)',
                         border: '1px solid var(--rj-border)',
                         borderRadius: '8px'
                       }}
                     >
-                      <div>
+                      <div style={{ minWidth: 0, flex: '1 1 150px' }}>
                         <div className="fw-medium">{formatTanggalIndonesia(pay.date)}</div>
                         <div style={{ fontSize: '0.76rem', color: 'var(--rj-text-secondary)' }}>
                           {pay.note || 'Pembayaran tagihan piutang'}
@@ -600,16 +602,16 @@ export default function ReceivablePage() {
                 fontSize: '0.825rem'
               }}
             >
-              <div className="d-flex justify-content-between mb-1">
+              <div className="d-flex flex-wrap justify-content-between gap-2 mb-1">
                 <span style={{ color: 'var(--rj-text-secondary)' }}>Total Tagihan Awal:</span>
                 <span className="font-tabular">{formatRupiah(payTarget.total_amount)}</span>
               </div>
-              <div className="d-flex justify-content-between mb-1">
+              <div className="d-flex flex-wrap justify-content-between gap-2 mb-1">
                 <span style={{ color: 'var(--rj-text-secondary)' }}>Sudah Dibayar:</span>
                 <span className="font-tabular">{formatRupiah(payTarget.paid_amount)}</span>
               </div>
               <div
-                className="d-flex justify-content-between pt-2 mt-2"
+                className="d-flex flex-wrap justify-content-between gap-2 pt-2 mt-2"
                 style={{ borderTop: '1px solid var(--rj-border)' }}
               >
                 <span className="fw-semibold">Sisa Tagihan Saat Ini:</span>
@@ -656,7 +658,7 @@ export default function ReceivablePage() {
 
             {/* Pratinjau Hasil Setelah Pembayaran */}
             <div
-              className="p-3 mt-2 d-flex align-items-center justify-content-between"
+              className="p-3 mt-2 d-flex flex-wrap align-items-center justify-content-between gap-2"
               style={{
                 backgroundColor:
                   estimatedRemainingAfterPay === 0

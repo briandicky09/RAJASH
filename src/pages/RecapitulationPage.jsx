@@ -217,7 +217,7 @@ return (
             onChange={(e) => setSelectedDate(e.target.value || '2026-11-10')}
             aria-label="Pilih tanggal rekap harian"
             className="rj-form-control"
-            style={{ width: 'auto', fontSize: '0.85rem' }}
+            style={{ width: 'auto', maxWidth: '100%', minWidth: 0, fontSize: '0.85rem' }}
           />
         ) : (
           <input
@@ -226,7 +226,7 @@ return (
             onChange={(e) => setSelectedMonth(e.target.value || '2026-11')}
             aria-label="Pilih bulan rekap bulanan"
             className="rj-form-control"
-            style={{ width: 'auto', fontSize: '0.85rem' }}
+            style={{ width: 'auto', maxWidth: '100%', minWidth: 0, fontSize: '0.85rem' }}
           />
         )}
 
@@ -237,7 +237,7 @@ return (
           title="Cetak atau simpan rekapitulasi ke PDF"
         >
           <Printer size={16} />
-          <span className="d-none d-sm-inline">Cetak Rekap</span>
+          <span>Cetak Rekap</span>
         </button>
       </div>
     }
@@ -342,7 +342,7 @@ return (
                   </p>
 
                   <div className="row g-2 mb-3">
-                    <div className="col-6">
+                    <div className="col-12 col-sm-6">
                       <div
                         className="p-3"
                         style={{
@@ -355,7 +355,7 @@ return (
                           <Drop size={15} style={{ color: 'var(--rj-primary)' }} weight="fill" />
                           <span style={{ fontSize: '0.78rem', fontWeight: 600 }}>Air Mineral</span>
                         </div>
-                        <div className="font-tabular fw-bold" style={{ fontSize: '1.05rem' }}>
+                        <div className="font-tabular fw-bold" style={{ fontSize: '1.05rem', overflowWrap: 'anywhere' }}>
                           {formatRupiah(waterBreakdown.mineralSales)}
                         </div>
                         <div style={{ fontSize: '0.74rem', color: 'var(--rj-text-secondary)' }}>
@@ -364,7 +364,7 @@ return (
                       </div>
                     </div>
 
-                    <div className="col-6">
+                    <div className="col-12 col-sm-6">
                       <div
                         className="p-3"
                         style={{
@@ -377,7 +377,7 @@ return (
                           <Drop size={15} style={{ color: '#1D4ED8' }} weight="fill" />
                           <span style={{ fontSize: '0.78rem', fontWeight: 600 }}>Air RO</span>
                         </div>
-                        <div className="font-tabular fw-bold" style={{ fontSize: '1.05rem' }}>
+                        <div className="font-tabular fw-bold" style={{ fontSize: '1.05rem', overflowWrap: 'anywhere' }}>
                           {formatRupiah(waterBreakdown.roSales)}
                         </div>
                         <div style={{ fontSize: '0.74rem', color: 'var(--rj-text-secondary)' }}>
@@ -409,7 +409,7 @@ return (
                       {data.expenseBreakdown.map((item) => (
                         <div
                           key={item.category}
-                          className="d-flex align-items-center justify-content-between p-2 px-3"
+                          className="d-flex flex-wrap align-items-center justify-content-between gap-2 p-2 px-3"
                           style={{
                             backgroundColor: 'var(--rj-white)',
                             border: '1px solid var(--rj-border)',
@@ -418,7 +418,7 @@ return (
                           }}
                         >
                           <span className="fw-medium">{item.category}</span>
-                          <div className="d-flex align-items-center gap-2 font-tabular">
+                          <div className="d-flex align-items-center gap-2 font-tabular ms-auto">
                             <span style={{ color: 'var(--rj-text-secondary)' }}>
                               ({item.percentage}%)
                             </span>
@@ -431,7 +431,7 @@ return (
                 </div>
 
                 <div
-                  className="mt-3 pt-2 d-flex justify-content-between align-items-center"
+                  className="mt-3 pt-2 d-flex flex-wrap justify-content-between align-items-center gap-2"
                   style={{ borderTop: '1px solid var(--rj-border)', fontSize: '0.8rem' }}
                 >
                   <span style={{ color: 'var(--rj-text-secondary)' }}>Total Biaya Operasional:</span>
