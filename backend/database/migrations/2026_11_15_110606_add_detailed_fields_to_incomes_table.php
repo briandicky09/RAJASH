@@ -23,7 +23,13 @@ return new class extends Migration
         });
 
         // Ubah kolom quantity menjadi DECIMAL agar mendukung desimal (misal 2.5 atau 3.5)
-        DB::statement('ALTER TABLE incomes MODIFY quantity DECIMAL(8, 2) DEFAULT 1');
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement('ALTER TABLE incomes MODIFY quantity DECIMAL(8, 2) DEFAULT 1');
+        } else {
+            Schema::table('incomes', function (Blueprint $table) {
+                $table->decimal('quantity', 8, 2)->default(1)->change();
+            });
+        }
     }
 
     /**
@@ -43,6 +49,12 @@ return new class extends Migration
             ]);
         });
 
-        DB::statement('ALTER TABLE incomes MODIFY quantity INT DEFAULT 1');
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement('ALTER TABLE incomes MODIFY quantity INT DEFAULT 1');
+        } else {
+            Schema::table('incomes', function (Blueprint $table) {
+                $table->integer('quantity')->default(1)->change();
+            });
+        }
     }
 };

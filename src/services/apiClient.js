@@ -5,7 +5,10 @@
  * dan ekstraksi pesan validasi Laravel (422 Unprocessable Entity).
  */
 
-const DEFAULT_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+const DEFAULT_API_BASE_URL =
+  typeof window !== 'undefined' && window.location.hostname.endsWith('.test')
+    ? `${window.location.origin}/api`
+    : import.meta.env.VITE_API_BASE_URL || 'http://rajash.test/api';
 const AUTH_TOKEN_KEY = 'rajash_auth_token';
 const AUTH_USER_KEY = 'rajash_auth_user';
 const DATA_MODE_KEY = 'rajash_data_mode'; // 'auto' | 'demo' | 'live'
